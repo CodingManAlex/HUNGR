@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUNGR_API", "HUNGR_API\HUNGR_API.csproj", "{D8774D6E-E853-4A0E-9A56-CCD9BECAF8FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUNGR.API", "HUNGR_API\HUNGR.API.csproj", "{D8774D6E-E853-4A0E-9A56-CCD9BECAF8FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUNGR.WebApp", "HUNGR.WebApp\HUNGR.WebApp.csproj", "{34A3D7C2-4E86-43C1-9D4C-3CA849F1449B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D8774D6E-E853-4A0E-9A56-CCD9BECAF8FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8774D6E-E853-4A0E-9A56-CCD9BECAF8FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8774D6E-E853-4A0E-9A56-CCD9BECAF8FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34A3D7C2-4E86-43C1-9D4C-3CA849F1449B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34A3D7C2-4E86-43C1-9D4C-3CA849F1449B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34A3D7C2-4E86-43C1-9D4C-3CA849F1449B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34A3D7C2-4E86-43C1-9D4C-3CA849F1449B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
