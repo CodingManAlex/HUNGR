@@ -15,7 +15,7 @@ namespace HUNGR.WebApp.Models
         public string LastName { get; set; }
         public string? City { get; set; }
         public string? Province { get; set; }
-
+        
         //Navigation
         public virtual FoodTruck FoodTruck { get; set; }
         public virtual List<Review> Reviews { get; set; }

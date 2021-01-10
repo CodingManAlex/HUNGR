@@ -1,0 +1,44 @@
+﻿@using HUNGR.WebApp.ViewModels
+@model IEnumerable<CurrentEventViewModel>
+
+
+<div id="eventCarousel" class="carousel slide" data-ride="carousel">
+        
+    <div class="carousel-inner">
+        @{
+            int count = 0;
+            foreach (var ev in Model)
+            {
+                var photoPath = "~/images/" + (ev.ImagePath ?? "defaultProfileImage.png");
+
+                if (count == 0)
+                {
+                    <div class="carousel-item active">
+                                <a href="#">
+                                    <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@ev.Name" asp-append-version="true">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h2>@ev.Name</h2>
+                                        <h4>@ev.StartDate.ToString("M") - @ev.EndDate.ToString("d, yyyy")</h4>
+                                        @*var photoPath = "~/images/" + (ev.ImagePath ?? "defaultProfileImage.png");*@
+                                    </div>
+                                </a>
+                    </div>
+                    count++;
+                }
+                else
+                {
+                    <div class="carousel-item">
+                        <a>
+                            <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@ev.Name" asp-append-version="true">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h2>@ev.Name</h2>
+                                <h4>@ev.StartDate.ToString("M") - @ev.EndDate.ToString("d, yyyy")</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+

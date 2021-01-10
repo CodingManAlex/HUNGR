@@ -7,7 +7,7 @@ namespace HUNGR.WebApp.Models
 {
     public class EventParticipant
     {
-        public string EventId { get; set; }
+        public int EventId { get; set; }
         public Event Event { get; set; }
 
         public string FoodTruckId { get; set; }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using HUNGR.WebApp.Models;
+using HUNGR.WebApp.Helpers;
 
 namespace HUNGR.WebApp
 {
@@ -28,7 +29,7 @@ namespace HUNGR.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<HUNGRDbContext>(options =>
+            services.AddDbContextPool<HUNGRDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -40,6 +41,8 @@ namespace HUNGR.WebApp
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            //services.AddServerSideBlazor();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaims>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +73,7 @@ namespace HUNGR.WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                //endpoints.MapBlazorHub();
             });
         }
     }

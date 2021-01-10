@@ -1,8 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<FoodTruck>;
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Events</h1>
+<div>
+    @await Component.InvokeAsync("CarouselEvents")
+</div>
+
+<h1>Who's Open</h1>
+
+
+
+<div class="card-deck">
+    @foreach(var truck in Model)
+    {
+    <div class="card m-3">
+        <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
+            <img class="card-img-top" src="~/images/defaultProfileImage.png" alt="Card image cap">
+        </a>
+        <div class="card-body">
+            <h3>@truck.Name</h3>
+        </div>
+    </div>
+    }
+
 </div>

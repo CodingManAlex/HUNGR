@@ -23,7 +23,7 @@ namespace HUNGR.WebApp.Models
 
         //Navigation
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public string FoodCategoryId { get; set; }
+        public string? FoodCategoryId { get; set; }
         public FoodCategory FoodCategory { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }

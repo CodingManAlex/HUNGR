@@ -1,0 +1,76 @@
+﻿@using HUNGR.WebApp.ViewModels;
+@model CreateEventViewModel
+
+@{ 
+    ViewBag.Title = "Create A New Event";
+}
+
+<h1>Create New Event</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" method="post">
+            @*<hr />*@
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EventName"></label>
+                <input asp-for="EventName" class="form-control" />
+                <span asp-validation-for="EventName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <label asp-for="StartDate"></label>
+                        <input type="date" asp-for="StartDate" class="form-control" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <label asp-for="EndDate"></label>
+                        <input type="date" asp-for="EndDate" class="form-control" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Image"></label>
+                <div class="custom-file">
+                    <input asp-for="Image" class="form-control custom-file-input" />
+                    <label class="custom-file-label">Choose File...</label>
+                </div>
+                @*<span asp-validation-for="Image" class="text-danger"></span>*@
+            </div>
+            <button type="submit" class="btn btn-success">Create Event</button>
+            <button type="reset" class="btn btn-danger">Clear</button>
+
+            
+            @section Scripts{
+                <script>
+                    $(document).ready(function () {
+                        $('.custom-file-input').on("change", function () {
+                            var fileName = $(this).val().split("\\").pop();
+                            $(this).next('.custom-file-label').html(fileName);
+                        })
+                    })
+                </script>
+            }
+        </form>
+    </div>
+ 
+</div>
+
+<hr>
+
+<div>
+    @await Component.InvokeAsync("CurrentEvents")
+</div>

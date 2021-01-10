@@ -8,15 +8,20 @@ namespace HUNGR.WebApp.Models
 {
     public class Review
     {
-        public string Id { get; set; }
+        [Key]
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
         public int Rating { get; set; }
 
-        public string? FoodTruckId { get; set; }
-        public FoodTruck FoodTruck { get; set; }
+        //Foreign Key - Who made the review
+        public string UserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public string? UserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        //Foreign Key - For which truck the review was made
+        public string FoodTruckId { get; set; }
+        public virtual FoodTruck FoodTruck { get; set; }
+
+        
     }
 }

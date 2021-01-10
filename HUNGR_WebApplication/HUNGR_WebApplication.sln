@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUNGR.API", "HUNGR_API\HUNGR.API.csproj", "{D8774D6E-E853-4A0E-9A56-CCD9BECAF8FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUNGR.WebApp", "HUNGR.WebApp\HUNGR.WebApp.csproj", "{34A3D7C2-4E86-43C1-9D4C-3CA849F1449B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HUNGR.WebApp", "HUNGR.WebApp\HUNGR.WebApp.csproj", "{34A3D7C2-4E86-43C1-9D4C-3CA849F1449B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

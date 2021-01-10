@@ -20,18 +20,20 @@ namespace HUNGR.WebApp.Data
             //Events
             modelBuilder.Entity<Event>()
                 .HasKey(e => e.Id);
-            modelBuilder.Entity<Event>()
-                .Property(e => e.Image).HasMaxLength(500);
+            //modelBuilder.Entity<Event>()
+            //    .Property(e => e.Image).HasMaxLength(500);
 
             //Application User
             //modelBuilder.Entity<ApplicationUser>()
             //    .HasKey(au => au.Id);
+
             modelBuilder.Entity<ApplicationUser>()
                 .HasMany(au => au.Reviews)
                 .WithOne(r => r.ApplicationUser)
-                .HasForeignKey(r => r.Id);
-            
-            
+                .HasForeignKey(r => r.UserId);
+                
+
+
 
             //FoodTruck
             modelBuilder.Entity<FoodTruck>()
@@ -45,10 +47,11 @@ namespace HUNGR.WebApp.Data
                 .HasMany(f => f.Reviews)
                 .WithOne(r => r.FoodTruck)
                 .HasForeignKey(r => r.FoodTruckId);
-            
+
             //Reviews
             modelBuilder.Entity<Review>()
                 .HasKey(r => r.Id);
+
             //FoodCategory
             modelBuilder.Entity<FoodCategory>()
                 .HasKey(c => c.Id);

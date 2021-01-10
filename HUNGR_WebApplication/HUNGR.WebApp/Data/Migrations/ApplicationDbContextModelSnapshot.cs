@@ -100,8 +100,10 @@ namespace HUNGR.WebApp.Data.Migrations
 
             modelBuilder.Entity("HUNGR.WebApp.Models.Event", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -109,9 +111,8 @@ namespace HUNGR.WebApp.Data.Migrations
                     b.Property<DateTimeOffset>("EndDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
@@ -129,8 +130,8 @@ namespace HUNGR.WebApp.Data.Migrations
 
             modelBuilder.Entity("HUNGR.WebApp.Models.EventParticipant", b =>
                 {
-                    b.Property<string>("EventId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FoodTruckId")
                         .HasColumnType("nvarchar(450)");
@@ -199,8 +200,10 @@ namespace HUNGR.WebApp.Data.Migrations
 
             modelBuilder.Entity("HUNGR.WebApp.Models.Review", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Body")
                         .HasColumnType("nvarchar(max)");
@@ -215,11 +218,13 @@ namespace HUNGR.WebApp.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FoodTruckId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -421,9 +426,7 @@ namespace HUNGR.WebApp.Data.Migrations
 
                     b.HasOne("HUNGR.WebApp.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Reviews")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("HUNGR.WebApp.Models.UserFavouriteFood", b =>

@@ -110,12 +110,12 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
             }
             if (Input.City != user.City)
             {
-                user.City = Input.FirstName;
+                user.City = Input.City;
                 await _userManager.UpdateAsync(user);
             }
             if (Input.Province != user.Province)
             {
-                user.Province = Input.LastName;
+                user.Province = Input.Province;
                 await _userManager.UpdateAsync(user);
             }
 

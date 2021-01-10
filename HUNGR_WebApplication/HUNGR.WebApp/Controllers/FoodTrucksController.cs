@@ -46,6 +46,26 @@ namespace HUNGR.WebApp.Controllers
             return View(foodTruck);
         }
 
+        // GET: FoodTrucks/Details/5
+        public async Task<IActionResult> Profile(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var foodTruck = await _context.FoodTrucks
+                .Include(f => f.ApplicationUser)
+                .Include(f => f.FoodCategory)
+                .FirstOrDefaultAsync(m => m.FoodTruckId == id);
+            if (foodTruck == null)
+            {
+                return NotFound();
+            }
+
+            return View(foodTruck);
+        }
+
         // GET: FoodTrucks/Create
         public IActionResult Create()
         {
@@ -59,7 +79,7 @@ namespace HUNGR.WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FoodTruckId,Name,Bio,State,ProfileImage,Licence,Longitude,Latitude,InstagramLink,FacebookLink,FoodCategoryId")] FoodTruck foodTruck)
+        public async Task<IActionResult> Create([Bind("FoodTruckId,Name,Bio,State=0,ProfileImage,Licence,Longitude,Latitude,InstagramLink,FacebookLink,FoodCategoryId")] FoodTruck foodTruck)
         {
             if (ModelState.IsValid)
             {

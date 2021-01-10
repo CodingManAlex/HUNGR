@@ -20,31 +20,31 @@ namespace HUNGR.WebApp.Controllers
         }
 
         // GET: Reviews
-        public async Task<IActionResult> Index()
-        {
-            var hUNGRDbContext = _context.Reviews.Include(r => r.ApplicationUser).Include(r => r.FoodTruck);
-            return View(await hUNGRDbContext.ToListAsync());
-        }
+        //public async Task<IActionResult> Index()
+        //{
+        //    var hUNGRDbContext = _context.Reviews.Include(r => r.ApplicationUser).Include(r => r.FoodTruck);
+        //    return View(await hUNGRDbContext.ToListAsync());
+        //}
 
         // GET: Reviews/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var review = await _context.Reviews
-                .Include(r => r.ApplicationUser)
-                .Include(r => r.FoodTruck)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (review == null)
-            {
-                return NotFound();
-            }
+        //    var review = await _context.Reviews
+        //        .Include(r => r.ApplicationUser)
+        //        .Include(r => r.FoodTruck)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (review == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(review);
-        }
+        //    return View(review);
+        //}
 
         // GET: Reviews/Create
         public IActionResult Create()
@@ -57,110 +57,110 @@ namespace HUNGR.WebApp.Controllers
         // POST: Reviews/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Body,Rating,FoodTruckId,UserId")] Review review)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(review);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", review.Id);
-            ViewData["FoodTruckId"] = new SelectList(_context.FoodTrucks, "FoodTruckId", "FoodTruckId", review.FoodTruckId);
-            return View(review);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Title,Body,Rating,FoodTruckId,UserId")] Review review)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(review);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", review.Id);
+        //    ViewData["FoodTruckId"] = new SelectList(_context.FoodTrucks, "FoodTruckId", "FoodTruckId", review.FoodTruckId);
+        //    return View(review);
+        //}
 
         // GET: Reviews/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var review = await _context.Reviews.FindAsync(id);
-            if (review == null)
-            {
-                return NotFound();
-            }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", review.Id);
-            ViewData["FoodTruckId"] = new SelectList(_context.FoodTrucks, "FoodTruckId", "FoodTruckId", review.FoodTruckId);
-            return View(review);
-        }
+        //    var review = await _context.Reviews.FindAsync(id);
+        //    if (review == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", review.Id);
+        //    ViewData["FoodTruckId"] = new SelectList(_context.FoodTrucks, "FoodTruckId", "FoodTruckId", review.FoodTruckId);
+        //    return View(review);
+        //}
 
         // POST: Reviews/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Body,Rating,FoodTruckId,UserId")] Review review)
-        {
-            if (id != review.Id)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Body,Rating,FoodTruckId,UserId")] Review review)
+        //{
+        //    if (id != review.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(review);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReviewExists(review.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", review.Id);
-            ViewData["FoodTruckId"] = new SelectList(_context.FoodTrucks, "FoodTruckId", "FoodTruckId", review.FoodTruckId);
-            return View(review);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(review);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!ReviewExists(review.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", review.Id);
+        //    ViewData["FoodTruckId"] = new SelectList(_context.FoodTrucks, "FoodTruckId", "FoodTruckId", review.FoodTruckId);
+        //    return View(review);
+        //}
 
         // GET: Reviews/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var review = await _context.Reviews
-                .Include(r => r.ApplicationUser)
-                .Include(r => r.FoodTruck)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (review == null)
-            {
-                return NotFound();
-            }
+        //    var review = await _context.Reviews
+        //        .Include(r => r.ApplicationUser)
+        //        .Include(r => r.FoodTruck)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (review == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(review);
-        }
+        //    return View(review);
+        //}
 
         // POST: Reviews/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var review = await _context.Reviews.FindAsync(id);
-            _context.Reviews.Remove(review);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(string id)
+        //{
+        //    var review = await _context.Reviews.FindAsync(id);
+        //    _context.Reviews.Remove(review);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-        private bool ReviewExists(string id)
-        {
-            return _context.Reviews.Any(e => e.Id == id);
-        }
+        //private bool ReviewExists(string id)
+        //{
+        //    return _context.Reviews.Any(e => e.Id == id);
+        //}
     }
 }

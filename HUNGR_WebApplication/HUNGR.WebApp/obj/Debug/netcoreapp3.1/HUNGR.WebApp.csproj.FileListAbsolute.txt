@@ -212,3 +212,9 @@ C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Events\Details.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Events\Edit.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Events\Index.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Administration\CreateEvent.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Home\Details.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\FoodTrucks\Profile.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\CarouselEvents\Default.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\CurrentEvents\Default.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Administration\EditEvent.cshtml.g.cs

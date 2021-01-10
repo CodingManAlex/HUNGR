@@ -8,10 +8,19 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    <div class="jumbotron text-center bg-danger">
+
+        <div class="display-1 2rem font-weight-bolder text-center text-white">HUNGR</div>
+        <div class="h4 text-white">Finding Your Favourite Food Trucks</div>
+        <!-- <div id="myMap" style="position:relative;width:600px;height:400px;"></div> -->
+        <div class="col-lg-1 offset-lg-1 text-light">
+            <div id="ownerLink" class="mt-3 h2 text-white"> <a href="index.html" class="text-white">Back</a> </div>
+        </div>
+    </div>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HUNGR.WebApp</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HUNGR</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,6 +33,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Administration" asp-action="CreateEvent">Admin Events</a>
                         </li>
                     </ul>
                 </div>
@@ -44,6 +59,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+    @if (IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts", required: true)
+    }
 </body>
 </html>

@@ -16,6 +16,8 @@
     <Compile Remove="Data\Migrations\20201023032226_allClasses.Designer.cs" />
     <Compile Remove="Data\Migrations\20201023032343_allClasses.cs" />
     <Compile Remove="Data\Migrations\20201023032343_allClasses.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210103220811_eventsEntityIdChange.cs" />
+    <Compile Remove="Data\Migrations\20210103220811_eventsEntityIdChange.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +31,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>
