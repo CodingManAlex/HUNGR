@@ -6,6 +6,7 @@
         foreach (var ev in Model)
         {
             var photoPath = "~/images/" + (ev.ImagePath ?? "defaultProfileImage.png");
+            var modalName = "deleteModal" + ev.EventId;
 
             @*<a class="btn btn-primary" asp-action="EditEvent" asp-route-id="@ev.EventId">Edit @ev.Name</a>*@
     <div class="card text-center">
@@ -14,7 +15,37 @@
             <h2 class="card-text text-white bg-dark">@ev.Name</h2>
             <h4 class="card-text text-white bg-dark">@ev.StartDate.ToString("M") - @ev.EndDate.ToString("d, yyyy")</h4>
             <a class="btn btn-primary" asp-controller="Administration" asp-action="EditEvent" asp-route-id="@ev.EventId">Edit</a>
-            <a class="btn btn-danger">Delete</a>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#@modalName">Delete</button>
+            
+            <div class="modal fade" id="@modalName" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete "@ev.Name"?
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <form asp-controller="Administration" asp-action="DeleteEvent" asp-route-id="@ev.EventId" method="post">
+                                <button  type="submit" class="btn btn-danger">Delete</button> 
+                            </form>
+                            @*<button asp-controller="Administration" asp-action="DeleteEvent" asp-route-id="@ev.EventId" class="btn btn-danger">Delete2</button>*@ 
+                            @*<form asp-action="DeleteEvent">
+                                <input type="hidden" asp-for="@ev.EventId" />
+                                <input type="submit" value="Delete" class="btn btn-danger" />
+                            </form>*@
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                            @*<button type="button" class="btn btn-primary">Delete</button>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         @*<div class="card-footer">

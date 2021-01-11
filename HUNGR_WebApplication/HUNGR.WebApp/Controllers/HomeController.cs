@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HUNGR.WebApp.Models;
 using HUNGR.WebApp.Data;
+using Microsoft.EntityFrameworkCore;
+using HUNGR.WebApp.ViewModels;
 
 namespace HUNGR.WebApp.Controllers
 {
@@ -19,6 +21,26 @@ namespace HUNGR.WebApp.Controllers
         {
             _logger = logger;
             this.context = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string searchTerm)
+        {
+            ViewData["SearchFoodTruckDetails"] = searchTerm;
+            ViewBag.SearchTerm = searchTerm;
+            //var query = from x in context.FoodTrucks select x;
+
+
+            if (String.IsNullOrEmpty(searchTerm))
+            {
+                return View(await context.FoodTrucks.ToListAsync());
+            }
+            var query = context.FoodTrucks.Include(f => f.FoodCategory).Where(e => e.Name.Contains(searchTerm) );
+            //if(query.Count() == 1)
+            //{
+            //    RedirectToAction("profile", "foodtrucks", query.First().FoodTruckId);
+            //}
+            return View(await query.AsNoTracking().ToListAsync());
         }
 
         //public IActionResult Index()

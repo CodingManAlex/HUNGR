@@ -31,5 +31,6 @@ namespace HUNGR.WebApp.Models
         //Joins
         public ICollection<EventParticipant> EventParticipants { get; set; }
         public ICollection<UserFavouriteTruck> UserFavouriteTrucks { get; set; }
+
     }
 }

@@ -10,11 +10,11 @@
 <body>
     <div class="jumbotron text-center bg-danger">
 
-        <div class="display-1 2rem font-weight-bolder text-center text-white">HUNGR</div>
+        <div class="display-1 2rem font-weight-bolder text-center "><a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index" >HUNGR</a></div>
         <div class="h4 text-white">Finding Your Favourite Food Trucks</div>
         <!-- <div id="myMap" style="position:relative;width:600px;height:400px;"></div> -->
         <div class="col-lg-1 offset-lg-1 text-light">
-            <div id="ownerLink" class="mt-3 h2 text-white"> <a href="index.html" class="text-white">Back</a> </div>
+            @*<div id="ownerLink" class="mt-3 h2 text-white"> <a href="index.html" class="text-white">Back</a> </div>*@
         </div>
     </div>
     <header>
@@ -44,8 +44,18 @@
                 </div>
             </div>
         </nav>
+        
     </header>
     <div class="container">
+        <form method="get" asp-action="Search" asp-controller="Home">
+            <div class="input-group">
+                <input type="search" placeholder="Enter a Food Truck Name..." class="form-control" value="@ViewData["SearchFoodTruckDetails"]" name="searchTerm" />
+                <div class="input-group-append">
+                    <input type="submit" value="Search" class="btn btn-primary">
+                </div>
+            </div>
+        </form>
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

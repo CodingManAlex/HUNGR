@@ -46,7 +46,7 @@ namespace HUNGR.WebApp.Controllers
                 dbContext.Add(newEvent);
                 await dbContext.SaveChangesAsync();
 
-                return RedirectToAction("index", "events");
+                return View();
 
             }
 
@@ -58,12 +58,16 @@ namespace HUNGR.WebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                Response.StatusCode = 404;
+                return View("EventNotFound", id);
+                //return NotFound();
             }
             Event eventForEditing = await dbContext.Events.FindAsync(id);
             if(eventForEditing == null)
             {
-                return NotFound();
+                Response.StatusCode = 404;
+                return View("EventNotFound", id);
+                //return NotFound();
             }
             EditEventViewModel editEventViewModel = new EditEventViewModel
             {
@@ -109,6 +113,29 @@ namespace HUNGR.WebApp.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteEvent(int id)
+        {
+            Event currentEvent = await dbContext.Events.FindAsync(id);
+
+            if(currentEvent == null)
+            {
+                ViewBag.ErrorMessage = $"The Event with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            //Check for existing image
+            if (currentEvent.ImagePath != null)
+            {
+                string imagePath = Path.Combine(hostingEnvironment.WebRootPath, "images", currentEvent.ImagePath);
+                System.IO.File.Delete(imagePath);
+            }
+
+            dbContext.Events.Remove(currentEvent);
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction("createevent");
+
         }
 
         private string ProcessUploadedFile(CreateEventViewModel model)

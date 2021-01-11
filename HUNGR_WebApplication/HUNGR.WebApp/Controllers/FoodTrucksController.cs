@@ -19,6 +19,7 @@ namespace HUNGR.WebApp.Controllers
             _context = context;
         }
 
+
         // GET: FoodTrucks
         public async Task<IActionResult> Index()
         {

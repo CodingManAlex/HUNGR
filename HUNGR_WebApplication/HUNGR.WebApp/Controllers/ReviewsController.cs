@@ -150,13 +150,7 @@ namespace HUNGR.WebApp.Controllers
         // POST: Reviews/Delete/5
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(string id)
-        //{
-        //    var review = await _context.Reviews.FindAsync(id);
-        //    _context.Reviews.Remove(review);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // 
 
         //private bool ReviewExists(string id)
         //{

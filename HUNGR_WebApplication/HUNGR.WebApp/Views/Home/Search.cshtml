@@ -1,0 +1,29 @@
+﻿@model List<FoodTruck>;
+
+
+
+
+
+@if (Model.Count() == 0)
+{
+    <h1>Sorry, we couldnt find anything related to "@ViewBag.SearchTerm"</h1>
+    <h3><a asp-action="Index" asp-controller="Home">Return To The Home Screen</a> or try a different search</h3>
+}
+else
+{
+    <h1>Search Results for "@ViewBag.SearchTerm"</h1>
+    <div class="card-deck">
+        @foreach (var truck in Model)
+        {
+            <div class="card m-3">
+                <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
+                    <img class="card-img-top" src="~/images/defaultProfileImage.png" alt="Card image cap">
+                </a>
+                <div class="card-body">
+                    <h3>@truck.Name</h3>
+                </div>
+            </div>
+        }
+
+    </div>
+}
