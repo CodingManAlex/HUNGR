@@ -20,6 +20,7 @@ namespace HUNGR.WebApp.Models
         public double? Latitude { get; set; }
         public string? InstagramLink { get; set; }
         public string? FacebookLink { get; set; }
+        public FoodCat? FoodCat { get; set; }
 
         //Navigation
         public virtual ApplicationUser ApplicationUser { get; set; }

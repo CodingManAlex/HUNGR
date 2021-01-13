@@ -41,7 +41,7 @@ namespace HUNGR.WebApp
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-            //services.AddServerSideBlazor();
+            services.AddServerSideBlazor();
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaims>();
         }
 
@@ -74,7 +74,7 @@ namespace HUNGR.WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-                //endpoints.MapBlazorHub();
+                endpoints.MapBlazorHub();
             });
         }
     }

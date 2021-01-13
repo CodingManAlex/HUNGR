@@ -58,6 +58,7 @@ namespace HUNGR.WebApp.Controllers
             var foodTruck = await _context.FoodTrucks
                 .Include(f => f.ApplicationUser)
                 .Include(f => f.FoodCategory)
+                .Include(f => f.Reviews)
                 .FirstOrDefaultAsync(m => m.FoodTruckId == id);
             if (foodTruck == null)
             {

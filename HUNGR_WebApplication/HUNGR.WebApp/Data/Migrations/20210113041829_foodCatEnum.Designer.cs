@@ -4,14 +4,16 @@ using HUNGR.WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HUNGR.WebApp.Data.Migrations
 {
     [DbContext(typeof(HUNGRDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210113041829_foodCatEnum")]
+    partial class foodCatEnum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,26 +232,6 @@ namespace HUNGR.WebApp.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Body = "This was an oyster experience unlink any Ive had before! These guys really know what they're doing! I'll be stopping by again very shortly!",
-                            FoodTruckId = "7ce48b1b-2e9d-4c80-8253-94bad98fce8c",
-                            Rating = 5,
-                            Title = "Shucking Great",
-                            UserId = "8e378249-d83b-468b-b0ca-397174f18d1c"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Body = "These guys really know what they're doing! These were the best oysters I've ever had. Go show these boys some love!",
-                            FoodTruckId = "7ce48b1b-2e9d-4c80-8253-94bad98fce8c",
-                            Rating = 5,
-                            Title = "Great Oyster",
-                            UserId = "bf3b32f9-332b-45fb-b5ee-da51fe3df482"
-                        });
                 });
 
             modelBuilder.Entity("HUNGR.WebApp.Models.UserFavouriteFood", b =>

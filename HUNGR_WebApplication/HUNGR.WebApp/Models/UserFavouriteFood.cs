@@ -7,8 +7,11 @@ namespace HUNGR.WebApp.Models
 {
     public class UserFavouriteFood
     {
-        public string FoodCategoryId { get; set; }
-        public FoodCategory FoodCategory { get; set; }
+        public FoodCat FoodCat { get; set; }
+
+        //public string FoodCategoryId { get; set; }
+        //public FoodCategory FoodCategory { get; set; }
+
 
         public string Id { get; set; }
         public ApplicationUser ApplicationUser { get; set; }

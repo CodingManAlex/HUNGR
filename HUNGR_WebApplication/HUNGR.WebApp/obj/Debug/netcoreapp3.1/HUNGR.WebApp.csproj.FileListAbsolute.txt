@@ -56,7 +56,6 @@ C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\bin\Debug
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\HUNGR.WebApp.csprojAssemblyReference.cache
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\HUNGR.WebApp.AssemblyInfoInputs.cache
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\HUNGR.WebApp.AssemblyInfo.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\HUNGR.WebApp.RazorAssemblyInfo.cache
@@ -221,3 +220,12 @@ C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Administration\EventNotFound.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Shared\NotFound.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Home\Search.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\HUNGR.WebApp.RazorComponent.input.cache
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\RazorDeclaration\Components\Counter.razor.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\RazorDeclaration\HUNGR.WebApp.dll
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Components\Counter.razor.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\HUNGR.WebApp.csprojAssemblyReference.cache
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\RazorDeclaration\Components\ReviewList.razor.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Components\ReviewList.razor.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\RazorDeclaration\Components\DisplayReview.razor.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Components\DisplayReview.razor.g.cs

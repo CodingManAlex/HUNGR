@@ -1,6 +1,7 @@
 ﻿@model List<FoodTruck>;
+@using HUNGR.WebApp.Components
 
-    
+@(await Html.RenderComponentAsync<Counter>(RenderMode.ServerPrerendered))    
 
 <h1>Events</h1>
 <div>
@@ -8,8 +9,6 @@
 </div>
 
 <h1>Who's Open</h1>
-
-
 
 <div class="card-deck">
     @foreach(var truck in Model)

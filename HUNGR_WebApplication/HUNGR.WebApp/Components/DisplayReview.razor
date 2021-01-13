@@ -1,0 +1,12 @@
+﻿@inherits DisplayReviewBase;
+
+
+<div class="card m-3" style="max-width:100%;">
+    <div class="card-body">
+        <h5 class="card-title">@Review.Title</h5>
+        @*<h6 class="card-subtitle mb-2 text-muted">By @review.ApplicationUser.FirstName</h6>*@
+        <p class="card-text">@Review.Body</p>
+        <p class="card-text">Rating: @Review.Rating</p>
+        @*<a href="#" class="card-link">Another link</a>*@
+    </div>
+</div>

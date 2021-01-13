@@ -15,7 +15,30 @@ namespace HUNGR.WebApp.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Review>().HasData(
+                    new Review
+                    {
+                        Id = 1,
+                        Title = "Shucking Great",
+                        Body = "This was an oyster experience unlink any Ive had before! These guys really know what they're doing! I'll be stopping by again very shortly!",
+                        Rating = 5,
+                        UserId = "8e378249-d83b-468b-b0ca-397174f18d1c",
+                        FoodTruckId = "7ce48b1b-2e9d-4c80-8253-94bad98fce8c"
+                    },
+                    new Review
+                    {
+                        Id = 2,
+                        Title = "Great Oyster",
+                        Body = "These guys really know what they're doing! These were the best oysters I've ever had. Go show these boys some love!",
+                        Rating = 5,
+                        UserId = "bf3b32f9-332b-45fb-b5ee-da51fe3df482",
+                        FoodTruckId = "7ce48b1b-2e9d-4c80-8253-94bad98fce8c"
+                    }
+                );
+
 
             //Events
             modelBuilder.Entity<Event>()
@@ -75,17 +98,31 @@ namespace HUNGR.WebApp.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             //UserFavouriteFood
-            modelBuilder.Entity<UserFavouriteFood>().HasKey(ff => new { ff.Id, ff.FoodCategoryId });
+            modelBuilder.Entity<UserFavouriteFood>().HasKey(ff => new { ff.Id, ff.FoodCat });
+
             modelBuilder.Entity<UserFavouriteFood>()
                 .HasOne<ApplicationUser>(ff => ff.ApplicationUser)
                 .WithMany(u => u.UserFavouriteFoods)
                 .HasForeignKey(ff => ff.Id)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<UserFavouriteFood>()
-                .HasOne<FoodCategory>(ff => ff.FoodCategory)
-                .WithMany(f => f.UserFavouriteFoods)
-                .HasForeignKey(ff => ff.FoodCategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+
+            //modelBuilder.Entity<UserFavouriteFood>()
+            //            .HasOne<FoodCat>(ff => ff.FoodCat)
+            //            .WithMany(f => f.UserFavouriteFoods)
+            //            .HasForeignKey(ff => ff.FoodCat)
+            //            .OnDelete(DeleteBehavior.Restrict);
+
+            //modelBuilder.Entity<UserFavouriteFood>().HasKey(ff => new { ff.Id, ff.FoodCategoryId });
+            //modelBuilder.Entity<UserFavouriteFood>()
+            //    .HasOne<ApplicationUser>(ff => ff.ApplicationUser)
+            //    .WithMany(u => u.UserFavouriteFoods)
+            //    .HasForeignKey(ff => ff.Id)
+            //    .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<UserFavouriteFood>()
+            //    .HasOne<FoodCategory>(ff => ff.FoodCategory)
+            //    .WithMany(f => f.UserFavouriteFoods)
+            //    .HasForeignKey(ff => ff.FoodCategoryId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             //UserFavouriteTruck
             modelBuilder.Entity<UserFavouriteTruck>().HasKey(ft => new { ft.Id, ft.FoodTruckId });

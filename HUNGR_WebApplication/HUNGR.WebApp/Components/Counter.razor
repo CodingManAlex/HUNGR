@@ -1,0 +1,14 @@
+﻿@using HUNGR.WebApp.Models
+@using Microsoft.AspNetCore.Components.Web
+
+<h1>Counter : @counterVariable</h1>
+<button class="btn btn-primary" @onclick="incrementCount" >Click Me</button>
+
+@code {
+    int counterVariable = 0;
+
+    void incrementCount()
+    {
+        counterVariable++;
+    }
+}
