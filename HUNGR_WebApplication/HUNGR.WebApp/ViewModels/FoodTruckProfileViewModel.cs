@@ -12,6 +12,8 @@ namespace HUNGR.WebApp.ViewModels
         public FoodTruck FoodTruckModel { get; set; }
         public Review FoodTruckReview { get; set; }
         public UserFavouriteTruck UserFoodTruckLike { get; set; }
+        public string FoodTruckIdFav { get; set; }
+        public string UserIdFav { get; set; }
         //public string ReviewTruckId { get; set; }
         //public string ReviewUserId { get; set; }
         //public string ReviewTitle { get; set; }

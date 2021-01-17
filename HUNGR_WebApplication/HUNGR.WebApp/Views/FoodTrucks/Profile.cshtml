@@ -85,12 +85,15 @@
                     //REMOVE FOOD TRUCK TO FAVOURITE
                     <div class="d-flex justify-content-center">
 
-                        <form asp-action="RemoveTruckToFavourite" asp-controller="foodtrucks">
+                        <form asp-action="RemoveTruckFromFavourite" asp-controller="foodtrucks">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                            <input hidden asp-for="UserFoodTruckLike.FoodTruckId" value="@Model.FoodTruckModel.FoodTruckId" />
-                            <input hidden asp-for="UserFoodTruckLike.Id" value="@User.FindFirst("UserId").Value" />
-                            <i class="fa fa-heart fa-2x" style="color:red"></i>
+                            <input hidden asp-for="FoodTruckIdFav" value="@Model.FoodTruckModel.FoodTruckId" />
+                            <input hidden asp-for="UserIdFav" value="@User.FindFirst("UserId").Value" />
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-heart fa-2x" style="color:red"></i></button>
+                            </div>
 
                         </form>
                     </div>
@@ -104,14 +107,21 @@
                 {
                     //ADD FOOD TRUCK TO FAVOURITE
                     <div class="d-flex justify-content-center">
-                        <form asp-action="AddTruckToFavourite" asp-controller="foodtrucks">
+
+                        <form method="post" asp-action="AddTruckToFavourite" asp-controller="foodtrucks">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                            <input hidden asp-for="UserFoodTruckLike.FoodTruckId" value="@Model.FoodTruckModel.FoodTruckId" />
-                            <input hidden asp-for="UserFoodTruckLike.Id" value="@User.FindFirst("UserId").Value" />
-                            <i class="far fa fa-heart-o fa-2x" style="color:red"></i>
+                            <input hidden asp-for="FoodTruckIdFav" value="@Model.FoodTruckModel.FoodTruckId" />
+                            <input hidden asp-for="UserIdFav" value="@User.FindFirst("UserId").Value" />
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn">
+                                    <i class="far fa fa-heart-o fa-2x" style="color:red"></i>
+                                </button>
+                            </div>
 
                         </form>
+
                     </div>
                     <div class="row">
                         <div class="col">

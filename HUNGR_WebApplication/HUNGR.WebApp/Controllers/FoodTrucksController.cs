@@ -105,20 +105,33 @@ namespace HUNGR.WebApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AddTruckToFavourite(UserFavouriteTruck model)
+        [HttpPost]
+        public async Task<IActionResult> AddTruckToFavourite(string foodTruckIdFav, string userIdFav)
         {
-            if (ModelState.IsValid)
-            {
-                dbContext.Add(model);
-                await dbContext.SaveChangesAsync();
-                return RedirectToAction("Profile", new { id = model.FoodTruckId });
-            }
+            var truckId = foodTruckIdFav;
+            var userId = userIdFav;
 
-            return View();
+            UserFavouriteTruck model = new UserFavouriteTruck
+            {
+                FoodTruckId = foodTruckIdFav,
+                Id = userIdFav
+            };
+
+            
+            dbContext.Add(model);
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction("Profile", new { id = foodTruckIdFav });
         }
 
+        public async Task<IActionResult> RemoveTruckFromFavourite(string foodTruckIdFav, string userIdFav)
+        {
+                var favouriteTrucksList = dbContext.UserFavouriteTrucks.Where(ft => ft.FoodTruckId == foodTruckIdFav).ToList();
+                var userFavouriteTruck = favouriteTrucksList.Find(e => e.Id == userIdFav);
 
-
+                dbContext.UserFavouriteTrucks.Remove(userFavouriteTruck);
+                await dbContext.SaveChangesAsync();
+                return RedirectToAction("Profile", new { id = foodTruckIdFav });
+        }
 
 
 
