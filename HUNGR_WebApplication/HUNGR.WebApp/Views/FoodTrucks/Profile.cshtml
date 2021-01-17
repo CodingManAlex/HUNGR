@@ -5,7 +5,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    int revCount = 0;
+    double revCount = 0;
 }
 
 @if (SignInManager.IsSignedIn(User))
@@ -50,10 +50,10 @@
         </div>
         <div class="row align-items-end border border-success mb-0 pb-0 pt-2">
             <div class="col-1 align-self-end border border-primary">
-                <h2>f</h2>
+                <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
             </div>
             <div class="col-1 align-self-end border border-primary">
-                <h2>i</h2>
+                <i class="fa fa-instagram fa-2x" aria-hidden="true"></i>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
         @*@if (Model.FoodTruckModel.Reviews.Any() || Model.FoodTruckModel.Reviews != null || Model.FoodTruckModel.Reviews.Count > 0)*@
         @if (Model.FoodTruckModel.Reviews.Any() && Model.FoodTruckModel.Reviews.Count > 0)
         {
-            int sum = 0;
+            double sum = 0;
             revCount = Model.FoodTruckModel.Reviews.Count;
             foreach (var review in Model.FoodTruckModel.Reviews)
             {
@@ -92,7 +92,9 @@
                             <input hidden asp-for="UserIdFav" value="@User.FindFirst("UserId").Value" />
 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-heart fa-2x" style="color:red"></i></button>
+                                <button type="submit" class="btn">
+                                    <i class="fa fa-heart fa-2x" style="color:red"></i>
+                                </button>
                             </div>
 
                         </form>
@@ -203,7 +205,6 @@
                             <div class="col-1">
                                 <a asp-action="UserProfile" asp-controller="Users" asp-route-UserId="@review.UserId">
                                     <img src="~/images/default-logo.png" class="img-thumbnail" alt="ProfileImage">
-                                    <p>@review.UserId</p>
                                 </a>
                             </div>
                             <div class="col-11 align-self-center">

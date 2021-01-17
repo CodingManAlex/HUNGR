@@ -29,6 +29,56 @@
 <div class="row">
     <div class="col"><h1>Favourite Trucks</h1></div>
 </div>
+<div class="card-deck">
+    @foreach (var truck in Model.FavouriteTrucks)
+    {
+        <div class="card m-3">
+            @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
+
+            <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
+                <img class="card-img-top" src="~/images/defaultProfileImage.png" alt="Card image cap">
+            </a>
+            <div class="card-body">
+                <h3>@truck.Name</h3>
+            </div>
+        </div>
+    }
+
+</div>
+
 <div class="row">
     <div class="col"><h1>Reviews</h1></div>
+</div>
+<div class="col-lg-12 overflow-auto ">
+    <ul id="trucksReviews" class="list-group">
+        @foreach (var review in Model.Reviews)
+        {
+            <li class="border my-1" style="list-style-type:none;">
+
+                <div class="row">
+                    <div class="col-1">
+                        <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@review.FoodTruckId">
+                            <img src="~/images/default-logo.png" class="img-thumbnail" alt="ProfileImage">
+                        </a>
+                    </div>
+                    <div class="col-11 align-self-center">
+                        <h3>@review.Title</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col offset-1">
+                        <p>@review.Body</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col offset-1">
+                        <p>Rating: @review.Rating</p>
+                    </div>
+                </div>
+
+            </li>
+        }
+    </ul>
 </div>

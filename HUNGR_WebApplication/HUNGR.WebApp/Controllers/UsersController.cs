@@ -7,6 +7,7 @@ using HUNGR.WebApp.Models;
 using HUNGR.WebApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HUNGR.WebApp.Controllers
 {
@@ -38,6 +39,17 @@ namespace HUNGR.WebApp.Controllers
 
             var reviews = dbContext.Reviews.Where(r => r.UserId == userId).ToList();
 
+            var favTrucksId = dbContext.UserFavouriteTrucks.Where(ft => ft.Id == userId).ToList();
+            var listOfFoodTrucks = new List<FoodTruck>();
+            
+            foreach(var truckId in favTrucksId)
+            {
+                var foodTruck = await dbContext.FoodTrucks
+                .FirstOrDefaultAsync(m => m.FoodTruckId == truckId.FoodTruckId);
+
+                listOfFoodTrucks.Add(foodTruck);
+            }
+
             var model = new UserProfileViewModel
             {
                 UserId = user.Id,
@@ -45,7 +57,8 @@ namespace HUNGR.WebApp.Controllers
                 LastName = user.LastName,
                 City = user.City,
                 Province = user.Province,
-                Reviews = reviews
+                Reviews = reviews,
+                FavouriteTrucks = listOfFoodTrucks
             };
 
             return View(model);
