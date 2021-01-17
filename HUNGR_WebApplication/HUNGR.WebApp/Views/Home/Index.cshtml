@@ -14,12 +14,14 @@
     @foreach(var truck in Model)
     {
     <div class="card m-3">
-        <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
-            <img class="card-img-top" src="~/images/defaultProfileImage.png" alt="Card image cap">
-        </a>
-        <div class="card-body">
-            <h3>@truck.Name</h3>
-        </div>
+@*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
+
+            <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
+                <img class="card-img-top" src="~/images/defaultProfileImage.png" alt="Card image cap">
+            </a>
+            <div class="card-body">
+                <h3>@truck.Name</h3>
+            </div>
     </div>
     }
 

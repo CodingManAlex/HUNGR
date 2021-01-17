@@ -53,6 +53,7 @@ namespace HUNGR.WebApp.Controllers
 
             return View(model);
         }
+
         [HttpGet]
         public async Task<IActionResult> EditEvent(int id)
         {

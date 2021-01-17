@@ -283,6 +283,13 @@ namespace HUNGR.WebApp.Data.Migrations
                     b.HasIndex("FoodTruckId");
 
                     b.ToTable("UserFavouriteTrucks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8e378249-d83b-468b-b0ca-397174f18d1c",
+                            FoodTruckId = "7ce48b1b-2e9d-4c80-8253-94bad98fce8c"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

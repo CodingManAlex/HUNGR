@@ -1,54 +1,128 @@
-﻿@model FoodTruck
+﻿@model FoodTruckProfileViewModel
 @using HUNGR.WebApp.Components
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    int revCount = 0;
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    string userId = User.FindFirst("UserId").Value;
+    <h1>User Signed In @User.FindFirst("UserFirstName").Value</h1>
+
+    @if (Model.FoodTruckModel.UserFavouriteTrucks.Any())
+    {
+        <h1>Theres a list of favourite trucks</h1>
+        @if (Model.FoodTruckModel.UserFavouriteTrucks.Any(item => item.Id == User.FindFirst("UserId").Value))
+        {
+            <h2>The User is in this list</h2>
+        }
+
+    }
+    else
+    {
+        <h1>Theres no list of favourite Trucks</h1>
+    }
+
+}
+<h2>Size of List : @Model.FoodTruckModel.UserFavouriteTrucks.Count</h2>
+
+
+
+
 
 <div class="row">
-    <div class="col-3">
-        <img src="~/images/defaultProfileImage.png" class="img-fluid" alt="Responsive image">
+    <div class="col-3 border border-danger">
+        <img src="~/images/defaultProfileImage.png" class="img-thumbnail" alt="Responsive image">
     </div>
 
-    <div class="col-7">
-        <div class="row">
+
+    <div class="col-7 border border-danger">
+        <h1>@Model.FoodTruckModel.Name</h1>
+
+        <div class="row border border-success">
             <div class="col">
-                <h1>@Model.Name</h1>
+                <h4>@Model.FoodTruckModel.Bio</h4>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <h4>@Model.Bio</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-1">
+        <div class="row align-items-end border border-success mb-0 pb-0 pt-2">
+            <div class="col-1 align-self-end border border-primary">
                 <h2>f</h2>
             </div>
-            <div class="col-1">
+            <div class="col-1 align-self-end border border-primary">
                 <h2>i</h2>
             </div>
         </div>
     </div>
 
-    <div class="col-2">
-        <div class="row">
+    <div class="col-2 border border-danger">
+        @*@if (Model.FoodTruckModel.Reviews.Any() || Model.FoodTruckModel.Reviews != null || Model.FoodTruckModel.Reviews.Count > 0)*@
+        @if (Model.FoodTruckModel.Reviews.Any() && Model.FoodTruckModel.Reviews.Count > 0)
+        {
+            int sum = 0;
+            revCount = Model.FoodTruckModel.Reviews.Count;
+            foreach (var review in Model.FoodTruckModel.Reviews)
+            {
+                sum += review.Rating;
+            }
+            double avgRating = sum / revCount;
+            <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">@avgRating</h1>
+        }
+        else
+        {
+            <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">NA</h1>
 
-            @if (Model.Reviews != null)
+        }
+    <div class="row justify-content-center border">
+        <div class="col">
+            @if (SignInManager.IsSignedIn(User))
             {
-                int sum = 0;
-                int revCount = Model.Reviews.Count;
-                foreach (var review in Model.Reviews)
+                @if (Model.FoodTruckModel.UserFavouriteTrucks.Any(item => item.Id == User.FindFirst("UserId").Value))
                 {
-                    sum += review.Rating;
+                    //REMOVE FOOD TRUCK TO FAVOURITE
+                    <div class="d-flex justify-content-center">
+
+                        <form asp-action="RemoveTruckToFavourite" asp-controller="foodtrucks">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <input hidden asp-for="UserFoodTruckLike.FoodTruckId" value="@Model.FoodTruckModel.FoodTruckId" />
+                            <input hidden asp-for="UserFoodTruckLike.Id" value="@User.FindFirst("UserId").Value" />
+                            <i class="fa fa-heart fa-2x" style="color:red"></i>
+
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex justify-content-center">Unfollow</div>
+                        </div>
+                    </div>
                 }
-                double avgRating = sum / revCount;
-                <h1 class="display-3" id="foodTruckRating">@avgRating</h1>
-            }
-            else
-            {
-                <h1 class="display-3" id="foodTruckRating">NA</h1>
+                else
+                {
+                    //ADD FOOD TRUCK TO FAVOURITE
+                    <div class="d-flex justify-content-center">
+                        <form asp-action="AddTruckToFavourite" asp-controller="foodtrucks">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <input hidden asp-for="UserFoodTruckLike.FoodTruckId" value="@Model.FoodTruckModel.FoodTruckId" />
+                            <input hidden asp-for="UserFoodTruckLike.Id" value="@User.FindFirst("UserId").Value" />
+                            <i class="far fa fa-heart-o fa-2x" style="color:red"></i>
+
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex justify-content-center">Follow</div>
+                        </div>
+                    </div>
+                }
             }
         </div>
-        <div class="row">
-            <h4>Follow</h4>
-        </div>
+    </div>
+
     </div>
 </div>
 <div class="row">
@@ -62,18 +136,90 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="createReview" asp-controller="foodtrucks">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <select asp-for="Id" class ="form-control" asp-items="ViewBag.Id"></select>
+                </div>*@
+            <input hidden asp-for="FoodTruckReview.FoodTruckId" value="@Model.FoodTruckModel.FoodTruckId" />
+            <input hidden asp-for="FoodTruckReview.UserId" value="8e378249-d83b-468b-b0ca-397174f18d1c" />
 
+            <div class="form-group">
+                <label asp-for="FoodTruckReview.Title" class="control-label"></label>
+                <input asp-for="FoodTruckReview.Title" class="form-control" />
+                <span asp-validation-for="FoodTruckReview.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FoodTruckReview.Body" class="control-label"></label>
+                <input asp-for="FoodTruckReview.Body" class="form-control" />
+                <span asp-validation-for="FoodTruckReview.Body" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FoodTruckReview.Rating" class="control-label"></label>
+                <input asp-for="FoodTruckReview.Rating" class="form-control" />
+                <span asp-validation-for="FoodTruckReview.Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-<component type="typeof(ReviewList)" render-mode="ServerPrerendered"  />
+@*<component type="typeof(ReviewList)" render-mode="ServerPrerendered"  />*@
 @*<component type="typeof(ReviewList)" render-mode="ServerPrerendered" param-TruckReviews="Model.Reviews" />*@
 
-<div class="card-columns">
-    @foreach (var review in Model.Reviews)
-    {
-        <DisplayReview Review="review" ></DisplayReview>
-    }
+@*<div class="row">
+        <div class="col">
+            @await Component.InvokeAsync("CreateReview", new { foodTruckId = Model.FoodTruckId, userId = "8e378249-d83b-468b-b0ca-397174f18d1c" } );
+        </div>
+    </div>*@
 
+<div class="col-lg-12 border bg-light">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1>Reviews</h1>
+        </div>
+        <div class="col-lg-12 overflow-auto ">
+            <ul id="trucksReviews" class="list-group">
+                @foreach (var review in Model.FoodTruckModel.Reviews)
+                {
+                    <li class="border my-1" style="list-style-type:none;">
+
+                        <div class="row">
+                            <div class="col-1">
+                                <a asp-action="UserProfile" asp-controller="Users" asp-route-UserId="@review.UserId">
+                                    <img src="~/images/default-logo.png" class="img-thumbnail" alt="ProfileImage">
+                                    <p>@review.UserId</p>
+                                </a>
+                            </div>
+                            <div class="col-11 align-self-center">
+                                <h3>@review.Title</h3>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col offset-1">
+                                <p>@review.Body</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col offset-1">
+                                <p>Rating: @review.Rating</p>
+                            </div>
+                        </div>
+
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>
+
 
 
 <!--<div class="row my-2 ">
@@ -87,7 +233,7 @@
         </div>
         <div class="col-lg-8 ">
             <div class="d-flex justify-content-between">
-                <h2 id="foodTruckName">@Model.Name</h2>
+
 
 
 

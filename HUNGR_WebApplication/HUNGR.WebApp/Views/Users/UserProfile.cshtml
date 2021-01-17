@@ -1,0 +1,34 @@
+﻿@model UserProfileViewModel
+
+    @*<h1>User Profile @Model.UserId</h1>
+    <h2>@Model.FirstName @Model.LastName</h2>*@
+<div class="row">
+    <div class="col">
+        <img src="~/images/default-logo.png" class="img-thumbnail" alt="ProfileImage">
+    </div>
+    <div class="col">
+        <h1>@Model.FirstName @Model.LastName</h1>
+        <div class="row">
+            <div class="col">
+                <h4>@Model.City, @Model.Province</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <h1>Favourite Foods</h1>
+        <div class="row">
+            <div class="col">
+                <h4>Japanese, Italian</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+</div>
+<div class="row">
+    <div class="col"><h1>Favourite Trucks</h1></div>
+</div>
+<div class="row">
+    <div class="col"><h1>Reviews</h1></div>
+</div>

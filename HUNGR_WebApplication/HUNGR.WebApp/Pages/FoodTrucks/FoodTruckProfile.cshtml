@@ -1,0 +1,107 @@
+﻿@page
+@model HUNGR.WebApp.Pages.FoodTrucks.FoodTruckProfileModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<h1>Food Truck Profile</h1>
+<h2>@Model.FoodTruck.Name</h2>
+
+<div class="row">
+    <div class="col-3">
+        <img src="~/images/defaultProfileImage.png" class="img-fluid" alt="Responsive image">
+    </div>
+
+    <div class="col-7">
+        <div class="row">
+            <div class="col">
+                <h1>@Model.FoodTruck.Name</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4>@Model.FoodTruck.Bio</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1">
+                <h2>f</h2>
+            </div>
+            <div class="col-1">
+                <h2>i</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-2">
+        <div class="row">
+
+            @if (Model.FoodTruck.Reviews != null)
+            {
+                int sum = 0;
+                int revCount = Model.FoodTruck.Reviews.Count;
+                foreach (var review in Model.FoodTruck.Reviews)
+                {
+                    sum += review.Rating;
+                }
+                double avgRating = sum / revCount;
+                <h1 class="display-3" id="foodTruckRating">@avgRating</h1>
+            }
+            else
+            {
+                <h1 class="display-3" id="foodTruckRating">NA</h1>
+            }
+        </div>
+        <div class="row">
+            <h4>Follow</h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h1 class="display-1">MAP</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h1>Leave A Review</h1>
+    </div>
+</div>
+<form method="post" asp-page-handler="OnPost">
+    <input hidden asp-for="@Model.Review.FoodTruckId" value="@Model.FoodTruck.FoodTruckId" />
+    <input hidden asp-for="@Model.Review.UserId" value="8e378249-d83b-468b-b0ca-397174f18d1c" />
+
+    <div class="form-group">
+        <label asp-for="@Model.Review.Title"></label>
+        <input asp-for="@Model.Review.Title" class="form-control" />
+        @*<span asp-validation-for="@Model.Review.Title" class="text-danger"></span>*@
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Review.Body"></label>
+        <input asp-for="@Model.Review.Body" class="form-control" />
+        @*<span asp-validation-for="@Model.Review.Body" class="text-danger"></span>*@
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Review.Rating"></label>
+        <input asp-for="@Model.Review.Rating" class="form-control" />
+        @*<span asp-validation-for="@Model.Review.Rating" class="text-danger"></span>*@
+    </div>
+</form>
+
+
+<div class="card-columns">
+    @foreach (var review in Model.FoodTruck.Reviews)
+    {
+        <div class="card m-3" style="max-width:100%;">
+            <div class="card-body">
+                <h5 class="card-title">@review.Title</h5>
+                @*<h6 class="card-subtitle mb-2 text-muted"></h6>*@
+                <p class="card-text">@review.Body</p>
+                <p class="card-text">Rating: @review.Rating</p>
+                @*<a href="#" class="card-link">Another link</a>*@
+            </div>
+        </div>
+    }
+
+</div>

@@ -7,23 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HUNGR.WebApp.Data;
 using HUNGR.WebApp.Models;
+using HUNGR.WebApp.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HUNGR.WebApp.Controllers
 {
     public class FoodTrucksController : Controller
     {
-        private readonly HUNGRDbContext _context;
+        private readonly HUNGRDbContext dbContext;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> SignInManager;
 
-        public FoodTrucksController(HUNGRDbContext context)
+        public FoodTrucksController(SignInManager<ApplicationUser> SignInManager, UserManager<ApplicationUser> userManager, HUNGRDbContext context)
         {
-            _context = context;
+            this.SignInManager = SignInManager;
+            this.userManager = userManager;
+            dbContext = context;
         }
 
 
         // GET: FoodTrucks
         public async Task<IActionResult> Index()
         {
-            var hUNGRDbContext = _context.FoodTrucks.Include(f => f.ApplicationUser).Include(f => f.FoodCategory);
+            var hUNGRDbContext = dbContext.FoodTrucks.Include(f => f.ApplicationUser).Include(f => f.FoodCategory);
             return View(await hUNGRDbContext.ToListAsync());
         }
 
@@ -35,7 +41,7 @@ namespace HUNGR.WebApp.Controllers
                 return NotFound();
             }
 
-            var foodTruck = await _context.FoodTrucks
+            var foodTruck = await dbContext.FoodTrucks
                 .Include(f => f.ApplicationUser)
                 .Include(f => f.FoodCategory)
                 .FirstOrDefaultAsync(m => m.FoodTruckId == id);
@@ -55,24 +61,72 @@ namespace HUNGR.WebApp.Controllers
                 return NotFound();
             }
 
-            var foodTruck = await _context.FoodTrucks
+            var foodTruck = await dbContext.FoodTrucks
                 .Include(f => f.ApplicationUser)
                 .Include(f => f.FoodCategory)
                 .Include(f => f.Reviews)
+                .Include(f => f.UserFavouriteTrucks)
                 .FirstOrDefaultAsync(m => m.FoodTruckId == id);
             if (foodTruck == null)
             {
                 return NotFound();
             }
 
-            return View(foodTruck);
+            FoodTruckProfileViewModel truckProfile = new FoodTruckProfileViewModel
+            {
+                FoodTruckModel = foodTruck
+
+            };
+
+            return View(truckProfile);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateReview(FoodTruckProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                Review review = new Review
+                {
+                    FoodTruckId = model.FoodTruckReview.FoodTruckId,
+                    UserId = model.FoodTruckReview.UserId,
+                    Title = model.FoodTruckReview.Title,
+                    Body = model.FoodTruckReview.Body,
+                    Rating = model.FoodTruckReview.Rating,
+                };
+                dbContext.Add(review);
+                await dbContext.SaveChangesAsync();
+
+                return RedirectToAction("Profile", new { id = review.FoodTruckId } );
+            }
+
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> AddTruckToFavourite(UserFavouriteTruck model)
+        {
+            if (ModelState.IsValid)
+            {
+                dbContext.Add(model);
+                await dbContext.SaveChangesAsync();
+                return RedirectToAction("Profile", new { id = model.FoodTruckId });
+            }
+
+            return View();
+        }
+
+
+
+
+
 
         // GET: FoodTrucks/Create
         public IActionResult Create()
         {
-            ViewData["FoodTruckId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["FoodCategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id");
+            ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id");
+            ViewData["FoodCategoryId"] = new SelectList(dbContext.FoodCategories, "Id", "Id");
             return View();
         }
 
@@ -85,12 +139,12 @@ namespace HUNGR.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(foodTruck);
-                await _context.SaveChangesAsync();
+                dbContext.Add(foodTruck);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FoodTruckId"] = new SelectList(_context.Users, "Id", "Id", foodTruck.FoodTruckId);
-            ViewData["FoodCategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
+            ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id", foodTruck.FoodTruckId);
+            ViewData["FoodCategoryId"] = new SelectList(dbContext.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
             return View(foodTruck);
         }
 
@@ -102,13 +156,13 @@ namespace HUNGR.WebApp.Controllers
                 return NotFound();
             }
 
-            var foodTruck = await _context.FoodTrucks.FindAsync(id);
+            var foodTruck = await dbContext.FoodTrucks.FindAsync(id);
             if (foodTruck == null)
             {
                 return NotFound();
             }
-            ViewData["FoodTruckId"] = new SelectList(_context.Users, "Id", "Id", foodTruck.FoodTruckId);
-            ViewData["FoodCategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
+            ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id", foodTruck.FoodTruckId);
+            ViewData["FoodCategoryId"] = new SelectList(dbContext.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
             return View(foodTruck);
         }
 
@@ -128,8 +182,8 @@ namespace HUNGR.WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(foodTruck);
-                    await _context.SaveChangesAsync();
+                    dbContext.Update(foodTruck);
+                    await dbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -144,8 +198,8 @@ namespace HUNGR.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FoodTruckId"] = new SelectList(_context.Users, "Id", "Id", foodTruck.FoodTruckId);
-            ViewData["FoodCategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
+            ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id", foodTruck.FoodTruckId);
+            ViewData["FoodCategoryId"] = new SelectList(dbContext.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
             return View(foodTruck);
         }
 
@@ -157,7 +211,7 @@ namespace HUNGR.WebApp.Controllers
                 return NotFound();
             }
 
-            var foodTruck = await _context.FoodTrucks
+            var foodTruck = await dbContext.FoodTrucks
                 .Include(f => f.ApplicationUser)
                 .Include(f => f.FoodCategory)
                 .FirstOrDefaultAsync(m => m.FoodTruckId == id);
@@ -174,15 +228,15 @@ namespace HUNGR.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var foodTruck = await _context.FoodTrucks.FindAsync(id);
-            _context.FoodTrucks.Remove(foodTruck);
-            await _context.SaveChangesAsync();
+            var foodTruck = await dbContext.FoodTrucks.FindAsync(id);
+            dbContext.FoodTrucks.Remove(foodTruck);
+            await dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FoodTruckExists(string id)
         {
-            return _context.FoodTrucks.Any(e => e.FoodTruckId == id);
+            return dbContext.FoodTrucks.Any(e => e.FoodTruckId == id);
         }
     }
 }

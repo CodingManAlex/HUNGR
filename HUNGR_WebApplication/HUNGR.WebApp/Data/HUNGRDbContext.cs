@@ -18,6 +18,14 @@ namespace HUNGR.WebApp.Data
 
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<UserFavouriteTruck>().HasData(
+                new UserFavouriteTruck
+                {
+                    FoodTruckId = "7ce48b1b-2e9d-4c80-8253-94bad98fce8c",
+                    Id = "8e378249-d83b-468b-b0ca-397174f18d1c"
+                }
+                );
+
             modelBuilder.Entity<Review>().HasData(
                     new Review
                     {
@@ -126,11 +134,13 @@ namespace HUNGR.WebApp.Data
 
             //UserFavouriteTruck
             modelBuilder.Entity<UserFavouriteTruck>().HasKey(ft => new { ft.Id, ft.FoodTruckId });
+
             modelBuilder.Entity<UserFavouriteTruck>()
                 .HasOne<ApplicationUser>(ft => ft.ApplicationUser)
                 .WithMany(u => u.UserFavouriteTrucks)
                 .HasForeignKey(ft => ft.Id)
                 .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<UserFavouriteTruck>()
                 .HasOne<FoodTruck>(ft => ft.FoodTruck)
                 .WithMany(f => f.UserFavouriteTrucks)
