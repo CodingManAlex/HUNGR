@@ -4,9 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@*<h1>Index</h1>*@
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
@@ -48,8 +48,32 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
+    <tbody>*@
+
+<ul id="trucksList" class="list-group">
+    @foreach (var truck in Model)
+    {
+        var photoPath = "~/images/" + (truck.ProfileImage ?? "defaultProfileImage.png");
+        //var reviewPhotoPath = "~/images/" + (Model.FoodTruckModel.ProfileImage ?? "defaultProfileImage.png");
+        <li class="border my-1" style="list-style-type:none;">
+            <a asp-action="Profile" asp-route-id="@truck.FoodTruckId">
+                <div class="row">
+                    <div class="col">
+                        <img src="@photoPath" class="img-thumbnail roundThumbnail" alt="ProfileImage" asp-append-version="true">
+                    </div>
+                    <div class="col align-self-center">
+                        <h1>@truck.Name</h1>
+                    </div>
+                    <div class="col align-self-center">
+                        <h1>@truck.FoodCat</h1>
+                    </div>
+                </div>
+            </a>
+        </li>
+    }
+</ul>
+
+@*@foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -90,6 +114,6 @@
                 <a asp-action="Delete" asp-route-id="@item.FoodTruckId">Delete</a>
             </td>
         </tr>
-}
-    </tbody>
-</table>
+}*@
+    @*</tbody>
+</table*@>

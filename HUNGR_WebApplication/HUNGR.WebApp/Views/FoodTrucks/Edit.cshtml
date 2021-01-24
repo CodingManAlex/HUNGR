@@ -1,7 +1,8 @@
-﻿@model HUNGR.WebApp.Models.FoodTruck
+﻿@model HUNGR.WebApp.ViewModels.EditFoodTruckViewModel;
 
 @{
     ViewData["Title"] = "Edit";
+    var photoPath = "~/images/" + (Model.ExistingImagePath ?? "defaultProfileImage.png");
 }
 
 <h1>Edit</h1>
@@ -9,71 +10,159 @@
 <h4>FoodTruck</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col">
+        <form enctype="multipart/form-data" asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="FoodTruckId" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="row">
+                <div class="col-8">
+                    <div class="form-group">
+                        <label asp-for="FoodTruckName" class="h2"></label>
+                        <input asp-for="FoodTruckName" class="form-control" />
+                        <span asp-validation-for="FoodTruckName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TruckBio" class="h2"></label>
+                        <input asp-for="TruckBio" class="form-control" />
+                        <span asp-validation-for="TruckBio" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="FoodCat" class="h2"></label>
+                        <select asp-for="FoodCat" class="custom-select" asp-items="Html.GetEnumSelectList<FoodCat>()">
+                            <option value="">Please Select</option>
+                        </select>
+                        <span asp-validation-for="FoodCat" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col">
+                            <h2>Social Media Links</h2>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-1"><i class="fa fa-instagram fa-2x" aria-hidden="true"></i></div>
+                            <div class="col-11"><input asp-for="InstaLink" class="form-control" /></div>
+                        </div>
+                        <span asp-validation-for="InstaLink" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-1"><i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i></div>
+                            <div class="col-11"><input asp-for="FacebookLink" class="form-control" /></div>
+                        </div>
+                        <span asp-validation-for="FacebookLink" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group row ">
+                        <img src="@photoPath" class="img-thumbnail" asp-append-version="true" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Image"></label>
+                        <div class="custom-file">
+                            <input asp-for="Image" class="form-control custom-file-input" />
+                            <label class="custom-file-label">Click here to change photo...</label>
+                        </div>
+                        @*<span asp-validation-for="Image" class="text-danger"></span>*@
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Bio" class="control-label"></label>
-                <input asp-for="Bio" class="form-control" />
-                <span asp-validation-for="Bio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
-                <span asp-validation-for="State" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfileImage" class="control-label"></label>
-                <input asp-for="ProfileImage" class="form-control" />
-                <span asp-validation-for="ProfileImage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Licence" class="control-label"></label>
-                <input asp-for="Licence" class="form-control" />
-                <span asp-validation-for="Licence" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Longitude" class="control-label"></label>
-                <input asp-for="Longitude" class="form-control" />
-                <span asp-validation-for="Longitude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Latitude" class="control-label"></label>
-                <input asp-for="Latitude" class="form-control" />
-                <span asp-validation-for="Latitude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InstagramLink" class="control-label"></label>
-                <input asp-for="InstagramLink" class="form-control" />
-                <span asp-validation-for="InstagramLink" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FacebookLink" class="control-label"></label>
-                <input asp-for="FacebookLink" class="form-control" />
-                <span asp-validation-for="FacebookLink" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FoodCategoryId" class="control-label"></label>
-                <select asp-for="FoodCategoryId" class="form-control" asp-items="ViewBag.FoodCategoryId"></select>
-                <span asp-validation-for="FoodCategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+                <button type="submit" class="btn btn-success">Save</button>
         </form>
     </div>
+
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-danger" asp-action="MyProfile" asp-controller="User">Cancel</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            })
+        })
+    </script>
 }
+
+<!--<div class="row mt-5">
+    <div class="col-7">
+        <div class="row">
+            <div class="col">
+                <h2>Truck Name</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Truck Bio</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Category</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Seafood</h1>-->
+@*@Model.FoodTruck.FoodCat*@
+<!--</div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Social Media Links</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <i class="fa fa-instagram fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="row">
+            <div class="col">
+                <img src="~/images/defaultProfileImage.png" class="img-thumbnail" alt="Responsive image">
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <button class="btn btn-primary">Edit Truck</button>
+            </div>
+        </div>
+    </div>
+</div>-->

@@ -9,6 +9,8 @@ using HUNGR.WebApp.Data;
 using HUNGR.WebApp.Models;
 using HUNGR.WebApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace HUNGR.WebApp.Controllers
 {
@@ -16,11 +18,13 @@ namespace HUNGR.WebApp.Controllers
     {
         private readonly HUNGRDbContext dbContext;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> SignInManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public FoodTrucksController(SignInManager<ApplicationUser> SignInManager, UserManager<ApplicationUser> userManager, HUNGRDbContext context)
+        public FoodTrucksController(IHostingEnvironment hostingEnvironment,SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, HUNGRDbContext context)
         {
-            this.SignInManager = SignInManager;
+            this.hostingEnvironment = hostingEnvironment;
+            this.signInManager = signInManager;
             this.userManager = userManager;
             dbContext = context;
         }
@@ -133,6 +137,27 @@ namespace HUNGR.WebApp.Controllers
                 return RedirectToAction("Profile", new { id = foodTruckIdFav });
         }
 
+        public async Task<IActionResult> OpenFoodTruck(string foodTruckId)
+        {
+            FoodTruck foodTruck = await dbContext.FoodTrucks.FindAsync(foodTruckId);
+
+            foodTruck.State = 1;
+
+            dbContext.Update(foodTruck);
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction("MyProfile", "User", new { id = foodTruckId });
+        }
+
+        public async Task<IActionResult> CloseFoodTruck(string foodTruckId)
+        {
+            FoodTruck foodTruck = await dbContext.FoodTrucks.FindAsync(foodTruckId);
+
+            foodTruck.State = 0;
+
+            dbContext.Update(foodTruck);
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction("MyProfile", "User", new { id = foodTruckId });
+        }
 
 
         // GET: FoodTrucks/Create
@@ -174,46 +199,90 @@ namespace HUNGR.WebApp.Controllers
             {
                 return NotFound();
             }
+            EditFoodTruckViewModel editFoodTruckViewModel = new EditFoodTruckViewModel
+            {
+                FoodTruckId = foodTruck.FoodTruckId,
+                FoodTruckName = foodTruck.Name,
+                TruckBio = foodTruck.Bio,
+                InstaLink = foodTruck.InstagramLink,
+                FacebookLink = foodTruck.FacebookLink,
+                ExistingImagePath = foodTruck.ProfileImage
+            };
             ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id", foodTruck.FoodTruckId);
             ViewData["FoodCategoryId"] = new SelectList(dbContext.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
-            return View(foodTruck);
+            return View(editFoodTruckViewModel);
         }
 
         // POST: FoodTrucks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(string id, [Bind("FoodTruckId,Name,Bio,State,ProfileImage,Licence,Longitude,Latitude,InstagramLink,FacebookLink,FoodCategoryId")] FoodTruck foodTruck)
+        //{
+        //    if (id != foodTruck.FoodTruckId)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            dbContext.Update(foodTruck);
+        //            await dbContext.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!FoodTruckExists(foodTruck.FoodTruckId))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id", foodTruck.FoodTruckId);
+        //    ViewData["FoodCategoryId"] = new SelectList(dbContext.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
+        //    return View(foodTruck);
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("FoodTruckId,Name,Bio,State,ProfileImage,Licence,Longitude,Latitude,InstagramLink,FacebookLink,FoodCategoryId")] FoodTruck foodTruck)
+        public async Task<IActionResult> Edit(EditFoodTruckViewModel model)
         {
-            if (id != foodTruck.FoodTruckId)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
-                try
+                FoodTruck foodTruck = await dbContext.FoodTrucks.FindAsync(model.FoodTruckId);
+                foodTruck.Name = model.FoodTruckName;
+                foodTruck.Bio = model.TruckBio;
+                foodTruck.FoodCat = model.FoodCat;
+                foodTruck.InstagramLink = model.InstaLink;
+                foodTruck.FacebookLink = model.FacebookLink;
+                
+                if (model.Image != null)
                 {
-                    dbContext.Update(foodTruck);
-                    await dbContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FoodTruckExists(foodTruck.FoodTruckId))
+                    //Check for existing image
+                    if (model.ExistingImagePath != null)
                     {
-                        return NotFound();
+                        string imagePath = Path.Combine(hostingEnvironment.WebRootPath, "images", model.ExistingImagePath);
+                        System.IO.File.Delete(imagePath);
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    foodTruck.ProfileImage = ProcessUploadedFile(model);
                 }
-                return RedirectToAction(nameof(Index));
+
+                dbContext.Update(foodTruck);
+                await dbContext.SaveChangesAsync();
+
+                return RedirectToAction("MyProfile", "User", new { id = model.FoodTruckId });
+
             }
-            ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id", foodTruck.FoodTruckId);
-            ViewData["FoodCategoryId"] = new SelectList(dbContext.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
-            return View(foodTruck);
+            
+            return View(model);
         }
 
         // GET: FoodTrucks/Delete/5
@@ -250,6 +319,22 @@ namespace HUNGR.WebApp.Controllers
         private bool FoodTruckExists(string id)
         {
             return dbContext.FoodTrucks.Any(e => e.FoodTruckId == id);
+        }
+        private string ProcessUploadedFile(EditFoodTruckViewModel model)
+        {
+            string uniqueFileName = null;
+            if (model.Image != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Image.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
         }
     }
 }

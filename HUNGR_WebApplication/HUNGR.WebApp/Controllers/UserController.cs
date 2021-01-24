@@ -11,13 +11,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HUNGR.WebApp.Controllers
 {
-    public class UsersController : Controller
+    public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly HUNGRDbContext dbContext;
 
-        public UsersController(UserManager<ApplicationUser> userManager, HUNGRDbContext context)
+        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, HUNGRDbContext context)
         {
+            this.signInManager = signInManager;
             this.userManager = userManager;
             dbContext = context;
         }
@@ -60,6 +62,34 @@ namespace HUNGR.WebApp.Controllers
                 Reviews = reviews,
                 FavouriteTrucks = listOfFoodTrucks
             };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MyProfile()
+        {
+            //string userId = User.FindFirst("UserId").Value;
+            //Get Basic User Info
+            ApplicationUser UserProfile = await userManager.FindByIdAsync(User.FindFirst("UserId").Value);
+
+            FoodTruck foodTruck = await dbContext.FoodTrucks
+                .Include(f => f.ApplicationUser)
+                .Include(f => f.FoodCategory)
+                .Include(f => f.Reviews)
+                .Include(f => f.UserFavouriteTrucks)
+                .FirstOrDefaultAsync(m => m.FoodTruckId == UserProfile.Id);
+
+            var model = new MyProfileViewModel
+            {
+                User = UserProfile
+            };
+
+            if(foodTruck == null)
+            {
+                return View(model);
+            }
+            model.User.FoodTruck = foodTruck;
 
             return View(model);
         }

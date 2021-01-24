@@ -1,0 +1,174 @@
+﻿@model MyProfileViewModel
+
+@*<h1>@Model.FirstName</h1>*@
+
+
+@if (Model.User.FoodTruck == null)
+{
+    <h2>This is a Standard User</h2>
+    <div class="row">
+        <div class="col">
+            <img src="~/images/default-logo.png" class="img-thumbnail" alt="ProfileImage">
+        </div>
+        <div class="col">
+            <h1>@Model.User.FirstName @Model.User.LastName</h1>
+            <div class="row">
+                <div class="col">
+                    <h4>@Model.User.City, @Model.User.Province</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h1>Favourite Foods</h1>
+            <div class="row">
+                <div class="col">
+                    <h4>Japanese, Italian</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    var photoPath = "~/images/" + (Model.User.FoodTruck.ProfileImage ?? "defaultProfileImage.png");
+
+    @*<h2>This is a FoodTruck</h2>*@
+<div class="row mt-5">
+    <div class="col-7">
+        <div class="row">
+            <div class="col">
+                <h2>Truck Name - @Model.User.FoodTruck.FoodTruckId</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>@Model.User.FoodTruck.Name</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Truck Bio</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>@Model.User.FoodTruck.Bio</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Category</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>@Model.User.FoodTruck.FoodCat</h1>
+                @*@Model.FoodTruck.FoodCat*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Social Media Links</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <i class="fa fa-instagram fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col">
+                @Model.User.FoodTruck.InstagramLink
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col">
+                @Model.User.FoodTruck.FacebookLink
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="row">
+            <div class="col">
+                <img src="@photoPath" class="img-thumbnail" alt="Responsive image" asp-append-version="true">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                @if (Model.User.FoodTruck.Reviews.Any() && Model.User.FoodTruck.Reviews.Count > 0)
+                {
+                    double sum = 0;
+                    double revCount = Model.User.FoodTruck.Reviews.Count;
+                    foreach (var review in Model.User.FoodTruck.Reviews)
+                    {
+                        sum += review.Rating;
+                    }
+                    double avgRating = sum / revCount;
+                    <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">@avgRating</h1>
+                }
+                else
+                {
+                    <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">NA</h1>
+
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                @if (Model.User.FoodTruck.State == 0)
+                {
+                    <form asp-action="OpenFoodTruck" asp-controller="foodtrucks">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <input hidden asp-for="@Model.FoodTruckId" value="@Model.User.FoodTruck.FoodTruckId" />
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">
+                                Open Truck
+                            </button>
+                        </div>
+
+                    </form>
+
+                    @*<div class="col d-flex justify-content-center">
+                            <button class="btn btn-success">Open Truck</button>
+                        </div>*@
+                }
+                else
+                {
+                    <form asp-action="CloseFoodTruck" asp-controller="foodtrucks">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <input hidden asp-for="@Model.FoodTruckId" value="@Model.User.FoodTruck.FoodTruckId" />
+
+                        <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-warning">
+                                Close Truck
+                            </button>
+                        </div>
+
+                    </form>
+
+                    @*<div class="col d-flex justify-content-center">
+                            <button class="btn btn-info">Close Truck</button>
+                        </div>*@
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+
+                <a class="btn btn-primary" asp-controller="FoodTrucks" asp-action="Edit" asp-route-id="@Model.User.FoodTruck.FoodTruckId">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<div class="row mt-5">
+    <div class="col d-flex justify-content-center">
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="nav-link btn btn-danger text-white">Logout</button>
+        </form>
+    </div>
+</div>

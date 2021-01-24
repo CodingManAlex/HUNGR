@@ -6,6 +6,7 @@
 
 @{
     double revCount = 0;
+    var photoPath = "~/images/" + (Model.FoodTruckModel.ProfileImage ?? "defaultProfileImage.png");
 }
 
 @if (SignInManager.IsSignedIn(User))
@@ -36,7 +37,7 @@
 
 <div class="row">
     <div class="col-3 border border-danger">
-        <img src="~/images/defaultProfileImage.png" class="img-thumbnail" alt="Responsive image">
+        <img src="@photoPath" class="imageThumbnail" alt="Responsive image" asp-append-version="true">
     </div>
 
 
@@ -50,10 +51,14 @@
         </div>
         <div class="row align-items-end border border-success mb-0 pb-0 pt-2">
             <div class="col-1 align-self-end border border-primary">
-                <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
+                <a href="https://www.facebook.com/@Model.FoodTruckModel.FacebookLink" target="_blank">
+                    <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
+                </a>
             </div>
             <div class="col-1 align-self-end border border-primary">
-                <i class="fa fa-instagram fa-2x" aria-hidden="true"></i>
+                <a href="https://www.instagram.com/@Model.FoodTruckModel.InstagramLink" target="_blank">
+                    <i class="fa fa-instagram fa-2x" aria-hidden="true"></i>
+                    </a>
             </div>
         </div>
     </div>
@@ -145,19 +150,20 @@
 <div class="row">
     <div class="col">
         <h1>Leave A Review</h1>
+        <hr />
     </div>
 </div>
 
-<div class="row">
+<div class="row border">
     <div class="col-md-4">
         <form asp-action="createReview" asp-controller="foodtrucks">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                    <label asp-for="Id" class="control-label"></label>
-                    <select asp-for="Id" class ="form-control" asp-items="ViewBag.Id"></select>
-                </div>*@
+            <label asp-for="Id" class="control-label"></label>
+            <select asp-for="Id" class ="form-control" asp-items="ViewBag.Id"></select>
+        </div>*@
             <input hidden asp-for="FoodTruckReview.FoodTruckId" value="@Model.FoodTruckModel.FoodTruckId" />
-            <input hidden asp-for="FoodTruckReview.UserId" value="8e378249-d83b-468b-b0ca-397174f18d1c" />
+            <input hidden asp-for="FoodTruckReview.UserId" value="@User.FindFirst("UserId").Value" />
 
             <div class="form-group">
                 <label asp-for="FoodTruckReview.Title" class="control-label"></label>
@@ -168,6 +174,10 @@
                 <label asp-for="FoodTruckReview.Body" class="control-label"></label>
                 <input asp-for="FoodTruckReview.Body" class="form-control" />
                 <span asp-validation-for="FoodTruckReview.Body" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="rating">
+                <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
             </div>
             <div class="form-group">
                 <label asp-for="FoodTruckReview.Rating" class="control-label"></label>
@@ -190,8 +200,8 @@
         </div>
     </div>*@
 
-<div class="col-lg-12 border bg-light">
-    <div class="row">
+<div class="col-lg-12 ">
+    <div class="row ">
         <div class="col-lg-12 text-center">
             <h1>Reviews</h1>
         </div>
@@ -199,12 +209,13 @@
             <ul id="trucksReviews" class="list-group">
                 @foreach (var review in Model.FoodTruckModel.Reviews)
                 {
+                    var reviewPhotoPath = "~/images/" + (Model.FoodTruckModel.ProfileImage ?? "defaultProfileImage.png");
                     <li class="border my-1" style="list-style-type:none;">
 
                         <div class="row">
                             <div class="col-1">
-                                <a asp-action="UserProfile" asp-controller="Users" asp-route-UserId="@review.UserId">
-                                    <img src="~/images/default-logo.png" class="img-thumbnail" alt="ProfileImage">
+                                <a asp-action="UserProfile" asp-controller="User" asp-route-UserId="@review.UserId">
+                                    <img src="@reviewPhotoPath" class="img-thumbnail" alt="ProfileImage" asp-append-version="true">
                                 </a>
                             </div>
                             <div class="col-11 align-self-center">

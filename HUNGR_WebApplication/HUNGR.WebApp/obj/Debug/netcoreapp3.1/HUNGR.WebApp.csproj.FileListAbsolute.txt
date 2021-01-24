@@ -230,10 +230,10 @@ C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\RazorDeclaration\Components\DisplayReview.razor.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Components\DisplayReview.razor.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\CreateReview\Default.cshtml.g.cs
-C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Pages\FoodTrucks\FoodTruckProfile.cshtml.g.cs
-C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\Users\UserProfile.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\UserFavouriteTrucks\Create.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\UserFavouriteTrucks\Delete.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\UserFavouriteTrucks\Details.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\UserFavouriteTrucks\Edit.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\UserFavouriteTrucks\Index.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\User\MyProfile.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\User\UserProfile.cshtml.g.cs
