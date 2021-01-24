@@ -159,6 +159,27 @@ namespace HUNGR.WebApp.Controllers
             return RedirectToAction("MyProfile", "User", new { id = foodTruckId });
         }
 
+        public async Task<JsonResult> OpenCloseFoodTruckAjax(string foodTruckId)
+        {
+            FoodTruck foodTruck = await dbContext.FoodTrucks.FindAsync(foodTruckId);
+
+            //If its open, close it
+            if(foodTruck.State == 1)
+            {
+                foodTruck.State = 0;
+            }
+            //Else open it
+            else
+            {
+                foodTruck.State = 1;
+            }
+
+            dbContext.Update(foodTruck);
+            await dbContext.SaveChangesAsync();
+
+            return Json(foodTruck.State);
+        }
+
 
         // GET: FoodTrucks/Create
         public IActionResult Create()

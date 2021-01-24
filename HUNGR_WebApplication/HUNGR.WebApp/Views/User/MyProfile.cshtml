@@ -35,9 +35,45 @@ else
     @*<h2>This is a FoodTruck</h2>*@
 <div class="row mt-5">
     <div class="col-7">
+        @*<div class="row">
+            <div class="col">
+                
+
+            </div>
+        </div>*@
+        @section Scripts{
+            <script>
+                function OpenCloseFoodTruckAjax(truckId) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/FoodTrucks/OpenCloseFoodTruckAjax",
+                        data: { foodTruckId: truckId },
+                        dataType: "json",
+                        success: function (response) {
+                            if (response == 1) {
+                                $("#alertButton").removeClass("btn-success").addClass("btn-warning");
+                                $("#alertButton").html("Close Truck");
+                                
+                                
+                            }
+                            if (response == 0) {
+                                $("#alertButton").removeClass("btn-warning").addClass("btn-success");
+                                $("#alertButton").html("Open Truck");
+                            }
+                        },
+                        failure: function () {
+                            alert("A failure occured");
+                        },
+                        error: function (response) {
+                            alert("An error occuring")
+                        }
+                    });
+                }
+            </script>
+        }
         <div class="row">
             <div class="col">
-                <h2>Truck Name - @Model.User.FoodTruck.FoodTruckId</h2>
+                <h2>Truck Name</h2>
             </div>
         </div>
         <div class="row">
@@ -118,41 +154,15 @@ else
             <div class="col d-flex justify-content-center">
                 @if (Model.User.FoodTruck.State == 0)
                 {
-                    <form asp-action="OpenFoodTruck" asp-controller="foodtrucks">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                        <input hidden asp-for="@Model.FoodTruckId" value="@Model.User.FoodTruck.FoodTruckId" />
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success">
-                                Open Truck
-                            </button>
-                        </div>
-
-                    </form>
-
-                    @*<div class="col d-flex justify-content-center">
-                            <button class="btn btn-success">Open Truck</button>
-                        </div>*@
+                    <button id="alertButton" class="btn btn-success" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');">
+                        Open Truck
+                    </button>
                 }
                 else
                 {
-                    <form asp-action="CloseFoodTruck" asp-controller="foodtrucks">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                        <input hidden asp-for="@Model.FoodTruckId" value="@Model.User.FoodTruck.FoodTruckId" />
-
-                        <div class="form-group d-flex justify-content-center">
-                            <button type="submit" class="btn btn-warning">
-                                Close Truck
-                            </button>
-                        </div>
-
-                    </form>
-
-                    @*<div class="col d-flex justify-content-center">
-                            <button class="btn btn-info">Close Truck</button>
-                        </div>*@
+                    <button id="alertButton" class="btn btn-warning" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');">
+                        Close Truck
+                    </button>
                 }
             </div>
         </div>
