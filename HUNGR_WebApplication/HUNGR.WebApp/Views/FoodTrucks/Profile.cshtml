@@ -7,6 +7,8 @@
 @{
     double revCount = 0;
     var photoPath = "~/images/" + (Model.FoodTruckModel.ProfileImage ?? "defaultProfileImage.png");
+    var truckLat = Model.FoodTruckModel.Latitude;
+    var truckLong = Model.FoodTruckModel.Longitude;
 }
 
 @if (SignInManager.IsSignedIn(User))
@@ -58,7 +60,7 @@
             <div class="col-1 align-self-end border border-primary">
                 <a href="https://www.instagram.com/@Model.FoodTruckModel.InstagramLink" target="_blank">
                     <i class="fa fa-instagram fa-2x" aria-hidden="true"></i>
-                    </a>
+                </a>
             </div>
         </div>
     </div>
@@ -81,118 +83,223 @@
             <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">NA</h1>
 
         }
-    <div class="row justify-content-center border">
+        <div class="row justify-content-center border">
+            <div class="col">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (Model.FoodTruckModel.UserFavouriteTrucks.Any(item => item.Id == User.FindFirst("UserId").Value))
+                    {
+                        //REMOVE FOOD TRUCK TO FAVOURITE
+                        <div class="d-flex justify-content-center">
+
+                            <form asp-action="RemoveTruckFromFavourite" asp-controller="foodtrucks">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <input hidden asp-for="FoodTruckIdFav" value="@Model.FoodTruckModel.FoodTruckId" />
+                                <input hidden asp-for="UserIdFav" value="@User.FindFirst("UserId").Value" />
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn">
+                                        <i class="fa fa-heart fa-2x" style="color:red"></i>
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="d-flex justify-content-center">Unfollow</div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        //ADD FOOD TRUCK TO FAVOURITE
+                        <div class="d-flex justify-content-center">
+
+                            <form method="post" asp-action="AddTruckToFavourite" asp-controller="foodtrucks">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <input hidden asp-for="FoodTruckIdFav" value="@Model.FoodTruckModel.FoodTruckId" />
+                                <input hidden asp-for="UserIdFav" value="@User.FindFirst("UserId").Value" />
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn">
+                                        <i class="far fa fa-heart-o fa-2x" style="color:red"></i>
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="d-flex justify-content-center">Follow</div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts{
+    <script type='text/javascript'>
+        var map;
+        function GetMap() {
+            var truckLat = $("#latValue").val()
+            var truckLong = $("#longValue").val()
+            console.log("Truck Lat " + truckLat)
+            console.log("Truck Long " + truckLong)
+            //var loc = new Microsoft.Maps.Location(
+            //    truckLat,truckLong
+            //);
+            map = new Microsoft.Maps.Map('#truckMap');
+            placeTruckPin();
+            //Add your post map load code here.
+        }
+
+        function placeTruckPin() {
+            var truckName = $("#truckName").val()
+            var truckLat = $("#latValue").val()
+            var truckLong = $("#longValue").val()
+
+            var truckLocation = new Microsoft.Maps.Location(
+                truckLat.toString(),
+                truckLong.toString()
+            );
+
+            var truckPushpin = new Microsoft.Maps.Pushpin(truckLocation, {
+                title: truckName,
+                color: 'red'
+            });
+
+            map.entities.push(truckPushpin);
+            map.setView({
+                center: truckLocation,
+            });
+
+        }
+
+
+    </script>
+}
+@if (Model.FoodTruckModel.State == 1)
+{
+    <form id=”form1″ runat=”server”>
+        <div>
+            <input id="truckName" hidden asp-for="@Model.FoodTruckModel.Name" value="@Model.FoodTruckModel.Name" />
+            <input id="latValue" hidden asp-for="@Model.FoodTruckModel.Latitude" value="@Model.FoodTruckModel.Latitude" />
+            <input id="longValue" hidden asp-for="@Model.FoodTruckModel.Longitude" value="@Model.FoodTruckModel.Longitude" />
+            @*<asp:HiddenField ID=”latValue” value="@Model.FoodTruckModel.Latitude" />
+                <asp:HiddenField ID=”longValue” value="@Model.FoodTruckModel.Longitude" />*@
+        </div>
+    </form>
+    <div class="row">
         <div class="col">
-            @if (SignInManager.IsSignedIn(User))
-            {
-                @if (Model.FoodTruckModel.UserFavouriteTrucks.Any(item => item.Id == User.FindFirst("UserId").Value))
-                {
-                    //REMOVE FOOD TRUCK TO FAVOURITE
-                    <div class="d-flex justify-content-center">
+            @*<h1 class="display-1">MAP</h1>*@
+            <div id="truckMap" style="position:relative; width:100%; height:500px;"></div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col">
+            <div class="display-1">@Model.FoodTruckModel.Name is Currently Closed!</div>
+            <div class="display-2">Please Check Back Later!</div>
+        </div>
+    </div>
+}
 
-                        <form asp-action="RemoveTruckFromFavourite" asp-controller="foodtrucks">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                            <input hidden asp-for="FoodTruckIdFav" value="@Model.FoodTruckModel.FoodTruckId" />
-                            <input hidden asp-for="UserIdFav" value="@User.FindFirst("UserId").Value" />
-
-                            <div class="form-group">
-                                <button type="submit" class="btn">
-                                    <i class="fa fa-heart fa-2x" style="color:red"></i>
-                                </button>
-                            </div>
-
-                        </form>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="d-flex justify-content-center">Unfollow</div>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    //ADD FOOD TRUCK TO FAVOURITE
-                    <div class="d-flex justify-content-center">
-
-                        <form method="post" asp-action="AddTruckToFavourite" asp-controller="foodtrucks">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                            <input hidden asp-for="FoodTruckIdFav" value="@Model.FoodTruckModel.FoodTruckId" />
-                            <input hidden asp-for="UserIdFav" value="@User.FindFirst("UserId").Value" />
-                            
-                            <div class="form-group">
-                                <button type="submit" class="btn">
-                                    <i class="far fa fa-heart-o fa-2x" style="color:red"></i>
-                                </button>
-                            </div>
-
-                        </form>
-
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="d-flex justify-content-center">Follow</div>
-                        </div>
-                    </div>
-                }
-            }
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
+{
+    <div class="row">
+        <div class="col">
+            <h1>Leave A Review</h1>
+            <hr />
         </div>
     </div>
 
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <h1 class="display-1">MAP</h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <h1>Leave A Review</h1>
-        <hr />
-    </div>
-</div>
-
-<div class="row border">
-    <div class="col-md-4">
-        <form asp-action="createReview" asp-controller="foodtrucks">
+    <div class="row border">
+        <div class="col">
+            <!--<form asp-action="createReview" asp-controller="foodtrucks">-->
+            <!--<form >-->
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
             <label asp-for="Id" class="control-label"></label>
             <select asp-for="Id" class ="form-control" asp-items="ViewBag.Id"></select>
         </div>*@
-            <input hidden asp-for="FoodTruckReview.FoodTruckId" value="@Model.FoodTruckModel.FoodTruckId" />
-            <input hidden asp-for="FoodTruckReview.UserId" value="@User.FindFirst("UserId").Value" />
+            <input id="foodTruckIdField" hidden asp-for="FoodTruckReview.FoodTruckId" value="@Model.FoodTruckModel.FoodTruckId" />
+            <input id="userIdField" hidden asp-for="FoodTruckReview.UserId" value="@User.FindFirst("UserId").Value" />
 
             <div class="form-group">
-                <label asp-for="FoodTruckReview.Title" class="control-label"></label>
-                <input asp-for="FoodTruckReview.Title" class="form-control" />
+                @*<label asp-for="FoodTruckReview.Title" class="control-label"></label>*@
+                <input id="reviewTitle" onkeyup="checkReview();" asp-for="FoodTruckReview.Title" placeholder="Review Title..." class="form-control" />
                 <span asp-validation-for="FoodTruckReview.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FoodTruckReview.Body" class="control-label"></label>
-                <input asp-for="FoodTruckReview.Body" class="form-control" />
+                @*<label asp-for="FoodTruckReview.Body" class="control-label"></label>*@
+                <textarea id="reviewBody" onkeyup="checkReview();" asp-for="FoodTruckReview.Body" rows="5" style="width:100%;"
+                          placeholder=" Write a Review and give us a Rating!"></textarea>
+                @*<input id="reviewBody" type="text" asp-for="FoodTruckReview.Body" class="form-control" style="height:100px; word-break: break-word;" />*@
                 <span asp-validation-for="FoodTruckReview.Body" class="text-danger"></span>
             </div>
             <hr />
-            <div class="rating">
-                <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-            </div>
+            @*<div class="rating">
+            @for (int i = 5; i > 0; i--)
+            {
+                int currentStar = i;
+                <i class="fa fa-star-o fa-2x" onclick="getRating('@currentStar');"></i>
+            }
+        </div>*@
+
+
+
+            @*<div id="rateValue">0</div>*@
             <div class="form-group">
-                <label asp-for="FoodTruckReview.Rating" class="control-label"></label>
-                <input asp-for="FoodTruckReview.Rating" class="form-control" />
+                @*<label  class="control-label">Give Us A Rating!</label>*@
+                <div class="container">
+                    <div class="starrating risingstar d-flex  flex-row-reverse">
+                       
+                        <input type="radio" id="star5" class="ratingStars" name="rating" value="5"
+                               onclick=getRating(this.value) /><label for="star5" title="5 star"></label>
+                        <input type="radio" id="star4" class="ratingStars" name="rating" value="4"
+                               onclick=getRating(this.value) /><label for="star4" title="4 star"></label>
+                        <input type="radio" id="star3" class="ratingStars" name="rating" value="3"
+                               onclick=getRating(this.value) /><label for="star3" title="3 star"></label>
+                        <input type="radio" id="star2" class="ratingStars" name="rating" value="2"
+                               onclick=getRating(this.value) /><label for="star2" title="2 star"></label>
+                        <input type="radio" id="star1" class="ratingStars" name="rating" value="1"
+                               onclick=getRating(this.value) /><label for="star1" title="1 star"></label>
+                    </div>
+                </div>
+                <input hidden id="reviewRating" asp-for="FoodTruckReview.Rating" class="form-control" value="0" />
                 <span asp-validation-for="FoodTruckReview.Rating" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="form-group d-flex justify-content-end">
+                @*<button id="submitButton" onclick="submitReview()">Submit</button>*@
+                <button id="submitReviewButton" onclick="submitReview('@Model.FoodTruckModel.FoodTruckId','@User.FindFirst("UserId").Value');" class="btn btn-primary" disabled>Submit</button>
+                @*<button id="submitReviewButton" type="submit" class="btn btn-primary" disabled>Submit</button>*@
             </div>
-        </form>
+            @*</form>*@
+        </div>
     </div>
-</div>
+    
+}
+else
+{
+    <div class="row">
+        <div class="col">
+            <h2>Sign Up <a class="h2" asp-area="Identity" asp-page="/Account/Register">Here</a> To Leave a Review!</h2>
+            @*<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Here</a>*@
+            <hr />
+        </div>
+    </div>
+}
 
-@*<component type="typeof(ReviewList)" render-mode="ServerPrerendered"  />*@
-@*<component type="typeof(ReviewList)" render-mode="ServerPrerendered" param-TruckReviews="Model.Reviews" />*@
 
 @*<div class="row">
         <div class="col">
@@ -201,47 +308,54 @@
     </div>*@
 
 <div class="col-lg-12 ">
+
     <div class="row ">
         <div class="col-lg-12 text-center">
             <h1>Reviews</h1>
         </div>
-        <div class="col-lg-12 overflow-auto ">
+        <div class="col overflow-auto ">
             <ul id="trucksReviews" class="list-group">
-                @foreach (var review in Model.FoodTruckModel.Reviews)
+                @foreach (var review in Model.FoodTruckModel.Reviews.Reverse())
                 {
                     var reviewPhotoPath = "~/images/" + (Model.FoodTruckModel.ProfileImage ?? "defaultProfileImage.png");
                     <li class="border my-1" style="list-style-type:none;">
 
-                        <div class="row">
-                            <div class="col-1">
+                        <div class="d-flex flex-row d-flex align-items-center">
+                            @*<div class="col-1">
                                 <a asp-action="UserProfile" asp-controller="User" asp-route-UserId="@review.UserId">
                                     <img src="@reviewPhotoPath" class="img-thumbnail" alt="ProfileImage" asp-append-version="true">
                                 </a>
-                            </div>
-                            <div class="col-11 align-self-center">
+                            </div>*@
+                            <div class="align-self-center pl-2">
                                 <h3>@review.Title</h3>
                             </div>
-                        </div>
+                            <div class=" align-self-center pl-2">
+                                @for (int i = 1; i < 6; i++)
+                                {
+                                    if (i <= review.Rating)
+                                    {
+                                        <i class="fa fa-star fa-2x" aria-hidden="true"></i>
 
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-star-o fa-2x"></i>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <hr />
                         <div class="row">
                             <div class="col offset-1">
                                 <p>@review.Body</p>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col offset-1">
-                                <p>Rating: @review.Rating</p>
-                            </div>
-                        </div>
-
                     </li>
                 }
             </ul>
         </div>
     </div>
 </div>
-
 
 
 <!--<div class="row my-2 ">

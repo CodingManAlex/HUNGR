@@ -18,7 +18,14 @@
         <h1>Favourite Foods</h1>
         <div class="row">
             <div class="col">
-                <h4>Japanese, Italian</h4>
+                @if (Model.FoodCat != 0 )
+                {
+                    <h4>@Model.FoodCat.GetDisplayName() </h4>
+                }
+                else
+                {
+                    <h4>This user has not set a favourite food.</h4>
+                }
             </div>
         </div>
     </div>

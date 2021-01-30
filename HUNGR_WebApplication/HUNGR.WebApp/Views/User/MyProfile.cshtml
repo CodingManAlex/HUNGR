@@ -22,7 +22,14 @@
             <h1>Favourite Foods</h1>
             <div class="row">
                 <div class="col">
-                    <h4>Japanese, Italian</h4>
+                    @if (Model.User.FoodCategory != null)
+                    {
+                        <h4>@Model.User.FoodCategory.GetDisplayName()</h4>
+                    }
+                    else
+                    {
+                        <h4>This user has not set a favourite food.</h4>
+                    }
                 </div>
             </div>
         </div>
@@ -31,45 +38,139 @@
 else
 {
     var photoPath = "~/images/" + (Model.User.FoodTruck.ProfileImage ?? "defaultProfileImage.png");
+    var workingState = Model.User.FoodTruck.State;
 
     @*<h2>This is a FoodTruck</h2>*@
 <div class="row mt-5">
     <div class="col-7">
-        @*<div class="row">
+        <div class="row">
             <div class="col">
-                
-
+                State : @Model.User.FoodTruck.State
+                Lat : @Model.User.FoodTruck.Latitude
+                Long : @Model.User.FoodTruck.Longitude
             </div>
-        </div>*@
+        </div>
+            
         @section Scripts{
-            <script>
-                function OpenCloseFoodTruckAjax(truckId) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/FoodTrucks/OpenCloseFoodTruckAjax",
-                        data: { foodTruckId: truckId },
-                        dataType: "json",
-                        success: function (response) {
-                            if (response == 1) {
-                                $("#alertButton").removeClass("btn-success").addClass("btn-warning");
-                                $("#alertButton").html("Close Truck");
-                                
-                                
-                            }
-                            if (response == 0) {
-                                $("#alertButton").removeClass("btn-warning").addClass("btn-success");
-                                $("#alertButton").html("Open Truck");
-                            }
-                        },
-                        failure: function () {
-                            alert("A failure occured");
-                        },
-                        error: function (response) {
-                            alert("An error occuring")
+                <script>
+                    var workingState = 0;
+
+                    var truckLat = 0;
+                    var truckLong = 0;
+
+                    function getLocation() {
+                        var promise = new Promise(function(resolve, reject) {
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(
+                                function (position) {
+                                    truckLat = position.coords.latitude;
+                                    truckLong = position.coords.longitude;
+                                    resolve("Success")
+                                }
+                            );
+                        } else {
+                          reject("Error");
                         }
                     });
+
+                    return promise;
                 }
-            </script>
+                    function locationHandler(position) {
+                        truckLat = position.coords.latitude;
+                        truckLong = position.coords.longitude;
+                    }
+
+                    function OpenCloseFoodTruckAjax(truckId) {
+                        var text = $("#alertButton").text();
+                        console.log(text);
+                        //This means the truck is closed
+                        if (text == "Open Truck") {
+                            console.log(" Before: Matched the button text! Open Truck")
+                            var locationPromise = getLocation();
+                            locationPromise.then(function (response) {
+                                console.log(response);
+                                console.log(truckLat);
+                                console.log(typeof truckLat.toString());
+                                console.log(truckLong);
+                                console.log(typeof truckLong.toString());
+
+                                OpenCloseTruckAjax(truckId, truckLat, truckLong);
+                            }, function (error) {
+                                console.log("Failed!", error);
+                            })
+
+                        } else {
+                            var text2 = $("#alertButton").text();
+
+                            if (text2 == "Open Truck") {
+                                console.log("Before: Matched the button text! Close Truck")
+                            }
+                            OpenCloseTruckAjax(truckId, truckLat, truckLong)
+                            console.log("truck Lat : " + truckLat);
+                            console.log("truck Long : " + truckLong);
+                            console.log("")
+                        }
+                        
+
+                        //console.log(text);
+                        //console.log("current state " + truckState)
+
+                        //If Closed, open and grab coordinates
+                        //if (truckState == 0) {
+                        //    navigator.geolocation.getCurrentPosition(locationHandler);
+                        //}
+
+                        //if (truckState == 0) {
+                        //    console.log("State " + truckState)
+                        //    console.log("truck Lat : " + truckLat);
+                        //    console.log("truck Long : " + truckLong);
+                        //}
+                    }
+
+                    function OpenCloseTruckAjax(truckId, truckLat,truckLong) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/FoodTrucks/OpenCloseFoodTruckAjax",
+                            data: {
+                                foodTruckId: truckId,
+                                foodTruckLat: truckLat,
+                                foodTruckLong: truckLong
+                            },
+                            dataType: "json",
+                            success: function (result) {
+                                if (result == 1) {
+                                    //$("alertButton").remove();
+                                    //$("buttonContainer").html("<button id=\"alertButton\" class=\"btn btn-warning\" onclick=\"OpenCloseFoodTruckAjax("+ truckId +","+ result +");\">Close Truck</button>" )
+                                    //console.log("Open");
+                                    $("#alertButton").removeClass("btn-success").addClass("btn-warning");
+                                    $("#alertButton").html("Close Truck");
+                                    //location.reload(true);
+
+                                }
+                                if (result == 0) {
+                                    //$("alertButton").remove();
+                                    //$("buttonContainer").html("<button id=\"alertButton\" class=\"btn btn-success\" onclick=\"OpenCloseFoodTruckAjax(" + truckId + "," + result + ");\">Open Truck</button>")
+                                    //console.log("Closed");
+                                    $("#alertButton").removeClass("btn-warning").addClass("btn-success");
+                                    $("#alertButton").html("Open Truck");
+                                    //location.reload(true);
+                                }
+
+
+
+                                //if (text2 == "Close Truck") {
+                                //    console.log("After: Matched the button text! Close Truck")
+                                //}
+                            },
+                            failure: function () {
+                                alert("A failure occured");
+                            },
+                            error: function (response) {
+                                alert("An error occuring")
+                            }
+                        });
+                    }
+                </script>
         }
         <div class="row">
             <div class="col">
@@ -151,18 +252,14 @@ else
             </div>
         </div>
         <div class="row">
-            <div class="col d-flex justify-content-center">
+            <div id="buttonContainer" class="col d-flex justify-content-center">
                 @if (Model.User.FoodTruck.State == 0)
                 {
-                    <button id="alertButton" class="btn btn-success" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');">
-                        Open Truck
-                    </button>
+                    <button id="alertButton" class="btn btn-success" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');">Open Truck</button>
                 }
                 else
                 {
-                    <button id="alertButton" class="btn btn-warning" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');">
-                        Close Truck
-                    </button>
+                    <button id="alertButton" class="btn btn-warning" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');">Close Truck</button>
                 }
             </div>
         </div>

@@ -8,6 +8,7 @@ using HUNGR.WebApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static HUNGR.WebApp.Models.FoodEnum;
 
 namespace HUNGR.WebApp.Controllers
 {
@@ -57,6 +58,7 @@ namespace HUNGR.WebApp.Controllers
                 UserId = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                FoodCat = (FoodCat)user.FoodCategory,
                 City = user.City,
                 Province = user.Province,
                 Reviews = reviews,

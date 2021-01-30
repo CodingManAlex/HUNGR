@@ -112,3 +112,37 @@ body {
             content: "\2605";
             position: absolute;
         }
+
+/*Rating Stars
+    --------------------------------------------------*/
+.starrating > input {
+    display: none;
+}
+/* Remove radio buttons */
+
+.starrating > label:before {
+    content: "\f005"; /* Star */
+    margin: 2px;
+    font-size: 2em;
+    font-family: FontAwesome;
+    display: inline-block;
+}
+
+/* Start color when not clicked */
+.starrating > label {
+    color: #222222; 
+}
+
+/* Set yellow color when star checked */
+.starrating > input:checked ~ label {
+    color: #ffca08;
+}
+
+/* Set yellow color when star hover */
+.starrating > input:hover ~ label {
+    color: #ffca08;
+}
+
+textarea{
+    resize:none
+}

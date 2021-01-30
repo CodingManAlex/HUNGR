@@ -7,6 +7,7 @@ using HUNGR.WebApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using static HUNGR.WebApp.Models.FoodEnum;
 
 namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
 {
@@ -40,6 +41,7 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
             public string FirstName { get; set; }
             [Required, Display(Name = "Last Name")]
             public string LastName { get; set; }
+            public FoodCat FoodCat { get; set; }
             public string City { get; set; }
             public string Province { get; set; }
         }
@@ -56,6 +58,7 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                //FoodCat = (FoodCat)user.FoodCategory,
                 City = user.City,
                 Province = user.Province
             };
@@ -108,6 +111,13 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
                 user.LastName = Input.LastName;
                 await _userManager.UpdateAsync(user);
             }
+
+            if (Input.FoodCat != user.FoodCategory)
+            {
+                user.FoodCategory = Input.FoodCat;
+                await _userManager.UpdateAsync(user);
+            }
+
             if (Input.City != user.City)
             {
                 user.City = Input.City;

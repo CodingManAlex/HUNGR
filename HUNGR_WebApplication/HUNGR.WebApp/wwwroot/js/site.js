@@ -5,3 +5,132 @@
 function scriptAlert(truckId) {
     alert("Script Alert " + truckId);
 }
+
+function getRating(rating) {
+    var realRating = rating;
+    $("#rateValue").text(realRating);
+    $("#reviewRating").val(realRating);
+    checkReview();
+}
+
+
+
+function checkReview() {
+    var title = $("#reviewTitle").val();
+    var body = $("#reviewBody").val();
+    var rating = $("#reviewRating").val();
+
+    console.log(title)
+    console.log("Title length : " + title.length)
+
+    console.log(body)
+    console.log("Body length : " + body.length)
+    console.log(rating)
+    if (rating > 0) {
+        console.log("Rating Greater")
+    } else {
+        console.log("Rating Less")
+    }
+
+
+
+    if (title.length > 0 && body.length > 0 && rating > 0) {
+        $("#submitReviewButton").removeAttr("disabled");
+
+    } else {
+        $("#submitReviewButton").attr("disabled", true);
+
+    }
+}
+
+/**
+ * Submits the review to the Controller via Ajax
+ * @param {any} truckId the foodTrucksId
+ * @param {any} userId the id of the user making the review.
+ */
+function submitReview(truckId,userId) {
+    var title = $("#reviewTitle").val();
+    var body = $("#reviewBody").val();
+    var rating = $("#reviewRating").val();
+
+    console.log("truckId : " + truckId)
+    console.log("userId : " + userId)
+    console.log("title : " + title)
+    console.log("body : " + body)
+    console.log("rating : " + rating)
+
+    
+
+
+
+    //$("#trucksReviews").prepend("<li class=\"border my-1\" style=\"list-style-type: none;\">" +
+    //    "<div class=\"d-flex flex-row d-flex align-items-center\">" +
+    //    "<div class=\"align-self-center pl-2\">" +
+    //    "<h3>" + title + "</h3>" +
+    //    "</div>" +
+    //    "<div class=\" align-self-center pl-2\">" + ratingSymbol + "</div>" +
+    //    "</div>" +
+    //    "<hr />" +
+
+    //    "<div class=\"row\">" +
+    //    "<div class=\"col offset-1\">" +
+    //    "<p>" + body + "</p>" +
+    //    "</div>" +
+    //    "</div></li >");
+
+    $.ajax({
+        type: "POST",
+        url: "/Reviews/CreateReviewAjax",
+        data: {
+            userId: userId,
+            foodTruckId: truckId,
+            reviewTitle: title,
+            reviewBody: body,
+            reviewRating: rating
+        },
+        dataType: "json",
+        success: function (data) {
+            //For the Stars
+            var ratingSymbol = "";
+            for (i = 1; i < 6; i++) {
+                if (i <= rating) {
+                    ratingSymbol += "<i class=\"fa fa-star fa-2x\" aria-hidden=\"true\"></i> ";
+                } else {
+                    ratingSymbol += "<i class=\"fa fa-star-o fa-2x\"></i> ";
+                }
+            }
+
+            $("#trucksReviews").prepend("<li class=\"border my-1\" style=\"list-style-type: none;\">" +
+                "<div class=\"d-flex flex-row d-flex align-items-center\">" +
+                "<div class=\"align-self-center pl-2\">" +
+                "<h3>" + data.title + "</h3>" +
+                "</div>" +
+                "<div class=\" align-self-center pl-2\">" + ratingSymbol + "</div>" +
+                "</div>" +
+                "<hr />" +
+
+                "<div class=\"row\">" +
+                "<div class=\"col offset-1\">" +
+                "<p>" + data.body + "</p>" +
+                "</div>" +
+                "</div></li >");
+
+            resetReviewForm();
+            //alert("Submission Success!")
+            //$("#trucksReviews").prepend("<li class=\"border my-1\" style=\"list-style-type: none; \">< div class=\"row\" ><div class=\"col-1\"><a asp-action=\"UserProfile\" asp-controller=\"User\" asp-route-UserId="+data.userId+"><img src=\"@reviewPhotoPath\" class=\"img-thumbnail\" alt=\"ProfileImage\" asp-append-version=\"true\"></a></div><div class=\"col-11 align-self-center\"><h3>"+data.title+"</h3></div></div><div class=\"row\"><div class=\"col offset-1\"><p>"+data.title+"</p></div></div><div class=\"row\"><div class=\"col offset-1\"><p>Rating: "+data.title+"</p></div></div></li >");
+        },
+        failure: function () {
+            alert("Something happened with the review. Please try again!")
+        },
+        error: function (response) {
+            
+        }
+    });
+}
+
+function resetReviewForm() {
+    $("#reviewTitle").val("");
+    $("#reviewBody").val("");
+    $("#reviewRating").val("");
+    $("input:radio").prop("checked",false);
+}

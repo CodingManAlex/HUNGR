@@ -72,6 +72,24 @@ namespace HUNGR.WebApp.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> CreateReviewAjax(string userId, string foodTruckId, string reviewTitle, string reviewBody, int reviewRating)
+        {
+            Review newReview = new Review
+            {
+                FoodTruckId = foodTruckId,
+                UserId = userId,
+                Title = reviewTitle,
+                Body = reviewBody,
+                Rating = reviewRating
+            };
+
+            dbContext.Add(newReview);
+            await dbContext.SaveChangesAsync();
+
+            return Json(newReview);
+        }
+
         // GET: Reviews/Create
         public IActionResult Create()
         {

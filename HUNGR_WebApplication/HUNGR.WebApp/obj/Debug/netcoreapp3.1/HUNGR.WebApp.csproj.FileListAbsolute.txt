@@ -224,7 +224,6 @@ C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\RazorDeclaration\Components\Counter.razor.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\RazorDeclaration\HUNGR.WebApp.dll
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Components\Counter.razor.g.cs
-C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\HUNGR.WebApp.csprojAssemblyReference.cache
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\RazorDeclaration\Components\ReviewList.razor.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Components\ReviewList.razor.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\RazorDeclaration\Components\DisplayReview.razor.g.cs
@@ -237,3 +236,5 @@ C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\UserFavouriteTrucks\Index.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\User\MyProfile.cshtml.g.cs
 C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Views\User\UserProfile.cshtml.g.cs
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\HUNGR.WebApp.csprojAssemblyReference.cache
+C:\Users\Alex\Documents\GitHub\HUNGR\HUNGR_WebApplication\HUNGR.WebApp\obj\Debug\netcoreapp3.1\Razor\Pages\FoodTrucks\FoodTruckProfile.cshtml.g.cs

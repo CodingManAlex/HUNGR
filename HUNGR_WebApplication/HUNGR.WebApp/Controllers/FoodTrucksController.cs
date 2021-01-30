@@ -159,7 +159,7 @@ namespace HUNGR.WebApp.Controllers
             return RedirectToAction("MyProfile", "User", new { id = foodTruckId });
         }
 
-        public async Task<JsonResult> OpenCloseFoodTruckAjax(string foodTruckId)
+        public async Task<JsonResult> OpenCloseFoodTruckAjax(string foodTruckId, double foodTruckLat, double foodTruckLong)
         {
             FoodTruck foodTruck = await dbContext.FoodTrucks.FindAsync(foodTruckId);
 
@@ -172,6 +172,8 @@ namespace HUNGR.WebApp.Controllers
             else
             {
                 foodTruck.State = 1;
+                foodTruck.Latitude = foodTruckLat;
+                foodTruck.Longitude = foodTruckLong;
             }
 
             dbContext.Update(foodTruck);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using static HUNGR.WebApp.Models.FoodEnum;
 
 namespace HUNGR.WebApp.Models
 {
@@ -15,6 +16,7 @@ namespace HUNGR.WebApp.Models
         public string LastName { get; set; }
         public string? City { get; set; }
         public string? Province { get; set; }
+        public FoodCat? FoodCategory { get; set; }
         
         //Navigation
         public virtual FoodTruck FoodTruck { get; set; }

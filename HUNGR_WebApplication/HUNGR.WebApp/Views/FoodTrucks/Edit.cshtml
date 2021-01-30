@@ -29,7 +29,7 @@
 
                     <div class="form-group">
                         <label asp-for="FoodCat" class="h2"></label>
-                        <select asp-for="FoodCat" class="custom-select" asp-items="Html.GetEnumSelectList<FoodCat>()">
+                        <select asp-for="FoodCat" class="custom-select" asp-items="Html.GetEnumSelectList<FoodEnum.FoodCat>()">
                             <option value="">Please Select</option>
                         </select>
                         <span asp-validation-for="FoodCat" class="text-danger"></span>
