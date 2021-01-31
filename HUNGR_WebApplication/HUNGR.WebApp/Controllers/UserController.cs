@@ -58,7 +58,7 @@ namespace HUNGR.WebApp.Controllers
                 UserId = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                FoodCat = (FoodCat)user.FoodCategory,
+                FoodCat = (FoodEnum.FoodCat)user.FoodCategory,
                 City = user.City,
                 Province = user.Province,
                 Reviews = reviews,

@@ -20,7 +20,8 @@
             <div class="col">
                 @if (Model.FoodCat != 0 )
                 {
-                    <h4>@Model.FoodCat.GetDisplayName() </h4>
+                    <h4>@*@Model.FoodCat.GetDisplayName()*@ </h4>
+                    <h4>@Model.FoodCat </h4>
                 }
                 else
                 {

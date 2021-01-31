@@ -1,4 +1,4 @@
-﻿@model List<FoodTruck>;
+﻿@model List<OpenTrucksViewModel>;
 @using HUNGR.WebApp.Components
 
 @(await Html.RenderComponentAsync<Counter>(RenderMode.ServerPrerendered))    
@@ -13,15 +13,30 @@
 <div class="card-deck">
     @foreach(var truck in Model)
     {
-        var photoPath = "~/images/" + (truck.ProfileImage ?? "defaultProfileImage.png");
+        var photoPath = "~/images/" + (truck.ImagePath ?? "defaultProfileImage.png");
     <div class="card m-3">
 @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
 
             <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
-                <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@truck.Name" asp-append-version="true">
+                <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@truck.TruckName" asp-append-version="true">
             </a>
             <div class="card-body">
-                <h3>@truck.Name</h3>
+
+                <div class="row ">
+                    <div class="col d-flex justify-content-around">
+                        <h3>@truck.TruckName</h3>
+                    </div>
+                    <div class="col d-flex justify-content-around">
+                        @if (truck.isFavourite == true)
+                        {
+                            <i class="fa fa-heart fa-2x" style="color:red"></i>
+                        }
+                        else
+                        {
+                            <i class="far fa fa-heart-o fa-2x" style="color:red"></i>
+                        }
+                    </div>
+                </div>
             </div>
     </div>
     }

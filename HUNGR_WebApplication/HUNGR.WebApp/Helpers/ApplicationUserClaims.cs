@@ -21,7 +21,7 @@ namespace HUNGR.WebApp.Helpers
             identity.AddClaim(new Claim("UserFirstName", user.FirstName ?? ""));
             identity.AddClaim(new Claim("UserLastName", user.LastName ?? ""));
             identity.AddClaim(new Claim("UserId", user.Id ?? ""));
-            //identity.AddClaim(new Claim("UserProfilePic", user.));
+            identity.AddClaim(new Claim("UserProfilePic", user.ProfileImage ?? "~/images/defaultProfileImage.png"));
             return identity; 
         }
 

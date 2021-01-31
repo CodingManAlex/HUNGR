@@ -16,7 +16,6 @@ namespace HUNGR.WebApp.Models
         public string? Bio { get; set; }
         public int State { get; set; }
         public string? ProfileImage { get; set; } //relative path to image - local repo
-        public int? Licence { get; set; }
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
         public string? InstagramLink { get; set; }

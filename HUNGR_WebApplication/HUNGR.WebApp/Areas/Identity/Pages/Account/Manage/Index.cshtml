@@ -31,7 +31,7 @@
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.FoodCat" class="h2"></label>
+                <label asp-for="Input.FoodCat" ></label>
                 <select asp-for="Input.FoodCat" class="custom-select" asp-items="Html.GetEnumSelectList<FoodEnum.FoodCat>()">
                     <option value="">Please Select</option>
                 </select>

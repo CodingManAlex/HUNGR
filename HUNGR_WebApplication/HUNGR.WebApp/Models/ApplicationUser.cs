@@ -8,7 +8,7 @@ using static HUNGR.WebApp.Models.FoodEnum;
 
 namespace HUNGR.WebApp.Models
 {
-    public class ApplicationUser :IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         [Required, Display(Name ="First Name")]
         public string FirstName { get; set; }
@@ -17,6 +17,7 @@ namespace HUNGR.WebApp.Models
         public string? City { get; set; }
         public string? Province { get; set; }
         public FoodCat? FoodCategory { get; set; }
+        public string? ProfileImage { get; set; }
         
         //Navigation
         public virtual FoodTruck FoodTruck { get; set; }

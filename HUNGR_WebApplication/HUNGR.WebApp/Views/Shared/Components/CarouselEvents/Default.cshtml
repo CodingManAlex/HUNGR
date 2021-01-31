@@ -14,7 +14,7 @@
                 if (count == 0)
                 {
                     <div class="carousel-item active">
-                                <a href="#">
+                                <a asp-action="Details" asp-controller="Events" asp-route-id="@ev.EventId">
                                     <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@ev.Name" asp-append-version="true">
                                     <div class="carousel-caption d-none d-md-block">
                                         <h2>@ev.Name</h2>
@@ -27,7 +27,7 @@
                 else
                 {
                     <div class="carousel-item">
-                        <a>
+                        <a asp-action="Details" asp-controller="Events" asp-route-id="@ev.EventId">
                             <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@ev.Name" asp-append-version="true">
                             <div class="carousel-caption d-none d-md-block">
                                 <h2>@ev.Name</h2>

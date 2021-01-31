@@ -13,6 +13,7 @@ namespace HUNGR.WebApp.Models
         public string Title { get; set; }
         public string Body { get; set; }
         public int Rating { get; set; }
+        public string UserProfileImage { get; set; }
 
         //Foreign Key - Who made the review
         public string UserId { get; set; }

@@ -13,6 +13,17 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    @*if (@User.FindFirst("UserProfilePic").Value == null)
+    {
+        <h1>UserProfileImage: ~/images/defaultProfileImage.png </h1>
+    }
+    else
+    {
+        <h1>They have a pic</h1>
+    }*@
+
+
+    <h1>UserProfileImage: @User.FindFirst("UserProfilePic").Value</h1>
     string userId = User.FindFirst("UserId").Value;
     <h1>User Signed In @User.FindFirst("UserFirstName").Value</h1>
 
@@ -23,13 +34,11 @@
         {
             <h2>The User is in this list</h2>
         }
-
     }
     else
     {
         <h1>Theres no list of favourite Trucks</h1>
     }
-
 }
 <h2>Size of List : @Model.FoodTruckModel.UserFavouriteTrucks.Count</h2>
 
@@ -76,6 +85,7 @@
                 sum += review.Rating;
             }
             double avgRating = sum / revCount;
+            avgRating = Math.Round(avgRating, 1);
             <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">@avgRating</h1>
         }
         else
@@ -225,13 +235,13 @@ else
 
     <div class="row border">
         <div class="col">
-            <!--<form asp-action="createReview" asp-controller="foodtrucks">-->
+            <form asp-action="createReview" asp-controller="foodtrucks">
             <!--<form >-->
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <select asp-for="Id" class ="form-control" asp-items="ViewBag.Id"></select>
-        </div>*@
+                    <label asp-for="Id" class="control-label"></label>
+                    <select asp-for="Id" class ="form-control" asp-items="ViewBag.Id"></select>
+                </div>*@
             <input id="foodTruckIdField" hidden asp-for="FoodTruckReview.FoodTruckId" value="@Model.FoodTruckModel.FoodTruckId" />
             <input id="userIdField" hidden asp-for="FoodTruckReview.UserId" value="@User.FindFirst("UserId").Value" />
 
@@ -249,12 +259,12 @@ else
             </div>
             <hr />
             @*<div class="rating">
-            @for (int i = 5; i > 0; i--)
-            {
-                int currentStar = i;
-                <i class="fa fa-star-o fa-2x" onclick="getRating('@currentStar');"></i>
-            }
-        </div>*@
+                    @for (int i = 5; i > 0; i--)
+                    {
+                        int currentStar = i;
+                        <i class="fa fa-star-o fa-2x" onclick="getRating('@currentStar');"></i>
+                    }
+                </div>*@
 
 
 
@@ -263,7 +273,7 @@ else
                 @*<label  class="control-label">Give Us A Rating!</label>*@
                 <div class="container">
                     <div class="starrating risingstar d-flex  flex-row-reverse">
-                       
+
                         <input type="radio" id="star5" class="ratingStars" name="rating" value="5"
                                onclick=getRating(this.value) /><label for="star5" title="5 star"></label>
                         <input type="radio" id="star4" class="ratingStars" name="rating" value="4"
@@ -281,13 +291,13 @@ else
             </div>
             <div class="form-group d-flex justify-content-end">
                 @*<button id="submitButton" onclick="submitReview()">Submit</button>*@
-                <button id="submitReviewButton" onclick="submitReview('@Model.FoodTruckModel.FoodTruckId','@User.FindFirst("UserId").Value');" class="btn btn-primary" disabled>Submit</button>
-                @*<button id="submitReviewButton" type="submit" class="btn btn-primary" disabled>Submit</button>*@
+                @*<button id="submitReviewButton" onclick="submitReview('@Model.FoodTruckModel.FoodTruckId','@User.FindFirst("UserId").Value', '@User.FindFirst("UserProfilePic").Value');" class="btn btn-secondary" disabled>Submit</button>*@
+                <button id="submitReviewButton" type="submit" class="btn btn-secondary" disabled>Submit</button>
             </div>
-            @*</form>*@
+            </form>
         </div>
     </div>
-    
+
 }
 else
 {
@@ -317,15 +327,18 @@ else
             <ul id="trucksReviews" class="list-group">
                 @foreach (var review in Model.FoodTruckModel.Reviews.Reverse())
                 {
-                    var reviewPhotoPath = "~/images/" + (Model.FoodTruckModel.ProfileImage ?? "defaultProfileImage.png");
+                    var reviewPhotoPath = "~/images/" + (review.UserProfileImage ?? "defaultProfileImage.png");
                     <li class="border my-1" style="list-style-type:none;">
 
-                        <div class="d-flex flex-row d-flex align-items-center">
-                            @*<div class="col-1">
+
+                        <div class="d-flex flex-row align-items-center pb-0 mb-0">
+                            <!--<div class="col-1 align-self-center">-->
+                            <div class="col-1">
                                 <a asp-action="UserProfile" asp-controller="User" asp-route-UserId="@review.UserId">
                                     <img src="@reviewPhotoPath" class="img-thumbnail" alt="ProfileImage" asp-append-version="true">
                                 </a>
-                            </div>*@
+                            </div>
+
                             <div class="align-self-center pl-2">
                                 <h3>@review.Title</h3>
                             </div>
@@ -334,12 +347,12 @@ else
                                 {
                                     if (i <= review.Rating)
                                     {
-                                        <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-2x" aria-hidden="true" style="color: #ffca08;"></i>
 
                                     }
                                     else
                                     {
-                                        <i class="fa fa-star-o fa-2x"></i>
+                                        <i class="fa fa-star fa-2x" aria-hidden="true"></i>
                                     }
                                 }
                             </div>
@@ -357,65 +370,3 @@ else
     </div>
 </div>
 
-
-<!--<div class="row my-2 ">
-
-    <!--  Area to scroll through top 10  -->
-<!--<div class="col-lg-6 mx-4 border">
-
-    <div class="row">
-        <div class="col-lg-2">
-            <img src="~/images/defaultProfileImage.png" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-lg-8 ">
-            <div class="d-flex justify-content-between">
-
-
-
-
-            <!-- <i class="fa fa-heart align-items" style="font-size:36px;" onclick="setFavourite()";></i> -->
-<!--</div>
-<div class="col-lg-12">
-    <form>
-        <div class="form-group">
-            <label for="reviewText">Leave A Review</label>
-            <textarea class="form-control" id="reviewText" rows="3"></textarea>
-            <div class="container">-->
-<!--</div>-->
-<!-- <div id="starRow" class="row">
-    <div class="col">
-
-    </div>
-</div> -->
-<!-- <input class="btn btn-primary btn-lg" type="button" value="Submit" onclick="submitReview()"; > -->
-<!--</div>
-            </form>
-        </div>
-
-        <div class="col-lg-12 border bg-light">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2>Reviews</h2>
-                </div>
-                <div class="col-lg-12 overflow-auto ">
-                    <ul id="trucksReviews" class="list-group">
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>-->
-<!--  Map Area  -->
-<!--@*<div class="col-lg-4 offset-lg-1 border">
-        <div class="row ">
-            <div class="col-lg-12 text-center">
-                <h2>MAP</h2>
-            </div>
-            <div class="col-lg-12">
-                <div id="myMap" style="position:relative; width:100%; height:500px;"></div>
-            </div>
-
-        </div>
-    </div>*@
-</div>-->

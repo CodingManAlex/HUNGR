@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using static HUNGR.WebApp.Models.FoodEnum;
 
+
 namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel

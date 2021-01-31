@@ -90,7 +90,7 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     City = Input.City,
-                    Province = Input.City
+                    Province = Input.Province
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

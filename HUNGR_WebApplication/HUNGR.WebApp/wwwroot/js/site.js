@@ -36,10 +36,12 @@ function checkReview() {
 
     if (title.length > 0 && body.length > 0 && rating > 0) {
         $("#submitReviewButton").removeAttr("disabled");
+        $("#submitReviewButton").removeClass("btn-secondary").addClass("btn-success");
+
 
     } else {
         $("#submitReviewButton").attr("disabled", true);
-
+        $("#submitReviewButton").removeClass("btn-success").addClass("btn-secondary");
     }
 }
 
@@ -48,7 +50,7 @@ function checkReview() {
  * @param {any} truckId the foodTrucksId
  * @param {any} userId the id of the user making the review.
  */
-function submitReview(truckId,userId) {
+function submitReview(truckId,userId, userPic) {
     var title = $("#reviewTitle").val();
     var body = $("#reviewBody").val();
     var rating = $("#reviewRating").val();
@@ -58,6 +60,7 @@ function submitReview(truckId,userId) {
     console.log("title : " + title)
     console.log("body : " + body)
     console.log("rating : " + rating)
+    console.log("Pic : " + userPic)
 
     
 
@@ -78,6 +81,9 @@ function submitReview(truckId,userId) {
     //    "</div>" +
     //    "</div></li >");
 
+
+
+
     $.ajax({
         type: "POST",
         url: "/Reviews/CreateReviewAjax",
@@ -86,7 +92,8 @@ function submitReview(truckId,userId) {
             foodTruckId: truckId,
             reviewTitle: title,
             reviewBody: body,
-            reviewRating: rating
+            reviewRating: rating,
+            userProfilePic: userPic
         },
         dataType: "json",
         success: function (data) {
@@ -94,14 +101,21 @@ function submitReview(truckId,userId) {
             var ratingSymbol = "";
             for (i = 1; i < 6; i++) {
                 if (i <= rating) {
-                    ratingSymbol += "<i class=\"fa fa-star fa-2x\" aria-hidden=\"true\"></i> ";
+                    ratingSymbol += "<i class=\"fa fa-star fa-2x\" style=\"color: #ffca08;\" aria-hidden=\"true\"></i> ";
                 } else {
-                    ratingSymbol += "<i class=\"fa fa-star-o fa-2x\"></i> ";
+                    ratingSymbol += "<i class=\"fa fa-star fa-2x\"></i> ";
                 }
             }
+            console.log(userPic);
+            console.log(data.userProfilePic);
 
             $("#trucksReviews").prepend("<li class=\"border my-1\" style=\"list-style-type: none;\">" +
                 "<div class=\"d-flex flex-row d-flex align-items-center\">" +
+                "<div class=\"col-1\">" +
+                "<a asp-action=\"UserProfile\" asp-controller=\"User\" asp-route-UserId=\"" + userId + "\">" +
+                "<img src=\"" + userPic +"\" class=\"img-thumbnail\" alt=\"ProfileImage\" asp-append-version=\"true\">"+
+                "</a>" +
+                "</div>"+
                 "<div class=\"align-self-center pl-2\">" +
                 "<h3>" + data.title + "</h3>" +
                 "</div>" +
@@ -132,5 +146,7 @@ function resetReviewForm() {
     $("#reviewTitle").val("");
     $("#reviewBody").val("");
     $("#reviewRating").val("");
-    $("input:radio").prop("checked",false);
+    $("input:radio").prop("checked", false);
+    $("#submitReviewButton").attr("disabled", true);
+    $("#submitReviewButton").removeClass("btn-success").addClass("btn-secondary");
 }

@@ -40,22 +40,22 @@ namespace HUNGR.WebApp.Controllers
         //}
 
         // GET: Events/Details/5
-        //public async Task<IActionResult> Details(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var @event = await _context.Events
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (@event == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var @event = await _context.Events
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(@event);
-        //}
+            return View(@event);
+        }
 
         // GET: Events/Create
         public IActionResult Create()

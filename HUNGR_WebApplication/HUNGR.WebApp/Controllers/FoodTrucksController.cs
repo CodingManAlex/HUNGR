@@ -71,6 +71,14 @@ namespace HUNGR.WebApp.Controllers
                 .Include(f => f.Reviews)
                 .Include(f => f.UserFavouriteTrucks)
                 .FirstOrDefaultAsync(m => m.FoodTruckId == id);
+
+            //List<FoodTruckReviewListItemViewModel> reviewList = new List<FoodTruckReviewListItemViewModel>();
+
+            //foreach( var review in foodTruck.Reviews)
+            //{
+                
+            //}
+
             if (foodTruck == null)
             {
                 return NotFound();
