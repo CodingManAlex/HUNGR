@@ -4,7 +4,39 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="row mt-5">
+    <div class="col">
+        <div class="display-1">@Model.Name</div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col">
+        <h2>@Model.Description</h2>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col">
+        <h2>Location - @Model.Location</h2>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col">
+        <h2>
+            When - @if (Model.StartDate == Model.EndDate)
+            {
+                <h2>@Model.StartDate.ToString("MMMM dd, yyyy")</h2>
+            }
+            else
+            {
+                <h2>@Model.StartDate.ToString("M") - @Model.EndDate.ToString("d, yyyy")</h2>
+            }
+        </h2>
+    </div>
+</div>
+
+@*<h1>Details</h1>
 
 <div>
     <h4>Event</h4>
@@ -47,7 +79,7 @@
             @Html.DisplayFor(model => model.ImagePath)
         </dd>
     </dl>
-</div>
+</div>*@
 <div>
     @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
     <a asp-action="Index">Back to List</a>

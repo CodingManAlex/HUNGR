@@ -150,3 +150,21 @@ function resetReviewForm() {
     $("#submitReviewButton").attr("disabled", true);
     $("#submitReviewButton").removeClass("btn-success").addClass("btn-secondary");
 }
+
+function filterEvents() {
+    var filterTerm = $("#filterBar").val();
+    console.log(filterTerm)
+    var names = $("h2").toArray();
+
+    var str = "";
+    var parentTag = $(".card");
+    $('h2').each(function () {
+
+        if ($(this).text().includes(filterTerm)) {
+            $(this).parent(parentTag).parent().show()
+        } else {
+            $(this).parent(parentTag).parent().hide()
+        }
+    })
+
+};

@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationSerivce
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,11 +57,11 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="MyProfile">Profile</a>
                             </li>
                         }
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Foodtrucks" asp-action="Create">Create Your Food Truck!</a>
-                            </li>
+                        @if ((await authorizationSerivce.AuthorizeAsync(User, "UserPolicy")).Succeeded)
+                        { 
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Foodtrucks" asp-action="Create">Create Your Food Truck!</a>
+                        </li>
                         }
                     </ul>
                 </div>

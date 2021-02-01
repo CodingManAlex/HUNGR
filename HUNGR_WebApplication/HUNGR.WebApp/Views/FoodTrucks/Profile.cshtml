@@ -23,7 +23,6 @@
     }*@
 
 
-    <h1>UserProfileImage: @User.FindFirst("UserProfilePic").Value</h1>
     string userId = User.FindFirst("UserId").Value;
     <h1>User Signed In @User.FindFirst("UserFirstName").Value</h1>
 
@@ -95,7 +94,7 @@
         }
         <div class="row justify-content-center border">
             <div class="col">
-                @if (SignInManager.IsSignedIn(User))
+                @if (User.IsInRole("User"))
                 {
                     @if (Model.FoodTruckModel.UserFavouriteTrucks.Any(item => item.Id == User.FindFirst("UserId").Value))
                     {
@@ -224,7 +223,7 @@ else
 }
 
 
-@if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
+@if ( User.IsInRole("User"))
 {
     <div class="row">
         <div class="col">

@@ -46,7 +46,8 @@ namespace HUNGR.WebApp.Controllers
                 dbContext.Add(newEvent);
                 await dbContext.SaveChangesAsync();
 
-                return View();
+                return RedirectToAction("CreateEvent");
+                //return View();
 
             }
 

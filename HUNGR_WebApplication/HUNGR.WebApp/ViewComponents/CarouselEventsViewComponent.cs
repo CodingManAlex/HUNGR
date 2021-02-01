@@ -20,6 +20,7 @@ namespace HUNGR.WebApp.ViewComponents
 
         public IViewComponentResult Invoke()
         {
+            var today = DateTimeOffset.UtcNow;
             var result = dbContext.Events.Select(e => new CurrentEventViewModel()
             {
                 EventId = e.Id,
@@ -27,7 +28,10 @@ namespace HUNGR.WebApp.ViewComponents
                 StartDate = e.StartDate,
                 EndDate = e.EndDate,
                 ImagePath = e.ImagePath
-            }).ToList();
+            }).OrderBy(e => e.EndDate).ToList();
+
+            //result.OrderByDescending(e => e.EndDate);
+            //var filteredList = result.RemoveAll(e => e.EndDate < today);
 
             return View(result);
         }

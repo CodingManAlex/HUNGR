@@ -39,6 +39,18 @@ namespace HUNGR.WebApp
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthorization(options =>
+           {
+               options.AddPolicy("AdminPolicy",
+                   policy => policy.RequireRole("Admin"));
+
+               options.AddPolicy("UserPolicy",
+                   policy => policy.RequireRole("User"));
+               
+               options.AddPolicy("OwnerPolicy",
+                   policy => policy.RequireRole("FoodTruck"));
+           });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddServerSideBlazor();

@@ -219,6 +219,8 @@ namespace HUNGR.WebApp.Controllers
                     var roleResult = await userManager.RemoveFromRoleAsync(user, "User");
                     if (roleResult.Succeeded)
                     {
+                        await signInManager.SignOutAsync();
+                        await signInManager.SignInAsync(user, true);
                         return RedirectToAction("MyProfile", "User", new { id = foodTruck.FoodTruckId });
                     }
                 }
@@ -360,6 +362,7 @@ namespace HUNGR.WebApp.Controllers
 
             //Delete their truck and change them back to a standard user
             var user = await userManager.FindByIdAsync(id);
+            
             var result = await userManager.RemoveFromRoleAsync(user, "FoodTruck");
             
             if (result.Succeeded)
@@ -367,7 +370,10 @@ namespace HUNGR.WebApp.Controllers
                 var roleResult = await userManager.AddToRoleAsync(user, "User");
                 if (roleResult.Succeeded)
                 {
-                    return RedirectToAction("MyProfile", "User", new { id = id });
+                    await signInManager.SignOutAsync();
+                    await signInManager.SignInAsync(user, true);
+
+                    return RedirectToAction("MyProfile", "User", new { id = user.Id });
                 }
             }
 
