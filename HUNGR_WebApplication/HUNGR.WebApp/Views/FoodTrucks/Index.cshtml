@@ -4,51 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-@*<h1>Index</h1>*@
-
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.State)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProfileImage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Licence)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Longitude)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Latitude)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InstagramLink)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FacebookLink)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApplicationUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FoodCategory)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>*@
 
 <ul id="trucksList" class="list-group">
     @foreach (var truck in Model)
@@ -65,7 +20,10 @@
                         <h1>@truck.Name</h1>
                     </div>
                     <div class="col align-self-center">
-                        <h1>@truck.FoodCat</h1>
+                        @if (truck.FoodCat != null)
+                        {
+                            <h1>@truck.FoodCat.GetDisplayName()</h1>
+                        }
                     </div>
                 </div>
             </a>

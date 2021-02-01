@@ -204,13 +204,25 @@ namespace HUNGR.WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FoodTruckId,Name,Bio,State=0,ProfileImage,Licence,Longitude,Latitude,InstagramLink,FacebookLink,FoodCategoryId")] FoodTruck foodTruck)
+        public async Task<IActionResult> Create([Bind("FoodTruckId,Name,Bio,State=0,ProfileImage,Licence,FoodCat,Longitude,Latitude,InstagramLink,FacebookLink,FoodCategoryId")] FoodTruck foodTruck)
         {
             if (ModelState.IsValid)
             {
                 dbContext.Add(foodTruck);
                 await dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var user = await userManager.FindByIdAsync(foodTruck.FoodTruckId);
+                
+                //Change Role of User to a food Truck owner
+                var result = await userManager.AddToRoleAsync(user, "FoodTruck");
+                if (result.Succeeded)
+                {
+                    var roleResult = await userManager.RemoveFromRoleAsync(user, "User");
+                    if (roleResult.Succeeded)
+                    {
+                        return RedirectToAction("MyProfile", "User", new { id = foodTruck.FoodTruckId });
+                    }
+                }
+
             }
             ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id", foodTruck.FoodTruckId);
             ViewData["FoodCategoryId"] = new SelectList(dbContext.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
@@ -235,6 +247,7 @@ namespace HUNGR.WebApp.Controllers
                 FoodTruckId = foodTruck.FoodTruckId,
                 FoodTruckName = foodTruck.Name,
                 TruckBio = foodTruck.Bio,
+                FoodCategory = (FoodEnum.FoodCat)foodTruck.FoodCat,
                 InstaLink = foodTruck.InstagramLink,
                 FacebookLink = foodTruck.FacebookLink,
                 ExistingImagePath = foodTruck.ProfileImage
@@ -291,7 +304,7 @@ namespace HUNGR.WebApp.Controllers
                 FoodTruck foodTruck = await dbContext.FoodTrucks.FindAsync(model.FoodTruckId);
                 foodTruck.Name = model.FoodTruckName;
                 foodTruck.Bio = model.TruckBio;
-                foodTruck.FoodCat = model.FoodCat;
+                foodTruck.FoodCat = model.FoodCategory;
                 foodTruck.InstagramLink = model.InstaLink;
                 foodTruck.FacebookLink = model.FacebookLink;
                 
@@ -344,6 +357,20 @@ namespace HUNGR.WebApp.Controllers
             var foodTruck = await dbContext.FoodTrucks.FindAsync(id);
             dbContext.FoodTrucks.Remove(foodTruck);
             await dbContext.SaveChangesAsync();
+
+            //Delete their truck and change them back to a standard user
+            var user = await userManager.FindByIdAsync(id);
+            var result = await userManager.RemoveFromRoleAsync(user, "FoodTruck");
+            
+            if (result.Succeeded)
+            {
+                var roleResult = await userManager.AddToRoleAsync(user, "User");
+                if (roleResult.Succeeded)
+                {
+                    return RedirectToAction("MyProfile", "User", new { id = id });
+                }
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

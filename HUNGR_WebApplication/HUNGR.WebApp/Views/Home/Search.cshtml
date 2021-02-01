@@ -18,7 +18,7 @@ else
             var photoPath = "~/images/" + (truck.ProfileImage ?? "defaultProfileImage.png");
             //var reviewPhotoPath = "~/images/" + (Model.FoodTruckModel.ProfileImage ?? "defaultProfileImage.png");
             <li class="border my-1" style="list-style-type:none;">
-                <a asp-action="Profile" asp-route-id="@truck.FoodTruckId">
+                <a asp-action="Profile" asp-controller="foodTrucks" asp-route-id="@truck.FoodTruckId">
                     <div class="row">
                         <div class="col">
                             <img src="@photoPath" class="img-thumbnail roundThumbnail" alt="ProfileImage" asp-append-version="true">
@@ -27,7 +27,10 @@ else
                             <h1>@truck.Name</h1>
                         </div>
                         <div class="col align-self-center">
-                            <h1>@truck.FoodCat.GetDisplayName()</h1>
+                            @if (truck.FoodCat != null)
+                            {
+                                <h1>@truck.FoodCat.GetDisplayName()</h1>
+                            }
                         </div>
                     </div>
                 </a>

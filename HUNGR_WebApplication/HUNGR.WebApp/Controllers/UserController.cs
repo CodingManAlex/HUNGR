@@ -61,6 +61,7 @@ namespace HUNGR.WebApp.Controllers
                 FoodCat = (FoodEnum.FoodCat)user.FoodCategory,
                 City = user.City,
                 Province = user.Province,
+                ProfileImagePath = user.ProfileImage,
                 Reviews = reviews,
                 FavouriteTrucks = listOfFoodTrucks
             };

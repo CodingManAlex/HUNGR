@@ -1,7 +1,25 @@
 ﻿@model List<OpenTrucksViewModel>;
-@using HUNGR.WebApp.Components
+@using HUNGR.WebApp.Components;
 
-@(await Html.RenderComponentAsync<Counter>(RenderMode.ServerPrerendered))    
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@*@(await Html.RenderComponentAsync<Counter>(RenderMode.ServerPrerendered))*@
+
+@if (SignInManager.IsSignedIn(User))
+{
+    if (User.IsInRole("User"))
+    {
+        <h1>You're A Standard user</h1>
+    }
+    else
+    {
+        <h1>You're an Owner</h1>
+    }
+}
+
+
+
 
 <h1>Events</h1>
 <div>
@@ -11,11 +29,11 @@
 <h1>Who's Open</h1>
 
 <div class="card-deck">
-    @foreach(var truck in Model)
+    @foreach (var truck in Model)
     {
         var photoPath = "~/images/" + (truck.ImagePath ?? "defaultProfileImage.png");
-    <div class="card m-3">
-@*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
+        <div class="card m-3" style="width:345px;">
+            @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
 
             <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
                 <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@truck.TruckName" asp-append-version="true">
@@ -23,10 +41,10 @@
             <div class="card-body">
 
                 <div class="row ">
-                    <div class="col d-flex justify-content-around">
+                    <div class="col d-flex justify-content-start">
                         <h3>@truck.TruckName</h3>
                     </div>
-                    <div class="col d-flex justify-content-around">
+                    <div class="col d-flex justify-content-end">
                         @if (truck.isFavourite == true)
                         {
                             <i class="fa fa-heart fa-2x" style="color:red"></i>
@@ -38,7 +56,7 @@
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
     }
 
 </div>

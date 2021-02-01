@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HUNGR.WebApp.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,13 +19,16 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IHostingEnvironment hostingEnvironment;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IHostingEnvironment hostingEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         public string Username { get; set; }
@@ -45,6 +51,8 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
             public FoodCat FoodCat { get; set; }
             public string City { get; set; }
             public string Province { get; set; }
+            public  IFormFile Image { get; set; }
+            public string UserImagePath { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -59,9 +67,10 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                //FoodCat = (FoodCat)user.FoodCategory,
+                FoodCat = (FoodCat)user.FoodCategory,
                 City = user.City,
-                Province = user.Province
+                Province = user.Province,
+                UserImagePath = user.ProfileImage
             };
         }
 
@@ -129,10 +138,38 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account.Manage
                 user.Province = Input.Province;
                 await _userManager.UpdateAsync(user);
             }
+            if (Input.Image != null)
+            {
+                //Check for existing image
+                if (Input.UserImagePath != null)
+                {
+                    string imagePath = Path.Combine(hostingEnvironment.WebRootPath, "images", Input.UserImagePath);
+                    System.IO.File.Delete(imagePath);
+                }
+                user.ProfileImage = ProcessUploadedFile(Input);
+                await _userManager.UpdateAsync(user);
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
+        }
+
+        private string ProcessUploadedFile(InputModel model)
+        {
+            string uniqueFileName = null;
+            if (model.Image != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Image.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
         }
     }
 }

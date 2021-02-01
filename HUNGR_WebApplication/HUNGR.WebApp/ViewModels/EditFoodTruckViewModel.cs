@@ -17,7 +17,7 @@ namespace HUNGR.WebApp.ViewModels
         [Display(Name = "Truck Bio")]
         public string TruckBio { get; set; }
         [Display(Name = "Category")]
-        public FoodCat FoodCat { get; set; }
+        public FoodCat FoodCategory { get; set; }
         public string InstaLink { get; set; }
         public string FacebookLink { get; set; }
         public IFormFile Image { get; set; }

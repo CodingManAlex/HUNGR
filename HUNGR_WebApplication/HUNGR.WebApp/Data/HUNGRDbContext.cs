@@ -77,7 +77,8 @@ namespace HUNGR.WebApp.Data
             modelBuilder.Entity<FoodTruck>()
                 .HasMany(f => f.Reviews)
                 .WithOne(r => r.FoodTruck)
-                .HasForeignKey(r => r.FoodTruckId);
+                .HasForeignKey(r => r.FoodTruckId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             //Reviews
             modelBuilder.Entity<Review>()
@@ -99,6 +100,7 @@ namespace HUNGR.WebApp.Data
                 .WithMany(e => e.EventParticipants)
                 .HasForeignKey(ep => ep.EventId)
                 .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<EventParticipant>()
                 .HasOne<FoodTruck>(ep => ep.FoodTruck)
                 .WithMany(f => f.EventParticipants)
@@ -145,7 +147,7 @@ namespace HUNGR.WebApp.Data
                 .HasOne<FoodTruck>(ft => ft.FoodTruck)
                 .WithMany(f => f.UserFavouriteTrucks)
                 .HasForeignKey(ft => ft.FoodTruckId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
         public DbSet<FoodTruck> FoodTrucks { get; set; }

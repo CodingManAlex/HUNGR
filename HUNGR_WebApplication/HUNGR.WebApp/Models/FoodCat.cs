@@ -12,6 +12,7 @@ namespace HUNGR.WebApp.Models
 
         public enum FoodCat : int
         {
+            None = 0,
             [Display(Name = "Sea Food")]
             SeaFood = 1,
             [Display(Name = "Fried Food")]

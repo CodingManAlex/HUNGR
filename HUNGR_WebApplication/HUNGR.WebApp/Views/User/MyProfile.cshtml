@@ -5,10 +5,10 @@
 
 @if (Model.User.FoodTruck == null)
 {
-    <h2>This is a Standard User</h2>
+    var photoPath = "~/images/" + (Model.User.ProfileImage ?? "defaultProfileImage.png");
     <div class="row">
         <div class="col">
-            <img src="~/images/default-logo.png" class="img-thumbnail" alt="ProfileImage">
+            <img src="@photoPath" class="img-thumbnail" alt="ProfileImage" asp-append-version="true">
         </div>
         <div class="col">
             <h1>@Model.User.FirstName @Model.User.LastName</h1>
@@ -242,6 +242,7 @@ else
                         sum += review.Rating;
                     }
                     double avgRating = sum / revCount;
+                    avgRating = Math.Round(avgRating, 1);
                     <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">@avgRating</h1>
                 }
                 else

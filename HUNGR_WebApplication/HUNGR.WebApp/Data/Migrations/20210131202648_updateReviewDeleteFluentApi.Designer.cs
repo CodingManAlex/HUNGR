@@ -4,14 +4,16 @@ using HUNGR.WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HUNGR.WebApp.Data.Migrations
 {
     [DbContext(typeof(HUNGRDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210131202648_updateReviewDeleteFluentApi")]
+    partial class updateReviewDeleteFluentApi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -487,7 +489,7 @@ namespace HUNGR.WebApp.Data.Migrations
                     b.HasOne("HUNGR.WebApp.Models.FoodTruck", "FoodTruck")
                         .WithMany("UserFavouriteTrucks")
                         .HasForeignKey("FoodTruckId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("HUNGR.WebApp.Models.ApplicationUser", "ApplicationUser")

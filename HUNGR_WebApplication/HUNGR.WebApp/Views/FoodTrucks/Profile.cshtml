@@ -299,6 +299,10 @@ else
     </div>
 
 }
+else if (User.IsInRole("FoodTruck"))
+{
+    //Dont Allow Comments
+}
 else
 {
     <div class="row">
@@ -327,43 +331,45 @@ else
             <ul id="trucksReviews" class="list-group">
                 @foreach (var review in Model.FoodTruckModel.Reviews.Reverse())
                 {
-                    var reviewPhotoPath = "~/images/" + (review.UserProfileImage ?? "defaultProfileImage.png");
-                    <li class="border my-1" style="list-style-type:none;">
+                    @await Component.InvokeAsync("ReviewItem", new { id = review.UserId, title = review.Title, body = review.Body, rating = review.Rating, type = 1 })
+
+                    <!--var reviewPhotoPath = "~/images/" + (review.UserProfileImage ?? "defaultProfileImage.png");
+        <li class="border my-1" style="list-style-type:none;">
 
 
-                        <div class="d-flex flex-row align-items-center pb-0 mb-0">
-                            <!--<div class="col-1 align-self-center">-->
-                            <div class="col-1">
-                                <a asp-action="UserProfile" asp-controller="User" asp-route-UserId="@review.UserId">
-                                    <img src="@reviewPhotoPath" class="img-thumbnail" alt="ProfileImage" asp-append-version="true">
-                                </a>
-                            </div>
+            <div class="d-flex flex-row align-items-center pb-0 mb-0">-->
+                    <!--<div class="col-1 align-self-center">-->
+                    <!--<div class="col-1">
+                    <a asp-action="UserProfile" asp-controller="User" asp-route-UserId="review.UserId">
+                        <img src="reviewPhotoPath" class="img-thumbnail" alt="ProfileImage" asp-append-version="true">
+                    </a>
+                </div>
 
-                            <div class="align-self-center pl-2">
-                                <h3>@review.Title</h3>
-                            </div>
-                            <div class=" align-self-center pl-2">
-                                @for (int i = 1; i < 6; i++)
-                                {
-                                    if (i <= review.Rating)
-                                    {
-                                        <i class="fa fa-star fa-2x" aria-hidden="true" style="color: #ffca08;"></i>
+                <div class="align-self-center pl-2">
+                    <h3>review.Title</h3>
+                </div>
+                <div class=" align-self-center pl-2">
+                    for (int i = 1; i < 6; i++)
+                    {
+                        if (i <= review.Rating)
+                        {
+                            <i class="fa fa-star fa-2x" aria-hidden="true" style="color: #ffca08;"></i>
 
-                                    }
-                                    else
-                                    {
-                                        <i class="fa fa-star fa-2x" aria-hidden="true"></i>
-                                    }
-                                }
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col offset-1">
-                                <p>@review.Body</p>
-                            </div>
-                        </div>
-                    </li>
+                        }
+                        else
+                        {
+                            <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+                        }
+                    }
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col offset-1">
+                    <p>review.Body</p>
+                </div>
+            </div>
+        </li>-->
                 }
             </ul>
         </div>

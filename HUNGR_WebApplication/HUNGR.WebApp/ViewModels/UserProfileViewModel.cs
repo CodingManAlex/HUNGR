@@ -15,6 +15,7 @@ namespace HUNGR.WebApp.ViewModels
         public FoodCat FoodCat { get; set; }
         public string City { get; set; }
         public string Province { get; set; }
+        public string ProfileImagePath { get; set; }
         public IEnumerable<Review> Reviews { get; set; }
         public List<FoodTruck> FavouriteTrucks { get; set; }
         //public ICollection<UserFavouriteTruck> UserFavouriteTrucks { get; set; }

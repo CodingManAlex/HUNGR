@@ -9,7 +9,7 @@
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
     <div class="col-md-6">
-        <form id="profile-form" method="post">
+        <form enctype="multipart/form-data" id="profile-form" method="post" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Username"></label>
@@ -31,7 +31,7 @@
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.FoodCat" ></label>
+                <label asp-for="Input.FoodCat"></label>
                 <select asp-for="Input.FoodCat" class="custom-select" asp-items="Html.GetEnumSelectList<FoodEnum.FoodCat>()">
                     <option value="">Please Select</option>
                 </select>
@@ -47,6 +47,22 @@
                 <input asp-for="Input.Province" class="form-control" />
                 <span asp-validation-for="Input.Province" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Input.Image"></label>
+                <div class="custom-file">
+                    <input asp-for="Input.Image" class="form-control custom-file-input" />
+                    @if (Model.Input.UserImagePath == null)
+                    {
+                        <label class="custom-file-label">Click here add a photo...</label>
+                    }
+                    else
+                    {
+                        <label class="custom-file-label">Click here to change photo...</label>
+                    }
+
+                </div>
+                @*<span asp-validation-for="Image" class="text-danger"></span>*@
+            </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
@@ -54,4 +70,12 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            })
+        })
+    </script>
 }
