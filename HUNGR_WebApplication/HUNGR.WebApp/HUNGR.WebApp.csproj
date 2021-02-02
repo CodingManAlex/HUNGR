@@ -24,6 +24,8 @@
     <Compile Remove="Data\Migrations\20210131203329_favTruckDeleteFluentApiUpdate.Designer.cs" />
     <Compile Remove="Data\Migrations\20210131203635_favTruckDeleteFluentApiUpdate.cs" />
     <Compile Remove="Data\Migrations\20210131203635_favTruckDeleteFluentApiUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210202071307_eventParticipantsDeleteChange.cs" />
+    <Compile Remove="Data\Migrations\20210202071307_eventParticipantsDeleteChange.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
