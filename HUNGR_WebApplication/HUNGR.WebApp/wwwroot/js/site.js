@@ -160,7 +160,7 @@ function filterEvents() {
     var parentTag = $(".card");
     $('h2').each(function () {
 
-        if ($(this).text().includes(filterTerm)) {
+        if ($(this).text().toLowerCase().includes(filterTerm.toLowerCase())) {
             $(this).parent(parentTag).parent().show()
         } else {
             $(this).parent(parentTag).parent().hide()

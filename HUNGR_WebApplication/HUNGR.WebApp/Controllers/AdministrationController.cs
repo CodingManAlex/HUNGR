@@ -117,6 +117,112 @@ namespace HUNGR.WebApp.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ManageEventTrucks(int eventId)
+        {
+            ViewBag.eventId = eventId;
+            if (eventId == null)
+            {
+                Response.StatusCode = 404;
+                return View("EventNotFound", eventId);
+                //return NotFound();
+            }
+            Event eventDetials = await dbContext.Events.FindAsync(eventId);
+            if (eventDetials == null)
+            {
+                Response.StatusCode = 404;
+                return View("EventNotFound", eventId);
+                //return NotFound();
+            }
+            //EditEventViewModel editEventViewModel = new EditEventViewModel
+            //{
+            //    EventName = eventDetials.Name,
+            //    Description = eventDetials.Description,
+            //    Location = eventDetials.Location,
+            //    StartDate = eventDetials.StartDate,
+            //    EndDate = eventDetials.EndDate,
+            //    ExistingImagePath = eventDetials.ImagePath
+            //};
+
+            var eventTruckList = new List<EventTruckViewModel>();
+            var foodTrucks = dbContext.FoodTrucks.ToList();
+            var eventParticipants = dbContext.EventParticipants.Where(ep => ep.EventId == eventId).ToList();
+            //var truckIds = eventParticipants.Where(ep => ep.FoodTruckId.);
+
+            foreach (var truck in foodTrucks)
+            {
+                var eventTruck = new EventTruckViewModel
+                {
+                    FoodTruckId = truck.FoodTruckId,
+                    FoodTruckName = truck.Name
+                };
+                if( eventParticipants.Any(ep => ep.FoodTruckId == eventTruck.FoodTruckId))
+                {
+                    eventTruck.isSelected = true;
+                }
+                else
+                {
+                    eventTruck.isSelected = false;
+                }
+                eventTruckList.Add(eventTruck);
+            }
+
+            var model = new ManageEventTrucksViewModel
+            {
+                EventDetails = eventDetials,
+                EventTrucks = eventTruckList
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ManageEventTrucks(ManageEventTrucksViewModel model, int eventId)
+        {
+            if (eventId == null)
+            {
+                Response.StatusCode = 404;
+                return View("EventNotFound", eventId);
+                //return NotFound();
+            }
+            var eventParticipants = dbContext.EventParticipants.Where(ep => ep.EventId == eventId).ToList();
+            List<EventTruckViewModel> eventTruckList = model.EventTrucks;
+
+            for(int i = 0; i < eventTruckList.Count; i++)
+            {
+                var isInEvent = eventParticipants.Any(ep => ep.FoodTruckId == eventTruckList[i].FoodTruckId);
+                
+                //If the truck is checked and not in the event
+                if (eventTruckList[i].isSelected && !(isInEvent))
+                {
+                    var newEventParticipant = new EventParticipant
+                    {
+                        EventId = eventId,
+                        FoodTruckId = eventTruckList[i].FoodTruckId
+                    };
+                    dbContext.EventParticipants.Add(newEventParticipant);
+                    var result = await dbContext.SaveChangesAsync();
+                }
+                //If the truck is not check and in the event
+                else if(!eventTruckList[i].isSelected && isInEvent)
+                {
+                    var existingEventParticipant = eventParticipants.Find(ep => ep.FoodTruckId == eventTruckList[i].FoodTruckId);
+                    //EventParticipant existingEventParticipant = (EventParticipant)eventParticipants.Where(ep => ep.FoodTruckId == eventTruckList[i].FoodTruckId);
+                    dbContext.EventParticipants.Remove(existingEventParticipant);
+                    await dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    continue;
+                }
+                
+            }
+
+
+            return RedirectToAction("CreateEvent");
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> DeleteEvent(int id)
         {

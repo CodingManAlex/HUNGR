@@ -115,17 +115,6 @@ namespace HUNGR.WebApp.Controllers
             }
             else
             {
-                //var openTrucks = context.FoodTrucks.Where(f => f.State == 1).ToList();
-                //foreach (var truck in openTrucks)
-                //{
-                //    openTrucksList.Add(new OpenTrucksViewModel
-                //    {
-                //        FoodTruckId = truck.FoodTruckId,
-                //        TruckName = truck.Name,
-                //        ImagePath = truck.ProfileImage,
-                //        isFavourite = false
-                //    });
-                //}
                 return View(openTrucksList);
             }
 

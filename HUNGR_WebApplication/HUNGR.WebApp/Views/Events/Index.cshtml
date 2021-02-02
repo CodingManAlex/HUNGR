@@ -5,19 +5,19 @@
 }
 
 
-@foreach(var ev in Model)
-    {
-        var photoPath = "~/images/" + (ev.ImagePath ?? "defaultProfileImage.png");
-    <div class="card">
-@*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
+@foreach (var ev in Model)
+{
+    var photoPath = "~/images/" + (ev.ImagePath ?? "defaultProfileImage.png");
+    <div class="card mt-3">
+        @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
 
-            <a asp-action="Details" asp-route-id="@ev.Id">
-                <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@ev.Name" asp-append-version="true">
-            </a>
-            <div class="card-body">
-                <h3>@ev.Name</h3>
-            </div>
+        <a asp-action="Details" asp-route-id="@ev.Id">
+            <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@ev.Name" asp-append-version="true">
+        </a>
+        <div class="card-body">
+            <h3>@ev.Name</h3>
+        </div>
     </div>
-    }
+}
 
 

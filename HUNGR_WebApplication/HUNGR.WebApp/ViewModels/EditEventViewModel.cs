@@ -9,7 +9,7 @@ namespace HUNGR.WebApp.ViewModels
 {
     public class EditEventViewModel : CreateEventViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string ExistingImagePath { get; set; }
     }
 }

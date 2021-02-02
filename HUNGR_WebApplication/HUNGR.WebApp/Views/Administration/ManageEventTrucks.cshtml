@@ -1,0 +1,83 @@
+﻿@using HUNGR.WebApp.ViewModels;
+@model ManageEventTrucksViewModel;
+
+@{
+    var eventId = ViewBag.eventId;
+
+}
+
+<h1>Edit An Event</h1>
+
+<div class="row">
+    <div class="col-md-4">
+
+        @*<hr />*@
+        <div class="form-group">
+            <label>Event Name</label>
+            <h5>@Model.EventDetails.Name</h5>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <h5>@Model.EventDetails.Description</h5>
+        </div>
+        <div class="form-group">
+            <label>Location</label>
+            <h5>@Model.EventDetails.Location</h5>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    @if (Model.EventDetails.StartDate == Model.EventDetails.EndDate)
+                    {
+                        <label> Event Date</label>
+                        <h5>@Model.EventDetails.StartDate.ToString("MMMM dd, yyyy")</h5>
+                    }
+                    else
+                    {
+                        <label> Event Dates</label>
+                        <h5>@Model.EventDetails.StartDate.ToString("M") - @Model.EventDetails.EndDate.ToString("d, yyyy")</h5>
+                    }
+                </div>
+            </div>
+        </div>
+        @{
+            var photoPath = "~/images/" + (Model.EventDetails.ImagePath ?? "defaultProfileImage.png");
+        }
+        <div class=" row col-sm-4 offset-4">
+            <img src="@photoPath" class="img-thumbnail" asp-append-version="true" />
+        </div>
+
+    </div>
+    <div class="col-md-4 offset-2">
+        <form method="post">
+            <div class="card">
+                <div class="card-header">
+                    <h3>List of trucks for @Model.EventDetails.Name</h3>
+                </div>
+                <div class="card-body">
+                    @for (int i = 0; i < Model.EventTrucks.Count; i++)
+                    {
+                        <div class="form-check m-1">
+                            <input type="hidden" asp-for="@Model.EventTrucks[i].FoodTruckId" />
+                            <input type="hidden" asp-for="@Model.EventTrucks[i].FoodTruckName" />
+                            <input asp-for="@Model.EventTrucks[i].isSelected" class="form-check-input" />
+                            <label asp-for="@Model.EventTrucks[i].isSelected" class="form-check-label">
+                                @Model.EventTrucks[i].FoodTruckName
+                            </label>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-success" value="Update" style="width:auto;" />
+                    <a asp-action="CreateEvent" asp-controller="Administration" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <hr>
+
+    <div>
+        @await Component.InvokeAsync("CurrentEvents")
+    </div>

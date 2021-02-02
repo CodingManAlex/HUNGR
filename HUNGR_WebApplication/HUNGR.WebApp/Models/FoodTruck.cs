@@ -12,15 +12,18 @@ namespace HUNGR.WebApp.Models
     {
         [Key,ForeignKey("ApplicationUser")]
         public string FoodTruckId { get; set; }
+        [Required]
         public string Name { get; set; }
-        public string? Bio { get; set; }
+        [Required]
+        public string Bio { get; set; }
         public int State { get; set; }
         public string? ProfileImage { get; set; } //relative path to image - local repo
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
         public string? InstagramLink { get; set; }
         public string? FacebookLink { get; set; }
-        public FoodCat? FoodCat { get; set; }
+        [Required]
+        public FoodCat FoodCat { get; set; }
 
         //Navigation
         public virtual ApplicationUser ApplicationUser { get; set; }
