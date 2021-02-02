@@ -105,7 +105,7 @@ namespace HUNGR.WebApp.Data
                 .HasOne<FoodTruck>(ep => ep.FoodTruck)
                 .WithMany(f => f.EventParticipants)
                 .HasForeignKey(ep => ep.FoodTruckId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             //UserFavouriteFood
             modelBuilder.Entity<UserFavouriteFood>().HasKey(ff => new { ff.Id, ff.FoodCat });
