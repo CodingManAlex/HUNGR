@@ -13,48 +13,53 @@ namespace HUNGR.WebApp.Controllers
 {
     public class EventsController : Controller
     {
-        private readonly HUNGRDbContext _context;
+        private readonly HUNGRDbContext dbContext;
 
         public EventsController(HUNGRDbContext context)
         {
-            _context = context;
+            dbContext = context;
         }
 
         // GET: Events
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Events.ToListAsync());
+            return View(await dbContext.Events.ToListAsync());
         }
 
-        //public IEnumerable<CurrentEventViewModel> GetCurrentEvents()
-        //{
-        //    return _context.Events.Select(e => new CurrentEventViewModel()
-        //    {
-        //        EventId = e.Id,
-        //        Name = e.Name,
-        //        StartDate = e.StartDate,
-        //        EndDate = e.EndDate,
-        //        Image = e.ImagePath
-        //    }).ToList();
-
-        //}
 
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The Event with Id = {id} cannot be found";
+                return View("NotFound");
+                //return NotFound();
             }
 
-            var @event = await _context.Events
+            var thisEvent = await dbContext.Events
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
+            if (thisEvent == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The Event with Id = {id} cannot be found";
+                return View("NotFound");
             }
+            List<EventParticipant> eventParticipants = dbContext.EventParticipants.Where(ep => ep.EventId == id).ToList();
+            List<FoodTruck> eventTrucks = new List<FoodTruck>();
 
-            return View(@event);
+            foreach( var ep in eventParticipants)
+            {
+                var truckId = ep.FoodTruck;
+                FoodTruck foodTruck = dbContext.FoodTrucks.FirstOrDefault(ft => ft.FoodTruckId == ep.FoodTruckId);
+                eventTrucks.Add(foodTruck);
+            }
+            EventDetailsViewModel model = new EventDetailsViewModel()
+            {
+                EventDetails = thisEvent,
+                EventFoodTrucks = eventTrucks
+            };
+
+            return View(model);
         }
 
         // GET: Events/Create
@@ -72,8 +77,8 @@ namespace HUNGR.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
-                await _context.SaveChangesAsync();
+                dbContext.Add(@event);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(@event);
@@ -87,81 +92,12 @@ namespace HUNGR.WebApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
+            var @event = await dbContext.Events.FindAsync(id);
             if (@event == null)
             {
                 return NotFound();
             }
             return View(@event);
         }
-
-        // POST: Events/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Description,Location,StartDate,EndDate,Image")] Event @event)
-        //{
-        //    if (id != @event.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(@event);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!EventExists(@event.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(@event);
-        //}
-
-        // GET: Events/Delete/5
-        //public async Task<IActionResult> Delete(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var @event = await _context.Events
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (@event == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(@event);
-        //}
-
-        // POST: Events/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(string id)
-        //{
-        //    var @event = await _context.Events.FindAsync(id);
-        //    _context.Events.Remove(@event);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool EventExists(string id)
-        //{
-        //    return _context.Events.Any(e => e.Id == id);
-        //}
     }
 }

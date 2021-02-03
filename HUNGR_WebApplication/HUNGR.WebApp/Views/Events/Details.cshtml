@@ -1,86 +1,89 @@
-﻿@model HUNGR.WebApp.Models.Event
+﻿@model EventDetailsViewModel;
 
 @{
     ViewData["Title"] = "Details";
+    var photoPath = "~/images/" + (Model.EventDetails.ImagePath ?? "defaultProfileImage.png");
 }
 
 <div class="row mt-5">
     <div class="col">
-        <div class="display-1">@Model.Name</div>
+        <div class="display-1 d-flex justify-content-center">@Model.EventDetails.Name</div>
     </div>
 </div>
+<img class="card-img-top" src="@photoPath" alt="Card image cap" asp-append-version="true">
 <div class="row mt-4">
     <div class="col">
-        <h2>@Model.Description</h2>
-    </div>
-</div>
-
-<div class="row mt-4">
-    <div class="col">
-        <h2>Location - @Model.Location</h2>
+        <h3>@Model.EventDetails.Description</h>
     </div>
 </div>
 
 <div class="row mt-4">
     <div class="col">
-        <h2>
-            When - @if (Model.StartDate == Model.EndDate)
-            {
-                <h2>@Model.StartDate.ToString("MMMM dd, yyyy")</h2>
-            }
-            else
-            {
-                <h2>@Model.StartDate.ToString("M") - @Model.EndDate.ToString("d, yyyy")</h2>
-            }
-        </h2>
+        <h4>Where:</h4>
+        <h2>@Model.EventDetails.Location</h2>
     </div>
 </div>
 
-@*<h1>Details</h1>
+<div class="row mt-4">
+    <div class="col">
+        <h4>When:</h4>
 
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-    </dl>
-</div>*@
+        @if (Model.EventDetails.StartDate == Model.EventDetails.EndDate)
+        {
+            <h2>@Model.EventDetails.StartDate.ToString("MMMM dd, yyyy")</h2>
+        }
+        else
+        {
+            <h2>@Model.EventDetails.StartDate.ToString("M") - @Model.EventDetails.EndDate.ToString("d, yyyy")</h2>
+        }
+
+    </div>
+</div>
+
+@if (Model.EventFoodTrucks.Count == 0)
+{
+    <div class="row mt-5">
+        <div class="col">
+            <h1>There are currently no Food Trucks attached to this event</h1>
+        </div>
+    </div>
+
+
+}
+else
+{
+    <div class="row mt-5">
+        <div class="col">
+            <h1 class="d-flex justify-content-center">Event Food Trucks</h1>
+        </div>
+    </div>
+
+    <div class="card-deck">
+        @foreach (var truck in Model.EventFoodTrucks)
+        {
+            var truckImagePath = "~/images/" + (truck.ProfileImage ?? "defaultProfileImage.png");
+            <div class="card m-3" style="min-width: 18rem; max-width:30.5%">
+                @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
+
+                <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
+                    <img class="d-block w-100 eventThumbnail" src="@truckImagePath" alt="@truck.Name" asp-append-version="true">
+                </a>
+                <div class="card-body">
+
+                    <div class="row ">
+                        <div class="col d-flex justify-content-start">
+                            <h3>@truck.Name</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+
 <div>
     @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">All Events</a>
 </div>

@@ -75,6 +75,18 @@ namespace HUNGR.WebApp.Controllers
             //string userId = User.FindFirst("UserId").Value;
             //Get Basic User Info
             ApplicationUser UserProfile = await userManager.FindByIdAsync(User.FindFirst("UserId").Value);
+            var UsersReviews = dbContext.Reviews.Where( r=> r.UserId == UserProfile.Id).ToList();
+            List<UserFavouriteTruck> favTruckData = dbContext.UserFavouriteTrucks.Where(favT => favT.Id == UserProfile.Id).ToList();
+
+            var listOfFoodTrucks = new List<FoodTruck>();
+
+            foreach (var truckId in favTruckData)
+            {
+                var favFoodTruck = await dbContext.FoodTrucks
+                .FirstOrDefaultAsync(m => m.FoodTruckId == truckId.FoodTruckId);
+
+                listOfFoodTrucks.Add(favFoodTruck);
+            }
 
             FoodTruck foodTruck = await dbContext.FoodTrucks
                 .Include(f => f.ApplicationUser)
@@ -85,7 +97,9 @@ namespace HUNGR.WebApp.Controllers
 
             var model = new MyProfileViewModel
             {
-                User = UserProfile
+                User = UserProfile,
+                UserReviews = UsersReviews,
+                FavouriteTrucks = listOfFoodTrucks
             };
 
             if(foodTruck == null)

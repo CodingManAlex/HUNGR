@@ -46,20 +46,20 @@
 
 
 <div class="row">
-    <div class="col-3 border border-danger">
-        <img src="@photoPath" class="imageThumbnail" alt="Responsive image" asp-append-version="true">
+    <div class="col-3">
+        <img src="@photoPath" class="foodTruckProfile img-fluid" alt="Responsive image" asp-append-version="true">
     </div>
 
 
-    <div class="col-7 border border-danger">
+    <div class="col-7 ">
         <h1>@Model.FoodTruckModel.Name</h1>
 
-        <div class="row border border-success">
+        <div class="row ">
             <div class="col">
-                <h4>@Model.FoodTruckModel.Bio</h4>
+                <h5>@Model.FoodTruckModel.Bio</h5>
             </div>
         </div>
-        <div class="row align-items-end border border-success mb-0 pb-0 pt-2">
+        <div class="row d-inline-flex align-items-end border border-success mb-0 pb-0 pt-2">
             <div class="col-1 align-self-end border border-primary">
                 <a href="https://www.facebook.com/@Model.FoodTruckModel.FacebookLink" target="_blank">
                     <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <div class="col-2 border border-danger">
+    <div class="col-2 ">
         @*@if (Model.FoodTruckModel.Reviews.Any() || Model.FoodTruckModel.Reviews != null || Model.FoodTruckModel.Reviews.Count > 0)*@
         @if (Model.FoodTruckModel.Reviews.Any() && Model.FoodTruckModel.Reviews.Count > 0)
         {
@@ -92,7 +92,7 @@
             <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">NA</h1>
 
         }
-        <div class="row justify-content-center border">
+        <div class="row justify-content-center">
             <div class="col">
                 @if (User.IsInRole("User"))
                 {

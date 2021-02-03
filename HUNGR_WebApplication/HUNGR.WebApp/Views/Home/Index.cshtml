@@ -8,22 +8,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @*@(await Html.RenderComponentAsync<Counter>(RenderMode.ServerPrerendered))*@
 
-
-@if ((await authorizationSerivce.AuthorizeAsync(User, "UserPolicy")).Succeeded)
-{
-    <h1>You're a Standard User</h1>
-}
-
-@if ((await authorizationSerivce.AuthorizeAsync(User, "OwnerPolicy")).Succeeded)
-{
-    <h1>You're A FoodTruck Owner</h1>
-}
-
-
-
-
-
-<h1>Events</h1>
+<h1 class="mt-5">Events</h1>
 <div>
     @await Component.InvokeAsync("CarouselEvents")
 </div>
@@ -35,27 +20,25 @@
     {
         var photoPath = "~/images/" + (truck.ImagePath ?? "defaultProfileImage.png");
         <div class="card m-3" style="min-width: 18rem; max-width:30.5%">
-            @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
-
             <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
-                <img class="d-block w-100 eventThumbnail" src="@photoPath" alt="@truck.TruckName" asp-append-version="true">
+                @*<img class="d-block w-100 imageThumbnail" src="@photoPath" alt="@truck.TruckName" asp-append-version="true">*@
+                <img class="w-100 img-thumbnail imageThumbnail" src="@photoPath" alt="@truck.TruckName" asp-append-version="true">
             </a>
             <div class="card-body">
-
                 <div class="row ">
-                    <div class="col d-flex justify-content-start">
+                    <div class="col d-flex align-items-center justify-content-start">
                         <h3>@truck.TruckName</h3>
                     </div>
-                    <div class="col d-flex justify-content-end">
-                        @if (truck.isFavourite == true)
-                        {
-                            <i class="fa fa-heart fa-2x" style="color:red"></i>
-                        }
-                        else
-                        {
-                            <i class="far fa fa-heart-o fa-2x" style="color:red"></i>
-                        }
-                    </div>
+                    @*<div class="col d-inline-flex align-items-center justify-content-end">*@
+                    @if (truck.isFavourite == true)
+                    {
+                        <i class="fa fa-heart fa-2x d-inline-flex" style="color:red"></i>
+                    }
+                    else
+                    {
+                        <i class="far fa fa-heart-o fa-2x d-inline-flex" style="color:red"></i>
+                    }
+                    <!--</div>-->
                 </div>
             </div>
         </div>

@@ -18,26 +18,36 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="jumbotron text-center bg-danger">
-
-        <div class="display-1 2rem font-weight-bolder text-center "><a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">HUNGR</a></div>
-        <div class="h4 text-white">Finding Your Favourite Food Trucks</div>
-        <!-- <div id="myMap" style="position:relative;width:600px;height:400px;"></div> -->
+    <div class="jumbotron text-center bg-danger mb-0">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="display-1 2rem font-weight-bolder text-center "><a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">ADMIN</a></div>
+            <div class="h4 text-white">Ultimate Food Trucks Power</div>
+        }
+        else if (User.IsInRole("FoodTruck"))
+        {
+            <div class="display-1 2rem font-weight-bolder text-center "><a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">HUNGR OWNERS</a></div>
+            <div class="h4 text-white">Managing Your Favourite Food Trucks</div>
+        }
+        else
+        {
+            <div class="display-1 2rem font-weight-bolder text-center "><a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">HUNGR</a></div>
+            <div class="h4 text-white">Finding Your Favourite Food Trucks</div>
+        }
         <div class="col-lg-1 offset-lg-1 text-light">
-            @*<div id="ownerLink" class="mt-3 h2 text-white"> <a href="index.html" class="text-white">Back</a> </div>*@
         </div>
     </div>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HUNGR</a>
+                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HUNGR</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button>*@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 justify-content-around">
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="FoodTrucks" asp-action="Index">Food Trucks</a>

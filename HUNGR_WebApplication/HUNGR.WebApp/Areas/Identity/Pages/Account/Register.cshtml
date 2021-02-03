@@ -47,6 +47,13 @@
                 <input asp-for="Input.Province" class="form-control" />
                 <span asp-validation-for="Input.Province" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label>Favourite Food</label>
+                <select asp-for="Input.FavouriteFood" class="custom-select" asp-items="Html.GetEnumSelectList<FoodEnum.FoodCat>()">
+                    <option value="">Please Select</option>
+                </select>
+                <span asp-validation-for="Input.FavouriteFood" class="text-danger"></span>
+            </div>
 
             <button type="submit" class="btn btn-primary">Register</button>
         </form>

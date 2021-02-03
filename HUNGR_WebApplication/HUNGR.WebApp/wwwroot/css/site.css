@@ -65,6 +65,12 @@ body {
     margin-bottom: 60px;
 }
 
+.foodTruckProfile {
+    height: 200px;
+    width: 300px;
+    object-fit: cover;
+}
+
 .imageThumbnail {
     height:200px;
     width:auto;
@@ -146,3 +152,17 @@ body {
 textarea{
     resize:none
 }
+
+.btn-primary:hover {
+    background-color: #1861ac;
+    transition: 0.3s;
+}
+
+/*#editButton{
+    color: dodgerblue;
+}
+
+
+#editButton:hover {
+    color: dodgerblue;
+}*/

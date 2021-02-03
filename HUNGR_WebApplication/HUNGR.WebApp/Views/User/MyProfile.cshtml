@@ -1,12 +1,11 @@
 ﻿@model MyProfileViewModel
-
 @*<h1>@Model.FirstName</h1>*@
 
 
 @if (Model.User.FoodTruck == null)
 {
     var photoPath = "~/images/" + (Model.User.ProfileImage ?? "defaultProfileImage.png");
-    <div class="row">
+    <div class="row mt-5">
         <div class="col">
             <img src="@photoPath" class="img-thumbnail" alt="ProfileImage" asp-append-version="true">
         </div>
@@ -34,24 +33,68 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Edit</a>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col"><h1>MyFavourite Trucks</h1></div>
+    </div>
+    <hr />
+    <div class="card-deck">
+        @foreach (var truck in Model.FavouriteTrucks)
+        {
+            var truckProfileImage = "~/images/" + (truck.ProfileImage ?? "defaultProfileImage.png");
+            <div class="card m-3" style="min-width: 18rem; max-width:30.5%">
+                @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
+
+                <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
+                    <img class="w-100 img-thumbnail imageThumbnail" src="@truckProfileImage" alt="Card image cap" asp-append-version="true">
+                </a>
+                <div class="card-body">
+                    <h3>@truck.Name</h3>
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="row mt-5">
+        <div class="col"><h1>My Reviews</h1></div>
+    </div>
+    <hr />
+    <div class="col overflow-auto p-0">
+        <ul id="trucksReviews" class="list-group">
+            @foreach (var review in Model.UserReviews.Reverse())
+            {
+                @await Component.InvokeAsync("ReviewItem", new { id = review.FoodTruckId, title = review.Title, body = review.Body, rating = review.Rating, type = 2 })
+            }
+        </ul>
+    </div>
 }
+//If the user is a Food Truck
 else
 {
     var photoPath = "~/images/" + (Model.User.FoodTruck.ProfileImage ?? "defaultProfileImage.png");
     var workingState = Model.User.FoodTruck.State;
-
-    @*<h2>This is a FoodTruck</h2>*@
-<div class="row mt-5">
-    <div class="col-7">
-        <div class="row">
-            <div class="col">
-                State : @Model.User.FoodTruck.State
-                Lat : @Model.User.FoodTruck.Latitude
-                Long : @Model.User.FoodTruck.Longitude
-            </div>
+    <div class="row">
+        <div class="col">
+            @if (Model.User.FoodTruck.State == 1)
+            {
+                <div id="stateInform" class="h1 text-success d-flex justify-content-center">Open For Business!</div>
+            }
+            else
+            {
+                <div id="stateInform" class="h1 text-danger d-flex justify-content-center">Food Truck is Currently Closed</div>
+            }
         </div>
-            
-        @section Scripts{
+    </div>
+    <div class="row mt-5">
+        <div class="col-7">
+
+
+            @section Scripts{
                 <script>
                     var workingState = 0;
 
@@ -59,22 +102,22 @@ else
                     var truckLong = 0;
 
                     function getLocation() {
-                        var promise = new Promise(function(resolve, reject) {
-                        if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(
-                                function (position) {
-                                    truckLat = position.coords.latitude;
-                                    truckLong = position.coords.longitude;
-                                    resolve("Success")
-                                }
-                            );
-                        } else {
-                          reject("Error");
-                        }
-                    });
+                        var promise = new Promise(function (resolve, reject) {
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(
+                                    function (position) {
+                                        truckLat = position.coords.latitude;
+                                        truckLong = position.coords.longitude;
+                                        resolve("Success")
+                                    }
+                                );
+                            } else {
+                                reject("Error");
+                            }
+                        });
 
-                    return promise;
-                }
+                        return promise;
+                    }
                     function locationHandler(position) {
                         truckLat = position.coords.latitude;
                         truckLong = position.coords.longitude;
@@ -110,24 +153,9 @@ else
                             console.log("truck Long : " + truckLong);
                             console.log("")
                         }
-                        
-
-                        //console.log(text);
-                        //console.log("current state " + truckState)
-
-                        //If Closed, open and grab coordinates
-                        //if (truckState == 0) {
-                        //    navigator.geolocation.getCurrentPosition(locationHandler);
-                        //}
-
-                        //if (truckState == 0) {
-                        //    console.log("State " + truckState)
-                        //    console.log("truck Lat : " + truckLat);
-                        //    console.log("truck Long : " + truckLong);
-                        //}
                     }
 
-                    function OpenCloseTruckAjax(truckId, truckLat,truckLong) {
+                    function OpenCloseTruckAjax(truckId, truckLat, truckLong) {
                         $.ajax({
                             type: "POST",
                             url: "/FoodTrucks/OpenCloseFoodTruckAjax",
@@ -139,28 +167,18 @@ else
                             dataType: "json",
                             success: function (result) {
                                 if (result == 1) {
-                                    //$("alertButton").remove();
-                                    //$("buttonContainer").html("<button id=\"alertButton\" class=\"btn btn-warning\" onclick=\"OpenCloseFoodTruckAjax("+ truckId +","+ result +");\">Close Truck</button>" )
-                                    //console.log("Open");
                                     $("#alertButton").removeClass("btn-success").addClass("btn-warning");
                                     $("#alertButton").html("Close Truck");
-                                    //location.reload(true);
+                                    $("#stateInform").removeClass("text-danger").addClass("text-success");
+                                    $("#stateInform").html("Open For Business!");
 
                                 }
                                 if (result == 0) {
-                                    //$("alertButton").remove();
-                                    //$("buttonContainer").html("<button id=\"alertButton\" class=\"btn btn-success\" onclick=\"OpenCloseFoodTruckAjax(" + truckId + "," + result + ");\">Open Truck</button>")
-                                    //console.log("Closed");
                                     $("#alertButton").removeClass("btn-warning").addClass("btn-success");
                                     $("#alertButton").html("Open Truck");
-                                    //location.reload(true);
+                                    $("#stateInform").removeClass("text-success").addClass("text-danger");
+                                    $("#stateInform").html("Food Truck is Currently Closed");
                                 }
-
-
-
-                                //if (text2 == "Close Truck") {
-                                //    console.log("After: Matched the button text! Close Truck")
-                                //}
                             },
                             failure: function () {
                                 alert("A failure occured");
@@ -171,112 +189,115 @@ else
                         });
                     }
                 </script>
-        }
-        <div class="row">
-            <div class="col">
-                <h2>Truck Name</h2>
+            }
+            <div class="row">
+                <div class="col">
+                    <h2>Truck Name</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h1>@Model.User.FoodTruck.Name</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h2>Truck Bio</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h5>@Model.User.FoodTruck.Bio</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h2>Category</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h5>@Model.User.FoodTruck.FoodCat</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h2>Social Media Links</h2>
+                </div>
+            </div>
+            <div class="row d-inline-flex align-items-center">
+                <div class="col-1">
+                    <i class="fa fa-instagram fa-2x d-flex d-inline-flex" aria-hidden="true"></i>
+                </div>
+                @{
+                    var instagramLink = "https://www.instagram.com/" + @Model.User.FoodTruck.InstagramLink;
+                    var facebookLink = "https://www.facebook.com/" + @Model.User.FoodTruck.FacebookLink;
+                }
+                <div class="col">
+                    <h5>@instagramLink</h5>
+                </div>
+            </div>
+            <div class="row d-inline-flex align-items-center">
+                <div class="col-1">
+                    <i class="fa fa-facebook-square fa-2x d-flex d-inline-flex" aria-hidden="true"></i>
+                </div>
+                <div class="col">
+                    <h5>@facebookLink</h5>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <h1>@Model.User.FoodTruck.Name</h1>
+        <div class="col-5">
+            <div class="row">
+                <div class="col">
+                    <img src="@photoPath" class="img-thumbnail" alt="Responsive image" asp-append-version="true">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h2>Truck Bio</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h1>@Model.User.FoodTruck.Bio</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h2>Category</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h1>@Model.User.FoodTruck.FoodCat</h1>
-                @*@Model.FoodTruck.FoodCat*@
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h2>Social Media Links</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <i class="fa fa-instagram fa-2x" aria-hidden="true"></i>
-            </div>
-            <div class="col">
-                @Model.User.FoodTruck.InstagramLink
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
-            </div>
-            <div class="col">
-                @Model.User.FoodTruck.FacebookLink
-            </div>
-        </div>
-    </div>
-    <div class="col-5">
-        <div class="row">
-            <div class="col">
-                <img src="@photoPath" class="img-thumbnail" alt="Responsive image" asp-append-version="true">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col d-flex justify-content-center">
-                @if (Model.User.FoodTruck.Reviews.Any() && Model.User.FoodTruck.Reviews.Count > 0)
-                {
-                    double sum = 0;
-                    double revCount = Model.User.FoodTruck.Reviews.Count;
-                    foreach (var review in Model.User.FoodTruck.Reviews)
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    @if (Model.User.FoodTruck.Reviews.Any() && Model.User.FoodTruck.Reviews.Count > 0)
                     {
-                        sum += review.Rating;
+                        double sum = 0;
+                        double revCount = Model.User.FoodTruck.Reviews.Count;
+                        foreach (var review in Model.User.FoodTruck.Reviews)
+                        {
+                            sum += review.Rating;
+                        }
+                        double avgRating = sum / revCount;
+                        avgRating = Math.Round(avgRating, 1);
+                        <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">@avgRating</h1>
                     }
-                    double avgRating = sum / revCount;
-                    avgRating = Math.Round(avgRating, 1);
-                    <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">@avgRating</h1>
-                }
-                else
-                {
-                    <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">NA</h1>
+                    else
+                    {
+                        <h1 class="display-3 d-flex justify-content-center" id="foodTruckRating">NA</h1>
 
-                }
+                    }
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div id="buttonContainer" class="col d-flex justify-content-center">
-                @if (Model.User.FoodTruck.State == 0)
-                {
-                    <button id="alertButton" class="btn btn-success" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');">Open Truck</button>
-                }
-                else
-                {
-                    <button id="alertButton" class="btn btn-warning" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');">Close Truck</button>
-                }
+            <div class="row">
+                <div id="buttonContainer" class="col d-flex justify-content-center">
+                    @if (Model.User.FoodTruck.State == 0)
+                    {
+                        <button id="alertButton" class="btn btn-success btn-block btn-lg text-white" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');"><h4>Open Truck</h4></button>
+                    }
+                    else
+                    {
+                        <button id="alertButton" class="btn btn-warning btn-block btn-lg text-white" onclick="OpenCloseFoodTruckAjax('@Model.User.FoodTruck.FoodTruckId');"><h4>Close Truck</h4></button>
+                    }
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col d-flex justify-content-center">
+            <div class="row">
+                <div class="col d-flex justify-content-center">
 
-                <a class="btn btn-primary" asp-controller="FoodTrucks" asp-action="Edit" asp-route-id="@Model.User.FoodTruck.FoodTruckId">Edit</a>
+                    <a id="editButton" class="btn btn-primary btn-block" role="button" asp-controller="FoodTrucks" asp-action="Edit" asp-route-id="@Model.User.FoodTruck.FoodTruckId"><h4>Edit</h4></a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 }
 <div class="row mt-5">
-    <div class="col d-flex justify-content-center">
+    <div class="col">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="nav-link btn btn-danger text-white">Logout</button>
+            <button type="submit" class="nav-link btn btn-danger btn-block btn-lg text-white"><h4>Logout</h4></button>
         </form>
     </div>
 </div>

@@ -68,6 +68,8 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account
             public string LastName { get; set; }
             public string City { get; set; }
             public string Province { get; set; }
+            [Required]
+            public FoodEnum.FoodCat FavouriteFood { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -90,7 +92,9 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     City = Input.City,
-                    Province = Input.Province
+                    Province = Input.Province,
+                    FoodCategory = Input.FavouriteFood,
+                    EmailConfirmed = true
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -98,28 +102,15 @@ namespace HUNGR.WebApp.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     //Add the new user to the role of user
-                    await _userManager.AddToRoleAsync(user, "User");
+                    var results = await _userManager.AddToRoleAsync(user, "User");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                    
+                    //Log them in and direct to the home page
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
                 }
                 foreach (var error in result.Errors)
                 {
