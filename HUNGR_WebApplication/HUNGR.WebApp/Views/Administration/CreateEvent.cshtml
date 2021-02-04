@@ -50,10 +50,16 @@
                 </div>
                 @*<span asp-validation-for="Image" class="text-danger"></span>*@
             </div>
-            <button type="submit" class="btn btn-success">Create Event</button>
-            <button type="reset" class="btn btn-danger">Clear</button>
+            <div class="row">
+                <div class="col">
+                    <button type="reset" class="btn btn-danger btn-block">Clear</button>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-success btn-block">Create Event</button>
+                </div>
+            </div>
 
-            
+
             @section Scripts{
                 <script>
                     $(document).ready(function () {

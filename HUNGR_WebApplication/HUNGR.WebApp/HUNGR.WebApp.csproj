@@ -26,6 +26,38 @@
     <Compile Remove="Data\Migrations\20210131203635_favTruckDeleteFluentApiUpdate.Designer.cs" />
     <Compile Remove="Data\Migrations\20210202071307_eventParticipantsDeleteChange.cs" />
     <Compile Remove="Data\Migrations\20210202071307_eventParticipantsDeleteChange.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204051627_applicationUserReviewDeleteModelUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210204051627_applicationUserReviewDeleteModelUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204051809_applicationUserReviewDeleteModelUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210204051809_applicationUserReviewDeleteModelUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204052522_applicationUserReviewDeleteModelUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210204052522_applicationUserReviewDeleteModelUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204052734_applicationUserReviewDeleteModelUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210204052734_applicationUserReviewDeleteModelUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204053337_applicationUserReviewDeleteModelUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210204053337_applicationUserReviewDeleteModelUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204053438_applicationUserReviewDeleteModelUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210204053438_applicationUserReviewDeleteModelUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204054002_applicationUserReviewDeleteModelUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210204054002_applicationUserReviewDeleteModelUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204054308_applicationUserReviewDeleteModelUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210204054308_applicationUserReviewDeleteModelUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204055525_removedReviewProfileImage.cs" />
+    <Compile Remove="Data\Migrations\20210204055525_removedReviewProfileImage.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204055735_removedReviewProfileImage.cs" />
+    <Compile Remove="Data\Migrations\20210204055735_removedReviewProfileImage.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204061400_applicationUserOnDeleteUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210204061400_applicationUserOnDeleteUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204062022_applicationUserOnDeleteUpdateSetNull.cs" />
+    <Compile Remove="Data\Migrations\20210204062022_applicationUserOnDeleteUpdateSetNull.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204062232_applicationUserOnDeleteUpdateCascade.cs" />
+    <Compile Remove="Data\Migrations\20210204062232_applicationUserOnDeleteUpdateCascade.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204062501_applicationUserOnDeleteUpdateCascade.cs" />
+    <Compile Remove="Data\Migrations\20210204062501_applicationUserOnDeleteUpdateCascade.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204062527_applicationUserOnDeleteUpdateSetNull.cs" />
+    <Compile Remove="Data\Migrations\20210204062527_applicationUserOnDeleteUpdateSetNull.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210204062820_applicationUserOnDeleteUpdateSetNull.cs" />
+    <Compile Remove="Data\Migrations\20210204062820_applicationUserOnDeleteUpdateSetNull.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

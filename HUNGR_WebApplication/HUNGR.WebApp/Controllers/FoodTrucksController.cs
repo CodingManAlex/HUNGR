@@ -11,6 +11,7 @@ using HUNGR.WebApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HUNGR.WebApp.Controllers
 {
@@ -38,6 +39,7 @@ namespace HUNGR.WebApp.Controllers
         }
 
         // GET: FoodTrucks/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -87,6 +89,7 @@ namespace HUNGR.WebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> CreateReview(FoodTruckProfileViewModel model)
         {
             if (ModelState.IsValid)
@@ -111,6 +114,7 @@ namespace HUNGR.WebApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> AddTruckToFavourite(string foodTruckIdFav, string userIdFav)
         {
             var truckId = foodTruckIdFav;
@@ -127,7 +131,7 @@ namespace HUNGR.WebApp.Controllers
             await dbContext.SaveChangesAsync();
             return RedirectToAction("Profile", new { id = foodTruckIdFav });
         }
-
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> RemoveTruckFromFavourite(string foodTruckIdFav, string userIdFav)
         {
                 var favouriteTrucksList = dbContext.UserFavouriteTrucks.Where(ft => ft.FoodTruckId == foodTruckIdFav).ToList();
@@ -137,7 +141,7 @@ namespace HUNGR.WebApp.Controllers
                 await dbContext.SaveChangesAsync();
                 return RedirectToAction("Profile", new { id = foodTruckIdFav });
         }
-
+        [Authorize(Roles = "FoodTruck")]
         public async Task<IActionResult> OpenFoodTruck(string foodTruckId)
         {
             FoodTruck foodTruck = await dbContext.FoodTrucks.FindAsync(foodTruckId);
@@ -148,7 +152,7 @@ namespace HUNGR.WebApp.Controllers
             await dbContext.SaveChangesAsync();
             return RedirectToAction("MyProfile", "User", new { id = foodTruckId });
         }
-
+        [Authorize(Roles = "FoodTruck")]
         public async Task<IActionResult> CloseFoodTruck(string foodTruckId)
         {
             FoodTruck foodTruck = await dbContext.FoodTrucks.FindAsync(foodTruckId);
@@ -159,7 +163,7 @@ namespace HUNGR.WebApp.Controllers
             await dbContext.SaveChangesAsync();
             return RedirectToAction("MyProfile", "User", new { id = foodTruckId });
         }
-
+        [Authorize(Roles = "FoodTruck")]
         public async Task<JsonResult> OpenCloseFoodTruckAjax(string foodTruckId, double foodTruckLat, double foodTruckLong)
         {
             FoodTruck foodTruck = await dbContext.FoodTrucks.FindAsync(foodTruckId);
@@ -185,6 +189,7 @@ namespace HUNGR.WebApp.Controllers
 
 
         // GET: FoodTrucks/Create
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Create()
         {
             ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id");
@@ -197,6 +202,7 @@ namespace HUNGR.WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Create([Bind("FoodTruckId,Name,Bio,State=0,ProfileImage,Licence,FoodCat,Longitude,Latitude,InstagramLink,FacebookLink,FoodCategoryId")] FoodTruck foodTruck)
         {
             if (ModelState.IsValid)
@@ -225,6 +231,7 @@ namespace HUNGR.WebApp.Controllers
         }
 
         // GET: FoodTrucks/Edit/5
+        [Authorize(Roles = "Admin,FoodTruck")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -252,45 +259,9 @@ namespace HUNGR.WebApp.Controllers
             return View(editFoodTruckViewModel);
         }
 
-        // POST: FoodTrucks/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(string id, [Bind("FoodTruckId,Name,Bio,State,ProfileImage,Licence,Longitude,Latitude,InstagramLink,FacebookLink,FoodCategoryId")] FoodTruck foodTruck)
-        //{
-        //    if (id != foodTruck.FoodTruckId)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            dbContext.Update(foodTruck);
-        //            await dbContext.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!FoodTruckExists(foodTruck.FoodTruckId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["FoodTruckId"] = new SelectList(dbContext.Users, "Id", "Id", foodTruck.FoodTruckId);
-        //    ViewData["FoodCategoryId"] = new SelectList(dbContext.FoodCategories, "Id", "Id", foodTruck.FoodCategoryId);
-        //    return View(foodTruck);
-        //}
-
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,FoodTruck")]
         public async Task<IActionResult> Edit(EditFoodTruckViewModel model)
         {
 
@@ -325,6 +296,7 @@ namespace HUNGR.WebApp.Controllers
         }
 
         // GET: FoodTrucks/Delete/5
+        [Authorize(Roles = "Admin,FoodTruck")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -347,6 +319,7 @@ namespace HUNGR.WebApp.Controllers
         // POST: FoodTrucks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,FoodTruck")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var foodTruck = await dbContext.FoodTrucks.FindAsync(id);

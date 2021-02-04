@@ -55,7 +55,7 @@ namespace HUNGR.WebApp.Controllers
 
 
 
-        public async Task<ViewResult> IndexAsync()
+        public async Task<ViewResult> Index()
         {
             //List of open truck based on view model
             List<OpenTrucksViewModel> openTrucksList = new List<OpenTrucksViewModel>();
@@ -117,42 +117,6 @@ namespace HUNGR.WebApp.Controllers
             {
                 return View(openTrucksList);
             }
-
-
-
-
-            //var test = context.FoodTrucks.Join(context.UserFavouriteTrucks,
-            //    ft => ft.FoodTruckId,
-            //    fav => fav.FoodTruckId,
-            //    (ft,fav)=> new
-            //    {
-
-            //    }
-            //    )
-            //foreach(var entry in favTruckList)
-            //{
-            //    var truck = await context.FoodTrucks.FindAsync(entry.FoodTruckId);
-            //    if (truck.State == 1)
-            //    {
-            //        favOpenTrucks.Add(new OpenTrucksViewModel { 
-            //            FoodTruckId = truck.FoodTruckId,
-            //            TruckName = truck.Name,
-            //            ImagePath = truck.ProfileImage,
-            //            isFavourite = true
-            //        });
-            //    }
-            //}
-            //foreach(var fav in favTrucks )
-            //{
-            //    foreach(var truck in openTrucks)
-            //    {
-            //        if (fav.FoodTruckId.Equals(truck.FoodTruckId))
-            //        {
-
-            //        }
-            //    }
-            //}
-
         }
 
         public IActionResult Privacy()
@@ -165,11 +129,5 @@ namespace HUNGR.WebApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        //[HttpGet]
-        //public IActionResult ListOpenTrucks()
-        //{
-        //    var openTrucks = context.FoodTrucks.Where(f => f.State == 1).ToList();
-        //    return View(openTrucks);
-        //}
     }
 }

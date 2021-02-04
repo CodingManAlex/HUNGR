@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using static HUNGR.WebApp.Models.FoodEnum;
+using System.Security.Claims;
 
 namespace HUNGR.WebApp.Controllers
 {
@@ -72,9 +73,12 @@ namespace HUNGR.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> MyProfile()
         {
-            //string userId = User.FindFirst("UserId").Value;
+
             //Get Basic User Info
-            ApplicationUser UserProfile = await userManager.FindByIdAsync(User.FindFirst("UserId").Value);
+            //var uId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); 
+            ApplicationUser UserProfile = await userManager.FindByIdAsync(userId);
             var UsersReviews = dbContext.Reviews.Where( r=> r.UserId == UserProfile.Id).ToList();
             List<UserFavouriteTruck> favTruckData = dbContext.UserFavouriteTrucks.Where(favT => favT.Id == UserProfile.Id).ToList();
 

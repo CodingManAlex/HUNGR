@@ -16,6 +16,7 @@
             src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AodJbksXSBCydQxBDZ4_ooFRGs8FrNserUXrYIj0FXBHYKm4eEF-BNgybscQFYOH'
             async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
 </head>
 <body>
     <div class="jumbotron text-center bg-danger mb-0">
@@ -36,43 +37,44 @@
         }
         <div class="col-lg-1 offset-lg-1 text-light">
         </div>
+
     </div>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header class="">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-danger mb-3 ">
             <div class="container">
                 @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HUNGR</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>*@
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse ">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1 justify-content-around">
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="FoodTrucks" asp-action="Index">Food Trucks</a>
+                        <li class="nav-item h3">
+                            <a class="nav-link text-white" asp-area="" asp-controller="FoodTrucks" asp-action="Index">Food Trucks</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
+                        <li class="nav-item h3">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
                         </li>
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Administration" asp-action="CreateEvent">Admin Events</a>
+                            <li class="nav-item h3">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Administration" asp-action="CreateEvent">Admin Events</a>
                             </li>
                         }
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="MyProfile">Profile</a>
+                            <li class="nav-item h3">
+                                <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="MyProfile">Profile</a>
                             </li>
                         }
-                        @if ((await authorizationSerivce.AuthorizeAsync(User, "UserPolicy")).Succeeded)
+                        @*@if ((await authorizationSerivce.AuthorizeAsync(User, "UserPolicy")).Succeeded)
                         { 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Foodtrucks" asp-action="Create">Create Your Food Truck!</a>
                         </li>
-                        }
+                        }*@
                     </ul>
                 </div>
             </div>

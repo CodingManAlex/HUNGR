@@ -61,43 +61,5 @@ namespace HUNGR.WebApp.Controllers
 
             return View(model);
         }
-
-        // GET: Events/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Events/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Location,StartDate,EndDate,ImagePath")] Event @event)
-        {
-            if (ModelState.IsValid)
-            {
-                dbContext.Add(@event);
-                await dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(@event);
-        }
-
-        // GET: Events/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @event = await dbContext.Events.FindAsync(id);
-            if (@event == null)
-            {
-                return NotFound();
-            }
-            return View(@event);
-        }
     }
 }

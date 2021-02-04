@@ -10,13 +10,13 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form enctype="multipart/form-data" asp-controller="administration" 
+        <form enctype="multipart/form-data" asp-controller="administration"
               asp-action="editEvent" method="post">
             @*<hr />*@
             <div asp-validation-summary="All" class="text-danger"></div>
             <input hidden asp-for="Id" />
             <input hidden asp-for="ExistingImagePath" />
-            
+
             <div class="form-group">
                 <label asp-for="EventName"></label>
                 <input asp-for="EventName" class="form-control" />
@@ -57,8 +57,16 @@
             <div class="form-group row col-sm-4 offset-4">
                 <img src="@photoPath" class="img-thumbnail" asp-append-version="true" />
             </div>
-            <button type="submit" class="btn btn-success">Update</button>
-            <a asp-action="CreateEvent" asp-controller="Administration" class="btn btn-danger">Clear</a>
+            <div class="row">
+                <div class="col">
+                    <a asp-action="CreateEvent" asp-controller="Administration" class="btn btn-danger btn-block" >Clear</a>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-success btn-block" >Update</button>
+                </div>
+            </div>
+            
+            
 
 
             @section Scripts{

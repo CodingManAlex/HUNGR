@@ -61,8 +61,9 @@ namespace HUNGR.WebApp.Data
             modelBuilder.Entity<ApplicationUser>()
                 .HasMany(au => au.Reviews)
                 .WithOne(r => r.ApplicationUser)
-                .HasForeignKey(r => r.UserId);
-                
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
 
 
 

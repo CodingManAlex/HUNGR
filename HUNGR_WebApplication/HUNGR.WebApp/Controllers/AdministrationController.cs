@@ -1,6 +1,7 @@
 ﻿using HUNGR.WebApp.Data;
 using HUNGR.WebApp.Models;
 using HUNGR.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace HUNGR.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdministrationController : Controller
     {
         private readonly HUNGRDbContext dbContext;
@@ -134,15 +136,6 @@ namespace HUNGR.WebApp.Controllers
                 return View("EventNotFound", eventId);
                 //return NotFound();
             }
-            //EditEventViewModel editEventViewModel = new EditEventViewModel
-            //{
-            //    EventName = eventDetials.Name,
-            //    Description = eventDetials.Description,
-            //    Location = eventDetials.Location,
-            //    StartDate = eventDetials.StartDate,
-            //    EndDate = eventDetials.EndDate,
-            //    ExistingImagePath = eventDetials.ImagePath
-            //};
 
             var eventTruckList = new List<EventTruckViewModel>();
             var foodTrucks = dbContext.FoodTrucks.ToList();

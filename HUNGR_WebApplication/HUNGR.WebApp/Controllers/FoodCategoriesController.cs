@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HUNGR.WebApp.Data;
 using HUNGR.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HUNGR.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class FoodCategoriesController : Controller
     {
         private readonly HUNGRDbContext _context;

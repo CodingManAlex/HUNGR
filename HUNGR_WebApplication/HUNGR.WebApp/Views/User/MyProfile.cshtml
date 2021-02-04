@@ -5,9 +5,21 @@
 @if (Model.User.FoodTruck == null)
 {
     var photoPath = "~/images/" + (Model.User.ProfileImage ?? "defaultProfileImage.png");
-    <div class="row mt-5">
+    <div class="row mt-5 ">
+        <div class="col d-flex justify-content-end">
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <i class="fa fa-cog fa-2x"></i>
+            </a>
+        </div>
+    </div>
+    <div class="row ">
         <div class="col">
-            <img src="@photoPath" class="img-thumbnail" alt="ProfileImage" asp-append-version="true">
+            <img src="@photoPath" class="foodTruckProfile img-fluid" alt="ProfileImage" asp-append-version="true">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-success btn-block text-white" asp-area="" asp-controller="Foodtrucks" asp-action="Create">Create Your Food Truck!</a>
+                </div>
+            </div>
         </div>
         <div class="col">
             <h1>@Model.User.FirstName @Model.User.LastName</h1>
@@ -18,7 +30,7 @@
             </div>
         </div>
         <div class="col">
-            <h1>Favourite Foods</h1>
+            <h1>Favourite Food</h1>
             <div class="row">
                 <div class="col">
                     @if (Model.User.FoodCategory != null)
@@ -33,13 +45,16 @@
             </div>
         </div>
     </div>
-    <div class="row">
+
+    <div class="row mt-5">
         <div class="col">
-            <a class="btn btn-primary text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Edit</a>
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-danger btn-block btn-lg text-white"><h4>Logout</h4></button>
+            </form>
         </div>
     </div>
     <div class="row mt-5">
-        <div class="col"><h1>MyFavourite Trucks</h1></div>
+        <div class="col text-center"><h1>MyFavourite Trucks</h1></div>
     </div>
     <hr />
     <div class="card-deck">
@@ -60,17 +75,22 @@
 
     </div>
 
-    <div class="row mt-5">
-        <div class="col"><h1>My Reviews</h1></div>
-    </div>
-    <hr />
-    <div class="col overflow-auto p-0">
-        <ul id="trucksReviews" class="list-group">
-            @foreach (var review in Model.UserReviews.Reverse())
-            {
-                @await Component.InvokeAsync("ReviewItem", new { id = review.FoodTruckId, title = review.Title, body = review.Body, rating = review.Rating, type = 2 })
-            }
-        </ul>
+
+    <div class="col-lg-12 ">
+
+        <div class="row mt-5">
+            <div class="col-lg-12 text-center">
+                <h1>My Reviews</h1>
+            </div>
+            <div class="col p-0 ">
+                <ul id="trucksReviews" class="list-group">
+                    @foreach (var review in Model.UserReviews.Reverse())
+                    {
+                        @await Component.InvokeAsync("ReviewItem", new { id = review.FoodTruckId, title = review.Title, body = review.Body, rating = review.Rating, type = 2 })
+                    }
+                </ul>
+            </div>
+        </div>
     </div>
 }
 //If the user is a Food Truck
@@ -78,7 +98,7 @@ else
 {
     var photoPath = "~/images/" + (Model.User.FoodTruck.ProfileImage ?? "defaultProfileImage.png");
     var workingState = Model.User.FoodTruck.State;
-    <div class="row">
+    <div class="row mt-5">
         <div class="col">
             @if (Model.User.FoodTruck.State == 1)
             {
@@ -90,9 +110,15 @@ else
             }
         </div>
     </div>
-    <div class="row mt-5">
+    <div class="row ">
+        <div class="col d-flex justify-content-end">
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <i class="fa fa-cog fa-2x"></i>
+            </a>
+        </div>
+    </div>
+    <div class="row ">
         <div class="col-7">
-
 
             @section Scripts{
                 <script>
@@ -293,11 +319,12 @@ else
             </div>
         </div>
     </div>
-}
-<div class="row mt-5">
-    <div class="col">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="nav-link btn btn-danger btn-block btn-lg text-white"><h4>Logout</h4></button>
-        </form>
+    <div class="row mt-5">
+        <div class="col">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-danger btn-block btn-lg text-white"><h4>Logout</h4></button>
+            </form>
+        </div>
     </div>
-</div>
+}
+

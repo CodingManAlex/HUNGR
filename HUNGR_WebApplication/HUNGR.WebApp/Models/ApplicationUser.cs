@@ -21,7 +21,7 @@ namespace HUNGR.WebApp.Models
         
         //Navigation
         public virtual FoodTruck FoodTruck { get; set; }
-        public virtual List<Review> Reviews { get; set; }
+        public virtual List<Review>? Reviews { get; set; }
         public ICollection<UserFavouriteTruck> UserFavouriteTrucks { get; set; }
         public ICollection<UserFavouriteFood> UserFavouriteFoods { get; set; }
     }
