@@ -44,7 +44,8 @@ namespace HUNGR.WebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The FoodTruck with Id = {id} cannot be found";
+                return View("NotFound");
             }
 
             var foodTruck = await dbContext.FoodTrucks
@@ -53,7 +54,8 @@ namespace HUNGR.WebApp.Controllers
                 .FirstOrDefaultAsync(m => m.FoodTruckId == id);
             if (foodTruck == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The FoodTruck with Id = {id} cannot be found";
+                return View("NotFound");
             }
 
             return View(foodTruck);
@@ -64,7 +66,8 @@ namespace HUNGR.WebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The FoodTruck with Id = {id} cannot be found";
+                return View("NotFound");
             }
 
             var foodTruck = await dbContext.FoodTrucks
@@ -76,7 +79,8 @@ namespace HUNGR.WebApp.Controllers
 
             if (foodTruck == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The FoodTruck with Id = {id} cannot be found";
+                return View("NotFound");
             }
 
             FoodTruckProfileViewModel truckProfile = new FoodTruckProfileViewModel
@@ -236,13 +240,15 @@ namespace HUNGR.WebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The FoodTruck with Id = {id} cannot be found";
+                return View("NotFound");
             }
 
             var foodTruck = await dbContext.FoodTrucks.FindAsync(id);
             if (foodTruck == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The FoodTruck with Id = {id} cannot be found";
+                return View("NotFound");
             }
             EditFoodTruckViewModel editFoodTruckViewModel = new EditFoodTruckViewModel
             {
@@ -301,7 +307,8 @@ namespace HUNGR.WebApp.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The FoodTruck with Id = {id} cannot be found";
+                return View("NotFound");
             }
 
             var foodTruck = await dbContext.FoodTrucks
@@ -310,7 +317,8 @@ namespace HUNGR.WebApp.Controllers
                 .FirstOrDefaultAsync(m => m.FoodTruckId == id);
             if (foodTruck == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"The FoodTruck with Id = {id} cannot be found";
+                return View("NotFound");
             }
 
             return View(foodTruck);
@@ -322,9 +330,16 @@ namespace HUNGR.WebApp.Controllers
         [Authorize(Roles = "Admin,FoodTruck")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            var UsersReviews = dbContext.Reviews.Where(r => r.FoodTruckId == id).ToList();
+            dbContext.RemoveRange(UsersReviews);
+            await dbContext.SaveChangesAsync();
+
             var foodTruck = await dbContext.FoodTrucks.FindAsync(id);
             dbContext.FoodTrucks.Remove(foodTruck);
             await dbContext.SaveChangesAsync();
+
+            
+            
 
             //Delete their truck and change them back to a standard user
             var user = await userManager.FindByIdAsync(id);

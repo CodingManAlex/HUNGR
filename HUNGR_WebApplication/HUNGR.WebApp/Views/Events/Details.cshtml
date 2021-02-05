@@ -66,7 +66,7 @@ else
                 @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
 
                 <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
-                    <img class="d-block w-100 eventThumbnail" src="@truckImagePath" alt="@truck.Name" asp-append-version="true">
+                    <img class="w-100 img-thumbnail imageThumbnail" src="@truckImagePath" alt="@truck.Name" asp-append-version="true">
                 </a>
                 <div class="card-body">
 

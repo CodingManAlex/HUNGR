@@ -5,13 +5,13 @@
 }
 
 
-<ul id="trucksList" class="list-group">
+<ul id="trucksList" class="list-group mt-3">
     @foreach (var truck in Model)
     {
         var photoPath = "~/images/" + (truck.ProfileImage ?? "defaultProfileImage.png");
         //var reviewPhotoPath = "~/images/" + (Model.FoodTruckModel.ProfileImage ?? "defaultProfileImage.png");
         <li class="border my-1" style="list-style-type:none;">
-            <a asp-action="Profile" asp-route-id="@truck.FoodTruckId">
+            <a asp-action="Profile" asp-route-id="@truck.FoodTruckId" style="text-decoration: none; color:black;" >
                 <div class="row">
                     <div class="col">
                         <img src="@photoPath" class="img-thumbnail roundThumbnail" alt="ProfileImage" asp-append-version="true">
@@ -31,47 +31,3 @@
     }
 </ul>
 
-@*@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfileImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Licence)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Longitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Latitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InstagramLink)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FacebookLink)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FoodCategory.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.FoodTruckId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FoodTruckId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FoodTruckId">Delete</a>
-            </td>
-        </tr>
-}*@
-    @*</tbody>
-</table*@>

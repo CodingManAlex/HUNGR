@@ -28,6 +28,7 @@ namespace HUNGR.WebApp.ViewComponents
             {
                 //Get the users profile photo
                 var user = await userManager.FindByIdAsync(id);
+
                 var review = new ReviewItemViewModel()
                 {
                    Id = id,

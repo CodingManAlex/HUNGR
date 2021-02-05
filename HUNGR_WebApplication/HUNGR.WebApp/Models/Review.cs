@@ -15,8 +15,8 @@ namespace HUNGR.WebApp.Models
         public int Rating { get; set; }
 
         //Foreign Key - Who made the review
-        public string? UserId { get; set; }
-        public virtual ApplicationUser? ApplicationUser { get; set; }
+        public string UserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         //Foreign Key - For which truck the review was made
         public string FoodTruckId { get; set; }

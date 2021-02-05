@@ -13,11 +13,13 @@ namespace HUNGR.WebApp.Models
         [Key,ForeignKey("ApplicationUser")]
         public string FoodTruckId { get; set; }
         [Required]
+        [MinLength(1, ErrorMessage = "Name must be at least 1 character")]
         [MaxLength(150, ErrorMessage = "Name cannot be greater than 150 characters")]
         public string Name { get; set; }
         [Required]
-        [MaxLength(350, ErrorMessage = "Bio cannot be greater than 3500 characters")]
-        public string Bio { get; set; }
+        [MinLength(1, ErrorMessage = "Bio must be at least 1 character")]
+        [MaxLength( 350, ErrorMessage = "Bio cannot be greater than 350 characters")]
+        public string? Bio { get; set; }
         public int State { get; set; }
         public string? ProfileImage { get; set; } //relative path to image - local repo
         public double? Longitude { get; set; }

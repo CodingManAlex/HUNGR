@@ -22,8 +22,16 @@ namespace HUNGR.WebApp.Models
             Mexican = 4,
             Italian = 5,
             Burgers = 6,
-            Japanese = 7
-
+            Japanese = 7,
+            [Display(Name = "Hot Dogs")]
+            Sausages = 8,
+            [Display(Name = "Fried Chicken")]
+            Chicken = 9,
+            [Display(Name = "Baked Goods")]
+            BakedGoods = 10,
+            Refreshments = 11,
+            Barbeque = 12,
+            Other,
 
         }
         public static string GetDisplayName(this Enum enu)

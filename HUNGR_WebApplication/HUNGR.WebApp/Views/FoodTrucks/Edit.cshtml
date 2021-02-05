@@ -17,20 +17,20 @@
             <div class="row">
                 <div class="col-8">
                     <div class="form-group">
-                        <label asp-for="FoodTruckName" class="h2"></label>
+                        <label asp-for="FoodTruckName" class=" control-label h2"></label>
                         <input asp-for="FoodTruckName" class="form-control" />
                         <span asp-validation-for="FoodTruckName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TruckBio" class="h2"></label>
-                        <input asp-for="TruckBio" class="form-control" />
+                        <label asp-for="TruckBio" class=" control-labelh2"></label>
+                        <textarea asp-for="TruckBio" class="form-control" rows="4" style="width:100%;" ></textarea>
                         <span asp-validation-for="TruckBio" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="FoodCategory" class="h2"></label>
-                        <select asp-for="FoodCategory" class="custom-select" 
-                                asp-items="Html.GetEnumSelectList<FoodEnum.FoodCat>()" >
+                        <label asp-for="FoodCategory" class="h2 control-label"></label>
+                        <select asp-for="FoodCategory" class="custom-select"
+                                asp-items="Html.GetEnumSelectList<FoodEnum.FoodCat>()">
                             <option value="">Please Select</option>
                         </select>
                         <span asp-validation-for="FoodCategory" class="text-danger"></span>
@@ -58,6 +58,14 @@
                         </div>
                         <span asp-validation-for="FacebookLink" class="text-danger"></span>
                     </div>
+                    <div class="row d-flex justify-content-around">
+                        <div class="d-inline-flex">
+                            <a style="width:100px" class="btn btn-danger" asp-action="MyProfile" asp-controller="User">Cancel</a>
+                        </div>
+                        <div class="d-inline-flex">
+                            <button style="width:100px" type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group row ">
@@ -73,15 +81,13 @@
                     </div>
                 </div>
             </div>
-                <button type="submit" class="btn btn-success">Save</button>
+            
         </form>
     </div>
 
 </div>
 
-<div>
-    <a class="btn btn-danger" asp-action="MyProfile" asp-controller="User">Cancel</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

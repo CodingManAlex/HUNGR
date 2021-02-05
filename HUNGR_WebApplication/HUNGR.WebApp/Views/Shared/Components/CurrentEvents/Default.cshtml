@@ -13,7 +13,7 @@
             var idName = "event" + eventCount;
             @*<a class="btn btn-primary" asp-action="EditEvent" asp-route-id="@ev.EventId">Edit @ev.Name</a>*@
             <div id="@idName" class="card text-center" style="min-width: 18rem; max-width:30.5%">
-                <img class="card-img-top" src="@photoPath" alt="Card image cap" asp-append-version="true">
+                <img class="w-100 img-thumbnail imageThumbnail" src="@photoPath" alt="Card image cap" asp-append-version="true">
                 <div class="card-img-overlay">
                     <h2 id="currentEventName" class="card-text text-white bg-dark">@ev.Name</h2>
                     <h4 class="card-text text-white bg-dark">@ev.StartDate.ToString("M") - @ev.EndDate.ToString("d, yyyy")</h4>

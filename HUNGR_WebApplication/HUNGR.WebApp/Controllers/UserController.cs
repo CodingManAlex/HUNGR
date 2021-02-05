@@ -79,7 +79,7 @@ namespace HUNGR.WebApp.Controllers
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); 
             ApplicationUser UserProfile = await userManager.FindByIdAsync(userId);
-            var UsersReviews = dbContext.Reviews.Where( r=> r.UserId == UserProfile.Id).ToList();
+            var UsersReviews = dbContext.Reviews.Where( r=> r.UserId == UserProfile.Id && r.FoodTruckId != null).ToList();
             List<UserFavouriteTruck> favTruckData = dbContext.UserFavouriteTrucks.Where(favT => favT.Id == UserProfile.Id).ToList();
 
             var listOfFoodTrucks = new List<FoodTruck>();

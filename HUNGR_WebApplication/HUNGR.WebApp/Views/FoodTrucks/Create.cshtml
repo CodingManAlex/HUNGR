@@ -6,11 +6,12 @@
     var userId = this.User.FindFirst("UserId").Value;
 }
 
-<h1>Create a Food Truck Profile</h1>
+
 
 <hr />
 <div class="row d-flex justify-content-center">
     <div class="col-md-4">
+        <h1>Create a Food Truck Profile</h1>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -22,7 +23,7 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label >Food Type</label>
+                <label>Food Type</label>
                 <select asp-for="FoodCat" class="custom-select" asp-items="Html.GetEnumSelectList<FoodEnum.FoodCat>()">
                     <option value="">Please Select</option>
                 </select>
@@ -31,22 +32,29 @@
 
             <div class="form-group">
                 <label asp-for="Bio" class="control-label"></label>
-                <input asp-for="Bio" class="form-control" />
+                <textarea asp-for="Bio" class="form-control" rows="4" style="width:100%;" ></textarea>
                 <span asp-validation-for="Bio" class="text-danger"></span>
             </div>
 
 
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            @*<div class="form-group">
+            </div>*@
+            <div class="row">
+                <div class="col">
+                    <a style="width:100px" class="btn btn-danger" asp-action="MyProfile" asp-controller="User">Cancel</a>
+                </div>
+                <div class="col">
+                    <input style="width:100px" type="submit" value="Create" class="btn btn-primary" />
+                </div>
+
             </div>
+
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
