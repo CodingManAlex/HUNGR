@@ -5,6 +5,31 @@
     var photoPath = "~/images/" + (Model.EventDetails.ImagePath ?? "defaultProfileImage.png");
 }
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $("#searchBar").autocomplete({
+                    source: "/Home/AutoComplete",
+                    minLength: 1
+                });
+            }
+            );
+        })
+
+
+    </script>
+}
+
+<form method="get" asp-action="Search" asp-controller="Home">
+    <div class="input-group">
+        <input id="searchBar" type="text" placeholder="Enter a Food Truck Name..." class="form-control" name="searchTerm" />
+        <div class="input-group-append">
+            <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+    </div>
+</form>
+
 <div class="row mt-5">
     <div class="col">
         <div class="display-1 d-flex justify-content-center">@Model.EventDetails.Name</div>

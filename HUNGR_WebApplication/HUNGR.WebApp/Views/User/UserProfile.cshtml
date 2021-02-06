@@ -1,8 +1,34 @@
 ﻿@model UserProfileViewModel
 
-@{ 
+@{
     var photoPath = "~/images/" + (Model.ProfileImagePath ?? "defaultProfileImage.png");
 }
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $("#searchBar").autocomplete({
+                    source: "/Home/AutoComplete",
+                    minLength: 1
+                });
+            }
+            );
+        })
+
+
+    </script>
+}
+
+<form method="get" asp-action="Search" asp-controller="Home">
+    <div class="input-group">
+        <input id="searchBar" type="text" placeholder="Enter a Food Truck Name..." class="form-control" name="searchTerm" />
+        <div class="input-group-append">
+            <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+    </div>
+</form>
+
 <div class="row mt-5">
     <div class="col">
         <img src="@photoPath" class="img-thumbnail" alt="ProfileImage" asp-append-version="true">
@@ -43,16 +69,16 @@
     @foreach (var truck in Model.FavouriteTrucks)
     {
         var truckPhotoPath = "~/images/" + (truck.ProfileImage ?? "defaultProfileImage.png");
-    <div class="card m-3" style="min-width: 18rem; max-width:30.5%">
-        @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
+        <div class="card m-3" style="min-width: 18rem; max-width:30.5%">
+            @*        <a asp-page="/FoodTrucks/FoodTruckProfile" asp-route-id="@truck.FoodTruckId">*@
 
-        <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
-            <img class="w-100 img-thumbnail imageThumbnail" src="@truckPhotoPath" alt="Card image cap" asp-append-version="true">
-        </a>
-        <div class="card-body">
-            <h3>@truck.Name</h3>
+            <a asp-action="Profile" asp-controller="FoodTrucks" asp-route-id="@truck.FoodTruckId">
+                <img class="w-100 img-thumbnail imageThumbnail" src="@truckPhotoPath" alt="Card image cap" asp-append-version="true">
+            </a>
+            <div class="card-body">
+                <h3>@truck.Name</h3>
+            </div>
         </div>
-    </div>
     }
 
 </div>

@@ -2,6 +2,11 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+
+
+
+
 function scriptAlert(truckId) {
     alert("Script Alert " + truckId);
 }
@@ -168,3 +173,35 @@ function filterEvents() {
     })
 
 };
+
+//function searchBarOptions() {
+//    var userSearchTerm = $("#searchBar").val();
+//    $("#searchBar")
+
+//    $.ajax({
+//        type: "GET",
+//        url: "/Home/SearchOptions",
+//        data: {
+//            searchTerm: userSearchTerm
+//        },
+//        dataType: "json",
+//        success: function (data) {
+//            result = data
+
+//            for (i = 0; i < result.length; i++) {
+
+//                var item = html("<li>" + result[i].truckName + "</li>");
+//                console.log(result[i].truckName )
+//            }
+//        },
+//        failure: function () {
+            
+//        },
+//        error: function (response) {
+
+//        }
+//    });
+//}
+
+
+

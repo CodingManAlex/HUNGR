@@ -5,6 +5,16 @@
     var photoPath = "~/images/" + (Model.ExistingImagePath ?? "defaultProfileImage.png");
 }
 
+
+<form method="get" asp-action="Search" asp-controller="Home">
+    <div class="input-group">
+        <input id="searchBar" type="text" placeholder="Enter a Food Truck Name..." class="form-control" name="searchTerm" />
+        <div class="input-group-append">
+            <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+    </div>
+</form>
+
 <h1>Edit</h1>
 
 <h4>FoodTruck</h4>
@@ -23,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="TruckBio" class=" control-labelh2"></label>
-                        <textarea asp-for="TruckBio" class="form-control" rows="4" style="width:100%;" ></textarea>
+                        <textarea asp-for="TruckBio" class="form-control" rows="4" style="width:100%;"></textarea>
                         <span asp-validation-for="TruckBio" class="text-danger"></span>
                     </div>
 
@@ -81,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </form>
     </div>
 
@@ -99,76 +109,16 @@
                 $(this).next('.custom-file-label').html(fileName);
             })
         })
+
+        $(document).ready(function () {
+            $(function () {
+                $("#searchBar").autocomplete({
+                    source: "/Home/AutoComplete",
+                    minLength: 1
+                });
+            }
+            );
+        })
     </script>
 }
 
-<!--<div class="row mt-5">
-    <div class="col-7">
-        <div class="row">
-            <div class="col">
-                <h2>Truck Name</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h1></h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h2>Truck Bio</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h1></h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h2>Category</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h1>Seafood</h1>-->
-@*@Model.FoodTruck.FoodCat*@
-<!--</div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h2>Social Media Links</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <i class="fa fa-instagram fa-2x" aria-hidden="true"></i>
-            </div>
-            <div class="col">
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
-            </div>
-            <div class="col">
-
-            </div>
-        </div>
-    </div>
-    <div class="col-5">
-        <div class="row">
-            <div class="col">
-                <img src="~/images/defaultProfileImage.png" class="img-thumbnail" alt="Responsive image">
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col d-flex justify-content-center">
-                <button class="btn btn-primary">Edit Truck</button>
-            </div>
-        </div>
-    </div>
-</div>-->

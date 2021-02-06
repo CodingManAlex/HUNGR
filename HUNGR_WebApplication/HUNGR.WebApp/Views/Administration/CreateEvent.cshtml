@@ -1,11 +1,22 @@
 ﻿@using HUNGR.WebApp.ViewModels;
 @model CreateEventViewModel
 
-@{ 
+@{
     ViewBag.Title = "Create A New Event";
 }
 
-<h1>Create New Event</h1>
+
+
+<form method="get" asp-action="Search" asp-controller="Home">
+    <div class="input-group">
+        <input id="searchBar" type="text" placeholder="Enter a Food Truck Name..." class="form-control" name="searchTerm" />
+        <div class="input-group-append">
+            <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+    </div>
+</form>
+
+<h1 class= "mt-5" >Create New Event</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -68,11 +79,21 @@
                             $(this).next('.custom-file-label').html(fileName);
                         })
                     })
+
+                    $(document).ready(function () {
+                        $(function () {
+                            $("#searchBar").autocomplete({
+                                source: "/Home/AutoComplete",
+                                minLength: 1
+                            });
+                        }
+                        );
+                    })
                 </script>
             }
         </form>
     </div>
- 
+
 </div>
 
 <hr>

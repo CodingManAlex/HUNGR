@@ -2,6 +2,35 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "jQuery/1.4.4": {
+        "type": "package"
+      },
+      "jQuery.UI.Core/1.8.9": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "[1.4.4, 1.6.0)"
+        }
+      },
+      "jQuery.UI.Core.Position/1.8.9": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "[1.4.4, 1.6.0)"
+        }
+      },
+      "jQuery.UI.Core.Widget/1.8.9": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "[1.4.4, 1.5.0]"
+        }
+      },
+      "jQuery.UI.Widgets.Autocomplete/1.8.9": {
+        "type": "package",
+        "dependencies": {
+          "jQuery.UI.Core": "[1.8.9]",
+          "jQuery.UI.Core.Position": "[1.8.9]",
+          "jQuery.UI.Core.Widget": "[1.8.9]"
+        }
+      },
       "Microsoft.AspNetCore.Cryptography.Internal/3.1.11": {
         "type": "package",
         "compile": {
@@ -2883,6 +2912,72 @@
     }
   },
   "libraries": {
+    "jQuery/1.4.4": {
+      "sha512": "kexCeYIZehR5fRjo8CK1sngN5SZEQRFNfCYZHMS1RxwEEiSKetBw/gliYJcLJdJEBB+e9aHqleLCjuaSI7u23g==",
+      "type": "package",
+      "path": "jquery/1.4.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery-1.4.4-vsdoc.js",
+        "Content/Scripts/jquery-1.4.4.js",
+        "Content/Scripts/jquery-1.4.4.min.js",
+        "jquery.1.4.4.nupkg.sha512",
+        "jquery.nuspec"
+      ]
+    },
+    "jQuery.UI.Core/1.8.9": {
+      "sha512": "Sib0IXtCSVnA9wX6i0enHxHTZmBW0mLncfjtjjU3wWUMnQgmTxlenvOZBKUqpFjA0/nFQgsJqsANO74YphTc+g==",
+      "type": "package",
+      "path": "jquery.ui.core/1.8.9",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery.ui.core.js",
+        "Content/Scripts/jquery.ui.core.min.js",
+        "jquery.ui.core.1.8.9.nupkg.sha512",
+        "jquery.ui.core.nuspec"
+      ]
+    },
+    "jQuery.UI.Core.Position/1.8.9": {
+      "sha512": "s+RZ5EMmj/CFN1LUkUvj/lHkgeEgHsV5TVFHf3eVbddI2LuExOCbc0EWH0kQoNy9DVt4GHRNfCTl+j5A8oEskQ==",
+      "type": "package",
+      "path": "jquery.ui.core.position/1.8.9",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery.ui.position.js",
+        "Content/Scripts/jquery.ui.position.min.js",
+        "jquery.ui.core.position.1.8.9.nupkg.sha512",
+        "jquery.ui.core.position.nuspec"
+      ]
+    },
+    "jQuery.UI.Core.Widget/1.8.9": {
+      "sha512": "RWyajVFTrZY3wYYnPLmof0OT3tJlwERFDCko/wPxHtNFz+Dvl5+coQuU49uu/7+0qoszAyuVvOWovGJmsTNF0g==",
+      "type": "package",
+      "path": "jquery.ui.core.widget/1.8.9",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery.ui.widget.js",
+        "Content/Scripts/jquery.ui.widget.min.js",
+        "jquery.ui.core.widget.1.8.9.nupkg.sha512",
+        "jquery.ui.core.widget.nuspec"
+      ]
+    },
+    "jQuery.UI.Widgets.Autocomplete/1.8.9": {
+      "sha512": "aU/h7wj2UhZfgVS+XdBPj2UPvU5Qltv8t2r0LVOjXqGK6YKgYXYyJuaxcJcEpMQ48P/1C8Yh8ulAWP2I01IKjQ==",
+      "type": "package",
+      "path": "jquery.ui.widgets.autocomplete/1.8.9",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery.ui.autocomplete.js",
+        "Content/Scripts/jquery.ui.autocomplete.min.js",
+        "jquery.ui.widgets.autocomplete.1.8.9.nupkg.sha512",
+        "jquery.ui.widgets.autocomplete.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.Cryptography.Internal/3.1.11": {
       "sha512": "o6kCCaDCkP1rGpMkeyBn9YlgbpVgoSPxV0YNtyntEB9zFqpGH4LmOvnyUQE/6PNfU8bw1MejbLQE7uNIT53Qkg==",
       "type": "package",
@@ -9185,7 +9280,8 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.11",
       "Microsoft.EntityFrameworkCore.Sqlite >= 3.1.10",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.11",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.4"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.4",
+      "jQuery.UI.Widgets.Autocomplete >= 1.8.9"
     ]
   },
   "packageFolders": {
@@ -9261,6 +9357,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[3.1.4, )"
+          },
+          "jQuery.UI.Widgets.Autocomplete": {
+            "target": "Package",
+            "version": "[1.8.9, )"
           }
         },
         "imports": [

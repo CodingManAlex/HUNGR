@@ -31,6 +31,7 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "3.1.10",
           "Microsoft.EntityFrameworkCore.Tools": "3.1.11",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
+          "jQuery.UI.Widgets.Autocomplete": "1.8.9",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "3.1.0.0",
@@ -299,6 +300,29 @@
         },
         "compile": {
           "HUNGR.WebApp.dll": {}
+        }
+      },
+      "jQuery/1.4.4": {},
+      "jQuery.UI.Core/1.8.9": {
+        "dependencies": {
+          "jQuery": "1.4.4"
+        }
+      },
+      "jQuery.UI.Core.Position/1.8.9": {
+        "dependencies": {
+          "jQuery": "1.4.4"
+        }
+      },
+      "jQuery.UI.Core.Widget/1.8.9": {
+        "dependencies": {
+          "jQuery": "1.4.4"
+        }
+      },
+      "jQuery.UI.Widgets.Autocomplete/1.8.9": {
+        "dependencies": {
+          "jQuery.UI.Core": "1.8.9",
+          "jQuery.UI.Core.Position": "1.8.9",
+          "jQuery.UI.Core.Widget": "1.8.9"
         }
       },
       "Microsoft.AspNetCore.Cryptography.Internal/3.1.11": {
@@ -4100,6 +4124,41 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "jQuery/1.4.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kexCeYIZehR5fRjo8CK1sngN5SZEQRFNfCYZHMS1RxwEEiSKetBw/gliYJcLJdJEBB+e9aHqleLCjuaSI7u23g==",
+      "path": "jquery/1.4.4",
+      "hashPath": "jquery.1.4.4.nupkg.sha512"
+    },
+    "jQuery.UI.Core/1.8.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Sib0IXtCSVnA9wX6i0enHxHTZmBW0mLncfjtjjU3wWUMnQgmTxlenvOZBKUqpFjA0/nFQgsJqsANO74YphTc+g==",
+      "path": "jquery.ui.core/1.8.9",
+      "hashPath": "jquery.ui.core.1.8.9.nupkg.sha512"
+    },
+    "jQuery.UI.Core.Position/1.8.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-s+RZ5EMmj/CFN1LUkUvj/lHkgeEgHsV5TVFHf3eVbddI2LuExOCbc0EWH0kQoNy9DVt4GHRNfCTl+j5A8oEskQ==",
+      "path": "jquery.ui.core.position/1.8.9",
+      "hashPath": "jquery.ui.core.position.1.8.9.nupkg.sha512"
+    },
+    "jQuery.UI.Core.Widget/1.8.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RWyajVFTrZY3wYYnPLmof0OT3tJlwERFDCko/wPxHtNFz+Dvl5+coQuU49uu/7+0qoszAyuVvOWovGJmsTNF0g==",
+      "path": "jquery.ui.core.widget/1.8.9",
+      "hashPath": "jquery.ui.core.widget.1.8.9.nupkg.sha512"
+    },
+    "jQuery.UI.Widgets.Autocomplete/1.8.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aU/h7wj2UhZfgVS+XdBPj2UPvU5Qltv8t2r0LVOjXqGK6YKgYXYyJuaxcJcEpMQ48P/1C8Yh8ulAWP2I01IKjQ==",
+      "path": "jquery.ui.widgets.autocomplete/1.8.9",
+      "hashPath": "jquery.ui.widgets.autocomplete.1.8.9.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/3.1.11": {
       "type": "package",

@@ -1,6 +1,123 @@
 ﻿@model MyProfileViewModel
 @*<h1>@Model.FirstName</h1>*@
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $("#searchBar").autocomplete({
+                    source: "/Home/AutoComplete",
+                    minLength: 1
+                });
+            }
+            );
+        })
+
+        var workingState = 0;
+
+        var truckLat = 0;
+        var truckLong = 0;
+
+        function getLocation() {
+            var promise = new Promise(function (resolve, reject) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function (position) {
+                            truckLat = position.coords.latitude;
+                            truckLong = position.coords.longitude;
+                            resolve("Success")
+                        }
+                    );
+                } else {
+                    reject("Error");
+                }
+            });
+
+            return promise;
+        }
+        function locationHandler(position) {
+            truckLat = position.coords.latitude;
+            truckLong = position.coords.longitude;
+        }
+
+        function OpenCloseFoodTruckAjax(truckId) {
+            var text = $("#alertButton").text();
+            console.log(text);
+            //This means the truck is closed
+            if (text == "Open Truck") {
+                console.log(" Before: Matched the button text! Open Truck")
+                var locationPromise = getLocation();
+                locationPromise.then(function (response) {
+                    console.log(response);
+                    console.log(truckLat);
+                    console.log(typeof truckLat.toString());
+                    console.log(truckLong);
+                    console.log(typeof truckLong.toString());
+
+                    OpenCloseTruckAjax(truckId, truckLat, truckLong);
+                }, function (error) {
+                    console.log("Failed!", error);
+                })
+
+            } else {
+                var text2 = $("#alertButton").text();
+
+                if (text2 == "Open Truck") {
+                    console.log("Before: Matched the button text! Close Truck")
+                }
+                OpenCloseTruckAjax(truckId, truckLat, truckLong)
+                console.log("truck Lat : " + truckLat);
+                console.log("truck Long : " + truckLong);
+                console.log("")
+            }
+        }
+
+        function OpenCloseTruckAjax(truckId, truckLat, truckLong) {
+            $.ajax({
+                type: "POST",
+                url: "/FoodTrucks/OpenCloseFoodTruckAjax",
+                data: {
+                    foodTruckId: truckId,
+                    foodTruckLat: truckLat,
+                    foodTruckLong: truckLong
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result == 1) {
+                        $("#alertButton").removeClass("btn-success").addClass("btn-warning");
+                        $("#alertButton").html("Close Truck");
+                        $("#stateInform").removeClass("text-danger").addClass("text-success");
+                        $("#stateInform").html("Open For Business!");
+
+                    }
+                    if (result == 0) {
+                        $("#alertButton").removeClass("btn-warning").addClass("btn-success");
+                        $("#alertButton").html("Open Truck");
+                        $("#stateInform").removeClass("text-success").addClass("text-danger");
+                        $("#stateInform").html("Food Truck is Currently Closed");
+                    }
+                },
+                failure: function () {
+                    alert("A failure occured");
+                },
+                error: function (response) {
+                    alert("An error occuring")
+                }
+            });
+        }
+
+    </script>
+}
+
+<form method="get" asp-action="Search" asp-controller="Home">
+    <div class="input-group">
+        <input id="searchBar" type="text" placeholder="Enter a Food Truck Name..." class="form-control" name="searchTerm" />
+        <div class="input-group-append">
+            <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+    </div>
+</form>
+
 
 @if (Model.User.FoodTruck == null)
 {
@@ -120,102 +237,7 @@ else
     <div class="row ">
         <div class="col-7">
 
-            @section Scripts{
-                <script>
-                    var workingState = 0;
-
-                    var truckLat = 0;
-                    var truckLong = 0;
-
-                    function getLocation() {
-                        var promise = new Promise(function (resolve, reject) {
-                            if (navigator.geolocation) {
-                                navigator.geolocation.getCurrentPosition(
-                                    function (position) {
-                                        truckLat = position.coords.latitude;
-                                        truckLong = position.coords.longitude;
-                                        resolve("Success")
-                                    }
-                                );
-                            } else {
-                                reject("Error");
-                            }
-                        });
-
-                        return promise;
-                    }
-                    function locationHandler(position) {
-                        truckLat = position.coords.latitude;
-                        truckLong = position.coords.longitude;
-                    }
-
-                    function OpenCloseFoodTruckAjax(truckId) {
-                        var text = $("#alertButton").text();
-                        console.log(text);
-                        //This means the truck is closed
-                        if (text == "Open Truck") {
-                            console.log(" Before: Matched the button text! Open Truck")
-                            var locationPromise = getLocation();
-                            locationPromise.then(function (response) {
-                                console.log(response);
-                                console.log(truckLat);
-                                console.log(typeof truckLat.toString());
-                                console.log(truckLong);
-                                console.log(typeof truckLong.toString());
-
-                                OpenCloseTruckAjax(truckId, truckLat, truckLong);
-                            }, function (error) {
-                                console.log("Failed!", error);
-                            })
-
-                        } else {
-                            var text2 = $("#alertButton").text();
-
-                            if (text2 == "Open Truck") {
-                                console.log("Before: Matched the button text! Close Truck")
-                            }
-                            OpenCloseTruckAjax(truckId, truckLat, truckLong)
-                            console.log("truck Lat : " + truckLat);
-                            console.log("truck Long : " + truckLong);
-                            console.log("")
-                        }
-                    }
-
-                    function OpenCloseTruckAjax(truckId, truckLat, truckLong) {
-                        $.ajax({
-                            type: "POST",
-                            url: "/FoodTrucks/OpenCloseFoodTruckAjax",
-                            data: {
-                                foodTruckId: truckId,
-                                foodTruckLat: truckLat,
-                                foodTruckLong: truckLong
-                            },
-                            dataType: "json",
-                            success: function (result) {
-                                if (result == 1) {
-                                    $("#alertButton").removeClass("btn-success").addClass("btn-warning");
-                                    $("#alertButton").html("Close Truck");
-                                    $("#stateInform").removeClass("text-danger").addClass("text-success");
-                                    $("#stateInform").html("Open For Business!");
-
-                                }
-                                if (result == 0) {
-                                    $("#alertButton").removeClass("btn-warning").addClass("btn-success");
-                                    $("#alertButton").html("Open Truck");
-                                    $("#stateInform").removeClass("text-success").addClass("text-danger");
-                                    $("#stateInform").html("Food Truck is Currently Closed");
-                                }
-                            },
-                            failure: function () {
-                                alert("A failure occured");
-                            },
-                            error: function (response) {
-                                alert("An error occuring")
-                            }
-                        });
-                    }
-                </script>
-            }
+            
             <div class="row">
                 <div class="col">
                     <h2>Truck Name</h2>

@@ -72,6 +72,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.4, )"
+            },
+            "jQuery.UI.Widgets.Autocomplete": {
+              "target": "Package",
+              "version": "[1.8.9, )"
             }
           },
           "imports": [

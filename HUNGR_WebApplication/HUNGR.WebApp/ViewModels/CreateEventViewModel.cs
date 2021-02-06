@@ -11,7 +11,9 @@ namespace HUNGR.WebApp.ViewModels
     {
         [Required]
         public string EventName { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public string Location { get; set; }
         [Required]
         public DateTimeOffset StartDate { get; set; }

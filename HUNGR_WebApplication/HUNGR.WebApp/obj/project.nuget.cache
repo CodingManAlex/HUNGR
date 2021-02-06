@@ -1,9 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "khlVdgO9HRRjSCZZAQZ0I5aZfI2hh8QIim0jKfVtzVgh9RejKpADjLoJwwe9vvPG4HJcQVraeHX4EmfLBcZU3w==",
+  "dgSpecHash": "czcY3EiakZbjmlf9zCr1JObJ39WBa90Btob8rwxeKA6P9u5NDHh3yme8vyNOuczBKNMXGPqpvjVGJi4czV3O9Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\Alex\\Documents\\GitHub\\HUNGR\\HUNGR_WebApplication\\HUNGR.WebApp\\HUNGR.WebApp.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Alex\\.nuget\\packages\\jquery\\1.4.4\\jquery.1.4.4.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\jquery.ui.core\\1.8.9\\jquery.ui.core.1.8.9.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\jquery.ui.core.position\\1.8.9\\jquery.ui.core.position.1.8.9.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\jquery.ui.core.widget\\1.8.9\\jquery.ui.core.widget.1.8.9.nupkg.sha512",
+    "C:\\Users\\Alex\\.nuget\\packages\\jquery.ui.widgets.autocomplete\\1.8.9\\jquery.ui.widgets.autocomplete.1.8.9.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.11\\microsoft.aspnetcore.cryptography.internal.3.1.11.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.11\\microsoft.aspnetcore.cryptography.keyderivation.3.1.11.nupkg.sha512",
     "C:\\Users\\Alex\\.nuget\\packages\\microsoft.aspnetcore.diagnostics.entityframeworkcore\\3.1.8\\microsoft.aspnetcore.diagnostics.entityframeworkcore.3.1.8.nupkg.sha512",

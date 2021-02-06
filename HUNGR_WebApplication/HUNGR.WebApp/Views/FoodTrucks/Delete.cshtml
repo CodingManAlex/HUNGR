@@ -3,6 +3,30 @@
 @{
     ViewData["Title"] = "Delete";
 }
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $("#searchBar").autocomplete({
+                    source: "/Home/AutoComplete",
+                    minLength: 1
+                });
+            }
+            );
+        })
+
+
+    </script>
+}
+
+<form method="get" asp-action="Search" asp-controller="Home">
+    <div class="input-group">
+        <input id="searchBar" type="text" placeholder="Enter a Food Truck Name..." class="form-control" name="searchTerm" />
+        <div class="input-group-append">
+            <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+    </div>
+</form>
 
 <h1>Delete</h1>
 
@@ -15,10 +39,10 @@
             <h3>This cannot be undone.</h3>
         </div>
     </div>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="FoodTruckId" />
-        <input type="submit" value="Delete" class="btn btn-danger" style="width:175px"/> |
+        <input type="submit" value="Delete" class="btn btn-danger" style="width:175px" /> |
         <a class="btn btn-warning" asp-action="MyProfile" style="width:175px">Back to Profile</a>
     </form>
 </div>

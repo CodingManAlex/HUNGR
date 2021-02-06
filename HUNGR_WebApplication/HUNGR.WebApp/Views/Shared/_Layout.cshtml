@@ -16,7 +16,11 @@
             src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AodJbksXSBCydQxBDZ4_ooFRGs8FrNserUXrYIj0FXBHYKm4eEF-BNgybscQFYOH'
             async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
     
+
+
+
 </head>
 <body>
     <div class="jumbotron text-center bg-danger mb-0">
@@ -43,10 +47,10 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-danger mb-3 ">
             <div class="container">
                 @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HUNGR</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>*@
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>*@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse ">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1 justify-content-around">
@@ -70,11 +74,11 @@
                             </li>
                         }
                         @*@if ((await authorizationSerivce.AuthorizeAsync(User, "UserPolicy")).Succeeded)
-                        { 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Foodtrucks" asp-action="Create">Create Your Food Truck!</a>
-                        </li>
-                        }*@
+                            {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Foodtrucks" asp-action="Create">Create Your Food Truck!</a>
+                            </li>
+                            }*@
                     </ul>
                 </div>
             </div>
@@ -82,14 +86,8 @@
 
     </header>
     <div class="container">
-        <form method="get" asp-action="Search" asp-controller="Home">
-            <div class="input-group">
-                <input type="search" placeholder="Enter a Food Truck Name..." class="form-control" value="@ViewData["SearchFoodTruckDetails"]" name="searchTerm" />
-                <div class="input-group-append">
-                    <input type="submit" value="Search" class="btn btn-primary">
-                </div>
-            </div>
-        </form>
+        
+
 
         <main role="main" class="pb-3">
             @RenderBody()
@@ -105,9 +103,17 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="_framework/blazor.server.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
     @if (IsSectionDefined("Scripts"))
     {
         @RenderSection("Scripts", required: true)
+
     }
+
+
 </body>
 </html>

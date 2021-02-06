@@ -48,11 +48,26 @@ namespace HUNGR.WebApp.Controllers
             return View(context.FoodTrucks.Where(f => f.Name.Contains(searchTerm)).ToList());
         }
 
-        //public IActionResult Index()
+        //[HttpPost]
+        //public JsonResult SearchOptions(string Prefix)
         //{
-        //    return View();
+        //    //string term = HttpContext.Request.Query
+        //    //var truckList = context.FoodTrucks.Where(f => f.Name.Contains(searchTerm)).ToList();
+        //    List<string> truckList = context.FoodTrucks.Where(f => f.Name.Contains(Prefix))
+        //        .Select(f => f.Name).ToList();
+
+        //    return Json(truckList);
         //}
 
+        [Route("Home/AutoComplete")]
+        public async Task<JsonResult> AutoComplete(string term)
+        {
+            var foodTrucks = context.FoodTrucks.Where(f => f.Name.Contains(term)).Select(f => new {
+                label = f.Name  //assigning as label lets us use default jquery-ui
+            }).ToList();
+
+            return Json(foodTrucks);
+        }
 
 
         public async Task<ViewResult> Index()
